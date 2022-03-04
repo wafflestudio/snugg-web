@@ -8,8 +8,8 @@
 .pageHeader {
   width: 100%;
   position: relative;
-  height: 50px;
-  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
 }
 .pageContent {
   width: 100%;
@@ -17,10 +17,11 @@
   display: flex;
 }
 .pageMain {
-  border: 1px solid black;
+  border: 1px solid #F2F2F2;
   width: calc(100% - 300px);
 }
 .pageSideBar {
-  border: 1px solid black;
+  border: 1px solid #F2F2F2;
   width: 300px;
 }
+
