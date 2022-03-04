@@ -4,7 +4,13 @@ import styles from '../styles/Header2.module.scss'
 const Header2 = () => {
     return (
         <div className={styles.header2}>
-            Header2
+            <div className={styles.buttonGroup}>
+                <button className={styles.unSelectedButton}>홈</button>
+                <button className={styles.unSelectedButton}>전공분야</button>
+                <button className={styles.unSelectedButton}>태그</button>
+                <button className={styles.unSelectedButton}>아고라</button>
+            </div>
+            <div className={styles.questionButton}>질문하기</div>
         </div>
     );
 };
