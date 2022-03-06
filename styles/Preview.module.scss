@@ -21,7 +21,7 @@
 
 .preview {
   padding-left: 30px;
-  border-bottom: #F2F2F2 1px solid;
+  border-bottom: #f2f2f2 1px solid;
 }
 .previewHeader1 {
   display: flex;
@@ -40,17 +40,17 @@
 }
 .previewHeaderTag1 {
   @include tag;
-  background-color: #588A69;
+  background-color: #588a69;
 }
 .previewHeaderTag2 {
   @include tag;
-  background-color: #68A37C;
+  background-color: #68a37c;
 }
 .previewHeaderTag3 {
   @include tag;
-  background-color: #79BA8F;
+  background-color: #79ba8f;
 }
-.previewHeader2{
+.previewHeader2 {
   display: flex;
   align-items: center;
   height: 50px;
@@ -61,9 +61,8 @@
   line-height: 23px;
   letter-spacing: 0em;
   text-align: left;
-  color: #588A69;
+  color: #588a69;
 }
 .previewBody {
   margin-bottom: 10px;
 }
-

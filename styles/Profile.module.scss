@@ -4,18 +4,17 @@
 
 .profileLeft {
   width: 40%;
-  border-right: #F2F2F2 solid 1px;
-
+  border-right: #f2f2f2 solid 1px;
 }
 .profileLeftUp {
   padding-left: 60px;
   padding-right: 60px;
-  border-bottom: 1px solid #F2F2F2;
+  border-bottom: 1px solid #f2f2f2;
 }
 .profileRight {
   width: 70%;
 }
-.profileInfo{
+.profileInfo {
   padding-top: 40px;
   padding-left: 15px;
   display: flex;
@@ -25,7 +24,7 @@
   border-radius: 9999px;
   width: 120px;
   height: 120px;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -54,8 +53,8 @@
 .profileBio {
   margin-top: 20px;
   width: 100%;
-  border-bottom: 1px solid #588A69;
-  color:#588A69;
+  border-bottom: 1px solid #588a69;
+  color: #588a69;
 }
 .profileSchoolInfos {
   margin-top: 40px;
@@ -65,10 +64,10 @@
 }
 .SchoolInfo {
   display: flex;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   align-items: center;
   width: 100%;
-  border: #0B4E22 1px solid;
+  border: #0b4e22 1px solid;
   margin-bottom: 30px;
   border-radius: 5px;
   justify-content: space-between;
@@ -107,12 +106,12 @@
   color: #285236;
 }
 .profileStatHeaderButton {
-  background-color: #69A789;
+  background-color: #69a789;
   width: 90px;
   height: 40px;
   border: none;
   margin-left: 20px;
-  color: #FFFFFF;
+  color: #ffffff;
   border-radius: 5px;
   font-family: NanumGothic;
   font-size: 18px;
@@ -160,11 +159,10 @@
   text-align: left;
 }
 
-
 .showMoreButton {
   width: 90px;
   height: 30px;
-  background-color: #69A789;
+  background-color: #69a789;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -175,8 +173,8 @@
   font-size: 18px;
   line-height: 23px;
   text-align: center;
-  color: #FFFFFF;
-  &:hover{
+  color: #ffffff;
+  &:hover {
     cursor: pointer;
   }
 }
@@ -186,6 +184,3 @@
   display: flex;
   justify-content: space-evenly;
 }
-
-
-
