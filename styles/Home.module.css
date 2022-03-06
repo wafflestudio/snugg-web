@@ -1,4 +1,4 @@
-.social {
+.container {
   padding: 0 2rem;
 }
 
@@ -103,7 +103,7 @@
   line-height: 1.5;
 }
 
-.logoContainer {
+.logo {
   height: 1em;
   margin-left: 0.5rem;
 }
