@@ -1,8 +1,9 @@
 import styles from "../styles/Layout.module.scss"
 
 import React from 'react';
-import Header1 from "./Header1";
-import Header2 from "./Header2";
+import Header1 from "./Header/Header1";
+import Header2 from "./Header/Header2";
+import SideComponent from "./Reused/SideComponent";
 
 type props = {
     children: React.ReactNode;
@@ -22,7 +23,8 @@ const Layout = ({children}:props) => {
                     {children}
                 </div>
                 <div className={styles.pageSideBar}>
-                    사이드바
+                    <SideComponent Text={"최근 본 질문"}/>
+                    <SideComponent Text={"인기 질문"}/>
                     {/*사이드바 컴포넌트 위치*/}
                 </div>
             </div>

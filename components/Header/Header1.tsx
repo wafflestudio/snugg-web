@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../styles/Header1.module.scss'
-import Magnifier from '../public/magnifier.svg'
+import styles from '../../styles/Header1.module.scss'
+import Magnifier from '../../public/magnifier.svg'
 import Image from "next/image";
 
 const Header1 = () => {

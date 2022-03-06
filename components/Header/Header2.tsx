@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/Header2.module.scss'
+import styles from '../../styles/Header2.module.scss'
 
 const Header2 = () => {
     return (
