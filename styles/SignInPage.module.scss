@@ -1,0 +1,122 @@
+.container {
+  background-color: #E5E3C9;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page {
+  margin: 73px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: relative;
+  width: 587px;
+  height: 851px;
+
+  .pageItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+  }
+
+
+  &.left {
+    background: #588A69;
+    border-radius: 0 100px 100px 0;
+
+    .pageItem {
+      flex: 1;
+    }
+
+    .iconsContainer {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      min-width: 100%;
+    }
+
+    hr {
+      border: 5px solid #375440;
+    }
+
+    .snugg {
+      font-family: "Noto Sans", sans-serif;
+      text-align: left;
+      min-width: 100%;
+      font-size: 96px;
+      line-height: 131px;
+      font-weight: bold;
+    }
+
+    .description {
+      font-family: "Noto Sans", sans-serif;
+      text-align: right;
+      min-width: 100%;
+      font-size: 36px;
+      line-height: 49px;
+      font-weight: bold;
+      color: white;
+      margin-top: 20px;
+    }
+  }
+
+  &.right {
+    background: #ccf3d9;
+    border-radius: 100px 0 0 100px;
+
+    .socialContainer {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 20px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .social {
+      width: 200px;
+      margin: 4px;
+    }
+
+    .google {
+      min-width: 100%;
+    }
+
+    .input {
+      background: white;
+      border-radius: 20px;
+      border: none;
+    }
+
+    .logoContainer {
+      width: 126px;
+      height: 113px;
+      overflow: clip;
+      margin: auto;
+    }
+
+    .inputContainer {
+      margin: 20px 0;
+    }
+
+    .registerContainer {
+      position: absolute;
+      bottom: 28px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    form {
+      min-width: 100%;
+    }
+  }
+}
