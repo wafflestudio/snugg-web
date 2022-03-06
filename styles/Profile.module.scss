@@ -1,0 +1,191 @@
+.profile {
+  display: flex;
+}
+
+.profileLeft {
+  width: 40%;
+  border-right: #F2F2F2 solid 1px;
+
+}
+.profileLeftUp {
+  padding-left: 60px;
+  padding-right: 60px;
+  border-bottom: 1px solid #F2F2F2;
+}
+.profileRight {
+  width: 70%;
+}
+.profileInfo{
+  padding-top: 40px;
+  padding-left: 15px;
+  display: flex;
+  justify-content: left;
+}
+.profileImg {
+  border-radius: 9999px;
+  width: 120px;
+  height: 120px;
+  background-color: #F2F2F2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 30px;
+}
+.profileNameNPoint {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-family: NanumGothic;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.profileName {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.profilePoint {
+  font-size: 18px;
+  line-height: 21px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.profileBio {
+  margin-top: 20px;
+  width: 100%;
+  border-bottom: 1px solid #588A69;
+  color:#588A69;
+}
+.profileSchoolInfos {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.SchoolInfo {
+  display: flex;
+  background-color: #FFFFFF;
+  align-items: center;
+  width: 100%;
+  border: #0B4E22 1px solid;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  justify-content: space-between;
+  height: 40px;
+  font-family: NanumGothic;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.SchoolInfoIcon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+.profileStat {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 20px;
+}
+.profileStatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profileStatHeaderText {
+  font-family: NanumGothic;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #285236;
+}
+.profileStatHeaderButton {
+  background-color: #69A789;
+  width: 90px;
+  height: 40px;
+  border: none;
+  margin-left: 20px;
+  color: #FFFFFF;
+  border-radius: 5px;
+  font-family: NanumGothic;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.profileStatBody {
+  display: flex;
+  flex-direction: column;
+}
+.Boxes {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profileQuestions {
+  display: flex;
+  flex-direction: column;
+}
+.profileQuestionsHeader {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  padding-right: 80px;
+  padding-left: 40px;
+  padding-bottom: 20px;
+  align-items: center;
+}
+
+.profileQuestionsHeaderText {
+  font-family: NanumGothic;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+
+.showMoreButton {
+  width: 90px;
+  height: 30px;
+  background-color: #69A789;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-family: NanumGothic;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  text-align: center;
+  color: #FFFFFF;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.Previews {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+

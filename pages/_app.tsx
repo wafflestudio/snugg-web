@@ -1,13 +1,27 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import Layout from "../components/Layout";
+import DefaultLayout from "../components/Layout/DefaultLayout";
+import OnlyHeaderLayout from "../components/Layout/OnlyHeaderLayout";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-  )
+    switch (Component.displayName) {
+        case "Profile":
+            return (
+                <OnlyHeaderLayout>
+                    <Component {...pageProps} />
+                </OnlyHeaderLayout>
+            )
+        default:
+            return (
+                <DefaultLayout>
+                    <Component {...pageProps} />
+                </DefaultLayout>
+            )
+    }
+
+
+
+
 }
 
 export default MyApp

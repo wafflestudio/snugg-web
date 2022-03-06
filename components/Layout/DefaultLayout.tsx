@@ -1,16 +1,16 @@
-import styles from "../styles/Layout.module.scss"
+import styles from "../../styles/Layout.module.scss"
 
 import React from 'react';
-import Header1 from "./Header/Header1";
-import Header2 from "./Header/Header2";
-import SideComponent from "./Reused/SideComponent";
+import Header1 from "../Header/Header1";
+import Header2 from "../Header/Header2";
+import SideComponent from "../Reused/SideComponent";
 
 type props = {
     children: React.ReactNode;
 }
 
 
-const Layout = ({children}:props) => {
+const DefaultLayout = ({children}:props) => {
     return (
         <div className={styles.pageWrapper}>
             <header className={styles.pageHeader}>
@@ -32,4 +32,4 @@ const Layout = ({children}:props) => {
     );
 };
 
-export default Layout;
+export default DefaultLayout;

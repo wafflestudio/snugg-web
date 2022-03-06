@@ -1,0 +1,68 @@
+@mixin tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 85px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-family: Nanum Gothic;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.preview {
+  width: 400px;
+}
+.previewHeader1 {
+  display: flex;
+  align-items: center;
+  height: 55px;
+}
+.previewHeader1Text {
+  font-family: Nanum Gothic;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin-right: 10px;
+}
+.previewHeaderTag1 {
+  @include tag;
+  background-color: #588A69;
+}
+.previewHeaderTag2 {
+  @include tag;
+  background-color: #68A37C;
+}
+.previewHeaderTag3 {
+  @include tag;
+  background-color: #79BA8F;
+}
+.previewHeader2{
+  display: flex;
+  align-items: center;
+  height: 50px;
+  font-family: Nanum Gothic;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #588A69;
+}
+.previewBody {
+  margin-bottom: 10px;
+}
+

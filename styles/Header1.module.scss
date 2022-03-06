@@ -5,6 +5,7 @@
   align-items: center;
   padding-left: 30px;
   padding-right: 30px;
+  border-bottom: 1px solid #F2F2F2;
 }
 
 .headerText {
@@ -14,8 +15,8 @@
   font-size: 25px;
   line-height: 31px;
   text-align: center;
-
   color: #588A69;
+
 }
 
 .searchLabel {
@@ -29,6 +30,23 @@
   justify-content: right;
   padding-right: 10px;
 }
+
+.searchInput {
+  height: 100%;
+  width: 100%;
+  border: none;
+  background-color: #F3F3F3;
+  font-size: 18px;
+  font-family: Nanum Gothic;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 23px;
+  &:focus {
+    outline: none;
+  }
+}
+
 .Background {
   height: calc(100%);
   width: 50vw;
@@ -38,4 +56,8 @@
   height: 38px;
   border-radius: 9999px;
   background-color: #C4C4C4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
