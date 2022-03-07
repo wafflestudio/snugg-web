@@ -1,0 +1,14 @@
+.container {
+    width: 1440px;
+    height: 100vh;
+    margin: 116px auto auto auto;
+    display: flex;
+    // border: 1px solid grey;
+}
+
+.mainContainer {
+    width: 1140px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #f2f2f2;
+}
