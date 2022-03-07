@@ -1,0 +1,135 @@
+.container {
+    width: 1440px;
+    height: 100vh;
+    margin: 116px auto auto auto;
+    display: flex;
+    // border: 1px solid grey;
+}
+
+.mainContainer {
+    width: 1140px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #f2f2f2;
+
+    .title {
+        font-size: 25px;
+        font-family: Nanum Gothic;
+        font-weight: bold;
+        line-height: 40px;
+        margin-top: 20px;
+        margin-left: 32px;
+    }
+    
+    .questionTitle {
+        width: 1075px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px auto 20px auto;
+    
+        .icon {
+            color: #588A69;
+            width: 40px;
+            height: 40px;
+        }
+    
+        input {
+            width: 1024px;
+            height: 47px;
+            padding-left: 10px;
+            color: #588A69;
+            font-size: 20px;
+            font-family: Nanum Gothic;
+            font-weight: bold;
+            line-height: 47px;
+            border: 1px solid #588A69;
+            border-radius: 5px;
+        }
+    }
+    
+    .questionBox {
+        width: 1075px;
+        height: 600px;
+        border: 1px solid #588A69;
+        border-radius: 5px;
+        font-size: 15px;
+        font-family: Nanum Gothic;
+        margin: 0px auto 0px auto;
+    }
+    
+    .button {
+        width: 150px;
+        height: 50px;
+        margin: 20px auto 0px auto;
+        background-color: #588A69;
+        color: white;
+        border: none;
+        font-size: 20px;
+        font-family: Nanum Gothic;
+        font-weight: bold;
+    }
+}
+
+.sideContainer{
+    width: 300px;
+
+    .sideTitle {
+        color: #588A69;
+        font-size: 20px;
+        font-family: Nanum Gothic;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .category {
+        width: 245px;
+        margin: 80px auto 20px auto;
+
+        .categorySelect {
+            width: 245px;
+            height: 35px;
+            border: 1px solid #588A69;
+            border-radius: 5px;
+            font-size: 15px;
+            font-family: Nanum Gothic;
+        }
+    }
+
+    .tag {
+        width: 245px;
+        margin: 0px auto 20px auto;
+
+        input {
+            width: 245px;
+            height: 150px;
+            border: 1px solid #588A69;
+            border-radius: 5px;
+            font-size: 15px;
+            font-family: Nanum Gothic;
+            padding-left: 5px;
+        }
+    }
+
+    .help {
+        width: 245px;
+        margin: 0px auto 0px auto;
+        display: flex;
+        align-items: center;
+
+        .helpIcon {
+            color: #588A69;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        div {
+            font-size: 15px;
+            font-family: Nanum Gothic;
+            font-weight: bold;
+            color: #588A69;
+            line-height: 20px;
+        }
+    }
+}
