@@ -1,3 +1,4 @@
+@import "Font";
 @mixin tag {
   display: flex;
   align-items: center;
@@ -7,10 +8,8 @@
   height: 30px;
   margin-right: 10px;
   border-radius: 5px;
-  font-family: Nanum Gothic;
   font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
+  @include NanumGothicRegular;
   line-height: 15px;
   letter-spacing: 0em;
   text-align: center;
@@ -28,10 +27,8 @@
   height: 55px;
 }
 .previewHeader1Text {
-  font-family: Nanum Gothic;
   font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
+  @include NanumGothicExtraBold;
   line-height: 17px;
   letter-spacing: 0em;
   text-align: center;
@@ -53,10 +50,8 @@
   display: flex;
   align-items: center;
   height: 50px;
-  font-family: Nanum Gothic;
   font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
+  @include NanumGothicExtraBold;
   line-height: 23px;
   letter-spacing: 0em;
   text-align: left;

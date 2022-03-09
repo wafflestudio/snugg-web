@@ -1,12 +1,11 @@
+@import 'Font';
 @mixin button_default {
   width: 80px;
   height: 40px;
   background-color: #ffffff;
   border: none;
   justify-content: center;
-  font-family: Nanum Gothic;
-  font-style: normal;
-  font-weight: bold;
+  @include NanumGothicBold;
   font-size: 17px;
   line-height: 23px;
   display: flex;

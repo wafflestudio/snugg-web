@@ -1,7 +1,6 @@
+@import "Font";
 .mainHeader {
-  font-family: Nanum Gothic;
-  font-style: normal;
-  font-weight: bold;
+  @include NanumGothicBold;
   font-size: 25px;
   line-height: 29px;
   display: flex;

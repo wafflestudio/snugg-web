@@ -1,13 +1,12 @@
+@import "Font";
 .sideComponent {
   padding-left: 18px;
   padding-right: 18px;
 }
 
 .sideComponentHeader {
-  font-family: Nanum Gothic;
+  @include NanumGothicExtraBold;
   font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
   line-height: 23px;
   letter-spacing: 0em;
   text-align: left;

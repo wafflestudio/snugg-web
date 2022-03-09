@@ -13,10 +13,10 @@ const Header1Component = () => {
           type="text"
           placeholder={"검색어를 입력하세요."}
         />
-        <Image src={Magnifier}></Image>
+        <Image src={Magnifier} />
       </div>
       <div className={styles.profileEclipse}>
-        <Image src={Magnifier}></Image>
+        <Image src={Magnifier} />
       </div>
     </div>
   );

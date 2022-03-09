@@ -1,3 +1,4 @@
+@import "Font";
 .profile {
   display: flex;
 }
@@ -35,9 +36,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  font-family: NanumGothic;
-  font-style: normal;
-  font-weight: normal;
+  @include NanumGothicRegular;
 }
 
 .profileName {
@@ -62,7 +61,7 @@
   flex-direction: column;
   width: 100%;
 }
-.SchoolInfo {
+.schoolInfo {
   display: flex;
   background-color: #ffffff;
   align-items: center;
@@ -72,15 +71,20 @@
   border-radius: 5px;
   justify-content: space-between;
   height: 40px;
-  font-family: NanumGothic;
+  @include NanumGothicRegular;
   font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
   line-height: 23px;
   letter-spacing: 0em;
   text-align: left;
 }
-.SchoolInfoIcon {
+.schoolInfoText {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.schoolInfoIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
   &:hover {
     cursor: pointer;
   }
@@ -96,10 +100,8 @@
   justify-content: space-between;
 }
 .profileStatHeaderText {
-  font-family: NanumGothic;
+  @include NanumGothicExtraBold;
   font-size: 24px;
-  font-style: normal;
-  font-weight: 800;
   line-height: 28px;
   letter-spacing: 0em;
   text-align: center;
@@ -113,10 +115,8 @@
   margin-left: 20px;
   color: #ffffff;
   border-radius: 5px;
-  font-family: NanumGothic;
+  @include NanumGothicBold;
   font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
   line-height: 21px;
   letter-spacing: 0em;
   text-align: center;
@@ -142,18 +142,13 @@
 .profileQuestionsHeader {
   display: flex;
   justify-content: space-between;
-  padding-top: 20px;
-  padding-right: 80px;
-  padding-left: 40px;
-  padding-bottom: 20px;
+  padding: 20px 80px 20px 40px;
   align-items: center;
 }
 
 .profileQuestionsHeaderText {
-  font-family: NanumGothic;
+  @include NanumGothicBold;
   font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
   line-height: 23px;
   letter-spacing: 0em;
   text-align: left;
@@ -167,9 +162,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  font-family: NanumGothic;
-  font-style: normal;
-  font-weight: 600;
+  @include NanumGothicBold;
   font-size: 18px;
   line-height: 23px;
   text-align: center;

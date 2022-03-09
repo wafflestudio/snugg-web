@@ -18,7 +18,7 @@ const ProfileComponent = (props: props) => {
         <div className={styles.profileLeftUp}>
           <div className={styles.profileInfo}>
             <div className={styles.profileImg}>
-              <Image src={testImg} width={100} height={100}></Image>
+              <Image src={testImg} width={100} height={100} />
             </div>
             <div className={styles.profileNameNPoint}>
               <div className={styles.profileName}>홍길동</div>
@@ -29,58 +29,31 @@ const ProfileComponent = (props: props) => {
             한줄 소개: 가나다라마바사아자차카타파하
           </div>
           <div className={styles.profileSchoolInfos}>
-            <div className={styles.SchoolInfo}>
+            <div className={styles.schoolInfo}>
               <div>
-                <span style={{ marginRight: "10px", marginLeft: "10px" }}>
-                  학교:
-                </span>
+                <span className={styles.schoolInfoText}>학교:</span>
                 <span>서울대학교</span>
               </div>
-              <div
-                className={styles.SchoolInfoIcon}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginRight: "10px",
-                }}
-              >
-                <Image src={EditIcon}></Image>
+              <div className={styles.schoolInfoIcon}>
+                <Image src={EditIcon} />
               </div>
             </div>
-            <div className={styles.SchoolInfo}>
+            <div className={styles.schoolInfo}>
               <div>
-                <span style={{ marginRight: "10px", marginLeft: "10px" }}>
-                  학과:
-                </span>
+                <span className={styles.schoolInfoText}>학과:</span>
                 <span>컴퓨터공학부</span>
               </div>
-              <div
-                className={styles.SchoolInfoIcon}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginRight: "10px",
-                }}
-              >
-                <Image src={EditIcon}></Image>
+              <div className={styles.schoolInfoIcon}>
+                <Image src={EditIcon} />
               </div>
             </div>
-            <div className={styles.SchoolInfo}>
+            <div className={styles.schoolInfo}>
               <div>
-                <span style={{ marginRight: "10px", marginLeft: "10px" }}>
-                  학년:
-                </span>
+                <span className={styles.schoolInfoText}>학년:</span>
                 <span>3학년</span>
               </div>
-              <div
-                className={styles.SchoolInfoIcon}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginRight: "10px",
-                }}
-              >
-                <Image src={EditIcon}></Image>
+              <div className={styles.schoolInfoIcon}>
+                <Image src={EditIcon} />
               </div>
             </div>
           </div>

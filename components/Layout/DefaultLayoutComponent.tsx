@@ -5,11 +5,9 @@ import Header1Component from "../Header/Header1Component";
 import Header2Component from "../Header/Header2Component";
 import SideComponent from "../Reused/SideComponent";
 
-type props = {
-  children: React.ReactNode;
-};
+interface props {}
 
-const DefaultLayoutComponent = ({ children }: props) => {
+const DefaultLayoutComponent: React.FC<props> = ({ children }) => {
   return (
     <div className={styles.pageWrapper}>
       <header className={styles.pageHeader}>
@@ -20,8 +18,8 @@ const DefaultLayoutComponent = ({ children }: props) => {
       <div className={styles.pageContent}>
         <div className={styles.pageMain}>{children}</div>
         <div className={styles.pageSideBar}>
-          <SideComponent Text={"최근 본 질문"} />
-          <SideComponent Text={"인기 질문"} />
+          <SideComponent text={"최근 본 질문"} />
+          <SideComponent text={"인기 질문"} />
           {/*사이드바 컴포넌트 위치*/}
         </div>
       </div>

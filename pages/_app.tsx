@@ -5,7 +5,7 @@ import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComp
 
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
-    case "Profile":
+    case "ProfileComponent":
       return (
         <OnlyHeaderLayoutComponent>
           <Component {...pageProps} />

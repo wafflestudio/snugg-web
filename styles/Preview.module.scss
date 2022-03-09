@@ -1,3 +1,4 @@
+@import 'Font';
 @mixin tag {
   display: flex;
   align-items: center;
@@ -7,10 +8,8 @@
   height: 30px;
   margin-right: 10px;
   border-radius: 5px;
-  font-family: Nanum Gothic;
   font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
+  @include NanumGothicRegular;
   line-height: 15px;
   letter-spacing: 0em;
   text-align: center;
@@ -29,35 +28,33 @@
   height: 55px;
 }
 .previewHeader1Text {
-  font-family: Nanum Gothic;
+  @include NanumGothicExtraBold;
   font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
   line-height: 17px;
   letter-spacing: 0em;
   text-align: center;
   margin-right: 10px;
 }
-.previewHeaderTag1 {
+
+.previewHeaderTag {
   @include tag;
+}
+
+.bg1 {
   background-color: #588a69;
 }
-.previewHeaderTag2 {
-  @include tag;
+.bg2 {
   background-color: #68a37c;
 }
-.previewHeaderTag3 {
-  @include tag;
+.bg3 {
   background-color: #79ba8f;
 }
 .previewHeader2 {
   display: flex;
   align-items: center;
   height: 50px;
-  font-family: Nanum Gothic;
+  @include NanumGothicExtraBold;
   font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
   line-height: 23px;
   letter-spacing: 0em;
   text-align: left;

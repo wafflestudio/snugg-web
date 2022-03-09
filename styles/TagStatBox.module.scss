@@ -1,12 +1,11 @@
+@import "Font";
 .TagStatBox {
   width: 200px;
   height: 80px;
   display: flex;
   justify-content: center;
   border: 1px solid #588a69;
-  font-family: NanumGothic;
-  font-style: normal;
-  font-weight: normal;
+  @include NanumGothicRegular;
   font-size: 18px;
   line-height: 21px;
   display: flex;
