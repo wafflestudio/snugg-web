@@ -1,0 +1,18 @@
+@mixin NanumGothicRegular {
+  font-family: NanumGothic;
+  font-style: normal;
+  font-weight: normal;
+}
+
+@mixin NanumGothicBold {
+  font-family: NanumGothic;
+  font-style: normal;
+  font-weight: 600;
+}
+
+@mixin NanumGothicExtraBold {
+  font-family: NanumGothic;
+  font-style: normal;
+  font-weight: 800;
+}
+
