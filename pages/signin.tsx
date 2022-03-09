@@ -14,14 +14,17 @@ import KakaoLogin from "../public/images/kakaoLogin.png";
 import NaverLogin from "../public/images/naverLogin.png";
 
 import styles from "../styles/SignInPage.module.scss";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 
 interface Props {}
 
 const SignInPage: NextPage<Props> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const onFormSubmit = () => alert(`${email}:${password}`);
+  const onFormSubmit: FormEventHandler = (e) => {
+    alert(`${email}:${password}`);
+    e.preventDefault();
+  };
   return (
     <div className={styles.container}>
       <div className={`${styles.page} ${styles.left}`}>
@@ -52,7 +55,7 @@ const SignInPage: NextPage<Props> = () => {
           <div className={styles.logoContainer}>
             <Image src={SnuggLogo} alt={"SNUGG"} />
           </div>
-          <form>
+          <form onSubmit={onFormSubmit}>
             <h3>이메일로 로그인하기</h3>
             <div className={styles.inputContainer}>
               <OutlinedInput
@@ -65,13 +68,9 @@ const SignInPage: NextPage<Props> = () => {
                 }
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                inputProps={{
-                  onKeyDown(e) {
-                    if (e.key === "Enter") onFormSubmit();
-                  },
-                }}
                 type={"email"}
                 fullWidth
+                required
               />
             </div>
             <div className={styles.inputContainer}>
@@ -85,15 +84,12 @@ const SignInPage: NextPage<Props> = () => {
                 }
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                inputProps={{
-                  onKeyDown(e) {
-                    if (e.key === "Enter") onFormSubmit();
-                  },
-                }}
                 type={"password"}
                 fullWidth
+                required
               />
             </div>
+            <input type="submit" hidden />
           </form>
         </div>
         <div>
