@@ -1,0 +1,62 @@
+@import "Font";
+@mixin tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 85px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  @include NanumGothicRegular;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.preview {
+  width: 400px;
+}
+.previewHeader1 {
+  display: flex;
+  align-items: center;
+  height: 55px;
+}
+.previewHeader1Text {
+  font-size: 20px;
+  @include NanumGothicExtraBold;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin-right: 10px;
+}
+.previewHeaderTag1 {
+  @include tag;
+  background-color: #588a69;
+}
+.previewHeaderTag2 {
+  @include tag;
+  background-color: #68a37c;
+}
+.previewHeaderTag3 {
+  @include tag;
+  background-color: #79ba8f;
+}
+.previewHeader2 {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  font-size: 18px;
+  @include NanumGothicExtraBold;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #588a69;
+}
+.previewBody {
+  margin-bottom: 10px;
+}
