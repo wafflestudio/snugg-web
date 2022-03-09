@@ -1,0 +1,82 @@
+.questionBox {
+    width: 1075px;
+    height: fit-content;
+    border: 1px solid #588A69;
+    border-radius: 5px;
+    padding: 20px;
+
+    .questionTitle {
+        display: flex;
+        align-items: center;
+
+        .questionMarkIcon {
+            width: 30px;
+            height: 40px;
+            color: #588A69;
+            margin-right: 5px;
+        }
+
+        div {
+            color: #588A69;
+            font-size: 20px;
+            font-family: Nanum Gothic;
+            font-weight: bold;
+            line-height: 40px;
+        }
+    }
+
+    .questionText {
+        font-size: 15px;
+        font-family: Nanum Gothic;
+    }
+
+    .questionBottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .questionInfo {
+            display: flex;
+            align-items: center;
+
+            .accountCircleIcon {
+                color: #c4c4c4;
+                width: 25px;
+                height: 25px;
+                margin-right: 10px;
+            }
+
+            .questionUser {
+                font-size: 15px;
+                font-family: Nanum Gothic;
+                font-weight: bold;
+                margin-right: 10px;
+                line-height: 25px;
+            }
+
+            .questionTime {
+                font-size: 15px;
+                font-family: Nanum Gothic;
+                line-height: 25px;
+            }
+        }
+
+        .questionComment {
+            display: flex;
+            align-items: center;
+
+            .chatBubbleIcon {
+                color: #588A69;
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+            }
+
+            div {
+                font-size: 15px;
+                font-family: Nanum Gothic;
+                line-height: 25px;
+            }
+        }
+    }
+}
