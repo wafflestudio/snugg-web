@@ -56,3 +56,22 @@
         margin-left: 462.5px;
     }
 }
+
+.sideContainer {
+    width: 300px;
+
+    .recent {
+        width: 260px;
+        font-size: 20px;
+        font-family: Nanum Gothic;
+        font-weight: bold;
+        margin: 0px auto;
+    }
+
+    .recentQuestion {
+        width: 260px;
+        height: 300px;
+        background-color: #f2f2f2;
+        margin: 20px auto;
+    }
+}

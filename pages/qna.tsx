@@ -19,6 +19,12 @@ const QuestionAnswerPage: NextPage<Props> = () => {
                   <button>답변 등록하기</button>
               </div>
           </div>
+          <div className={styles.sideContainer}>
+              <div className={styles.recent}>최근 본 질문</div>
+              <div className={styles.recentQuestion} />
+              <div className={styles.recent}>인기 질문</div>
+              <div className={styles.recentQuestion} />
+          </div>
       </div>
   );
 };
