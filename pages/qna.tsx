@@ -11,7 +11,13 @@ const QuestionAnswerPage: NextPage<Props> = () => {
       <div className={styles.container}>
           <div className={styles.mainContainer}>
               <QuestionBoxComponent />
+              <div className={styles.answerCount}>N개의 답변</div>
               <AnswerBoxComponent />
+              <div className={styles.answerWriter}>
+                  <div>답변 작성하기</div>
+                  <input />
+                  <button>답변 등록하기</button>
+              </div>
           </div>
       </div>
   );
