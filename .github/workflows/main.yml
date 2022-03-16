@@ -22,9 +22,9 @@ jobs:
             cd ${{ secrets.ROOT_DIR }}
             echo "========== git pull       =========="
             git pull
-            echo "========== npm install    =========="
-            npm install
-            echo "========== npm run build  =========="
-            npm run build
+            echo "========== yarn install    =========="
+            yarn install
+            echo "========== yarn run build  =========="
+            yarn build
             echo "========== pm2 reload ... =========="
             pm2 reload ${{ secrets.PM2_NAME }}
