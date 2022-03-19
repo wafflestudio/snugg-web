@@ -1,0 +1,44 @@
+.idInputAdorn {
+  font-family: NanumGothicBold, sans-serif;
+  font-size: 36px;
+}
+
+.emailInputContainer {
+  display: flex;
+  width: 100%;
+}
+
+.emailUserName {
+  flex: 1;
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.emailDomain {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.button {
+  height: 50px;
+  background: #588A69;
+  color: white;
+  border-radius: 5px;
+  font-size: 20px;
+  &:hover {
+    background-color: #6aa87f;
+  }
+}
+
+.centerChild {
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

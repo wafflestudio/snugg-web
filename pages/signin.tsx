@@ -7,14 +7,19 @@ import Link from "@mui/material/Link";
 import GoogleLogin from "react-google-login";
 
 import InputAdornment from "@mui/material/InputAdornment";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import PasswordOutlinedIcon from "@mui/icons-material/PasswordOutlined";
-import SnuggLogo from "../public/images/snuggLogo.png";
 import KakaoLogin from "../public/images/kakaoLogin.png";
 import NaverLogin from "../public/images/naverLogin.png";
 
 import styles from "../styles/SignInPage.module.scss";
 import { FormEventHandler, useState } from "react";
+import { Button } from "@mui/material";
+import {
+  BookShapeComponent,
+  bottomTextStyle,
+  inputStyle,
+  PageItem,
+} from "../components/Reused/BookShapeComponent";
+import { LockOutlined, EmailOutlined } from "@mui/icons-material";
 
 interface Props {}
 
@@ -26,101 +31,82 @@ const SignInPage: NextPage<Props> = () => {
     e.preventDefault();
   };
   return (
-    <div className={styles.container}>
-      <div className={`${styles.page} ${styles.left}`}>
-        <div className={styles.pageItem}>
-          <div className={styles.iconsContainer}>
-            <Image src={"/images/dna.svg"} width={100} height={100} />
-            <Image src={"/images/atom.svg"} width={100} height={100} />
-            <Image src={"/images/chemistry.svg"} width={100} height={100} />
-            <Image src={"/images/flask.svg"} width={100} height={100} />
+    <BookShapeComponent>
+      <PageItem>
+        <form className={styles.form} onSubmit={onFormSubmit}>
+          <div className={styles.inputContainer}>
+            <OutlinedInput
+              className={inputStyle}
+              placeholder={"이메일을 입력하세요"}
+              startAdornment={
+                <InputAdornment position="start">
+                  <EmailOutlined />
+                </InputAdornment>
+              }
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type={"email"}
+              fullWidth
+              required
+            />
           </div>
-          <div className={styles.snugg}>SNUGG</div>
-        </div>
-        <div>
-          <hr />
-        </div>
-        <div className={styles.pageItem}>
-          <div className={styles.description}>있어 보이는 멘트를 넣어요</div>
-          <div className={styles.iconsContainer}>
-            <Image src={"/images/statistics.svg"} width={100} height={100} />
-            <Image src={"/images/book.svg"} width={100} height={100} />
-            <Image src={"/images/book.svg"} width={100} height={100} />
-            <Image src={"/images/book.svg"} width={100} height={100} />
+          <div className={styles.inputContainer}>
+            <OutlinedInput
+              className={inputStyle}
+              placeholder={"비밀번호를 입력하세요"}
+              startAdornment={
+                <InputAdornment position="start">
+                  <LockOutlined />
+                </InputAdornment>
+              }
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type={"password"}
+              fullWidth
+              required
+            />
           </div>
-        </div>
+          <div className={styles.signInContainer}>
+            <Button
+              variant="outlined"
+              className={styles.signInButton}
+              type="submit"
+            >
+              이메일로 로그인
+            </Button>
+          </div>
+        </form>
+      </PageItem>
+      <div>
+        <Divider>또는</Divider>
       </div>
-      <div className={`${styles.page} ${styles.right}`}>
-        <div className={styles.pageItem}>
-          <div className={styles.logoContainer}>
-            <Image src={SnuggLogo} alt={"SNUGG"} />
-          </div>
-          <form onSubmit={onFormSubmit}>
-            <h3>이메일로 로그인하기</h3>
-            <div className={styles.inputContainer}>
-              <OutlinedInput
-                className={styles.input}
-                placeholder={"이메일을 입력하세요"}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <EmailOutlinedIcon />
-                  </InputAdornment>
-                }
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type={"email"}
-                fullWidth
-                required
-              />
-            </div>
-            <div className={styles.inputContainer}>
-              <OutlinedInput
-                className={styles.input}
-                placeholder={"비밀번호를 입력하세요"}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <PasswordOutlinedIcon />
-                  </InputAdornment>
-                }
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                type={"password"}
-                fullWidth
-                required
-              />
-            </div>
-            <input type="submit" hidden />
-          </form>
-        </div>
-        <div>
-          <Divider>또는</Divider>
-        </div>
-        <div className={styles.pageItem}>
-          <ul className={styles.socialContainer}>
-            <li className={styles.social}>
-              <GoogleLogin clientId={""} className={styles.google} />
-            </li>
-            <li className={styles.social}>
-              <a href="https://www.kakaocorp.com">
-                <Image src={KakaoLogin} alt={"카카오 로그인"} />
-              </a>
-            </li>
-            <li className={styles.social}>
-              <a href="https://www.naver.com">
-                <Image src={NaverLogin} alt={"네이버 로그인"} />
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.registerContainer}>
-          아직 회원이 아니신가요?{" "}
-          <NextLink href={"signup"}>
-            <Link>회원가입하기</Link>
-          </NextLink>
-        </div>
+      <PageItem>
+        <ul className={styles.signInContainer}>
+          <li className={styles.signInButton}>
+            <GoogleLogin clientId={""} className={styles.google} />
+          </li>
+          <li className={styles.signInButton}>
+            <a href="https://www.kakaocorp.com">
+              <Image src={KakaoLogin} alt={"카카오 로그인"} />
+            </a>
+          </li>
+          <li className={styles.signInButton}>
+            <a href="https://www.naver.com">
+              <Image src={NaverLogin} alt={"네이버 로그인"} />
+            </a>
+          </li>
+        </ul>
+      </PageItem>
+      <div className={bottomTextStyle}>
+        아직 회원이 아니신가요?{" "}
+        <NextLink href={"signup"} passHref>
+          <Link>회원가입하기</Link>
+        </NextLink>
       </div>
-    </div>
+    </BookShapeComponent>
   );
 };
+
+SignInPage.displayName = "SignInPage";
 
 export default SignInPage;
