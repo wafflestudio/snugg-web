@@ -1,6 +1,6 @@
 .container {
     width: 1440px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     // border: 1px solid grey;
 }
@@ -72,6 +72,10 @@
 
 .sideContainer{
     width: 300px;
+
+    // 사이드바 임시조치
+    z-index: 100;
+    background-color: #ffffff;
 
     .sideTitle {
         color: #588A69;

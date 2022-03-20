@@ -1,8 +1,8 @@
 @import "Font";
 .pageWrapper {
   height: 100%;
-  width: 100%;
-  position: absolute;
+  width: 1440px;
+  margin: auto;
   overflow: hidden;
   overflow-y: scroll;
 }
