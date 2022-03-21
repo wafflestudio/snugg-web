@@ -49,7 +49,7 @@ interface SignUpPageComponentParams {
     name: string,
     password: string
   ) => void;
-  validateId: (id: string) => boolean;
+  validateId: (id: string) => Promise<boolean>;
 }
 
 export function SignUpPage({
@@ -63,11 +63,11 @@ export function SignUpPage({
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const idInput = useRef<HTMLInputElement>();
+  const idInputRef = useRef<HTMLInputElement>();
 
   const onIdChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (idInput.current) {
-      idInput.current.setCustomValidity("");
+    if (idInputRef.current) {
+      idInputRef.current.setCustomValidity("");
     }
     setIsIdValid(undefined);
     setId(e.target.value);
@@ -78,26 +78,29 @@ export function SignUpPage({
       onFormSubmit(`${emailUserName}@${emailDomain}`, id, name, password);
     }
 
-    if (idInput.current) {
-      idInput.current.setCustomValidity(
+    const idInput = idInputRef.current;
+    if (idInput) {
+      idInput.setCustomValidity(
         isIdValid
           ? ""
           : isIdValid === false
           ? MESSAGE_ID_ALREADY_USED
           : MESSAGE_PLEASE_VALIDATE_ID
       );
+      idInput.reportValidity();
     }
   };
-  const onIdValidate = () => {
-    if (idInput.current && !idInput.current.checkValidity()) {
-      idInput.current.reportValidity();
+  const onIdValidate = async () => {
+    const idInput = idInputRef.current;
+    if (idInput && !idInput.checkValidity()) {
+      idInput.reportValidity();
       return;
     }
-    const valid = validateId(id);
+    const valid = await validateId(id);
     setIsIdValid(valid);
-    alert(valid ? "valid!" : "invalid!");
-    if (idInput.current) {
-      idInput.current.setCustomValidity(valid ? "" : MESSAGE_ID_ALREADY_USED);
+    if (idInput) {
+      idInput.setCustomValidity(valid ? "" : MESSAGE_ID_ALREADY_USED);
+      idInput.reportValidity();
     }
   };
   return (
@@ -159,7 +162,7 @@ export function SignUpPage({
               required
               value={id}
               onChange={onIdChange}
-              inputRef={idInput}
+              inputRef={idInputRef}
               inputProps={ID_VALIDATION}
             />
             <FormHelperText>*자 ~ *자 이내의 영어 + 숫자 조합</FormHelperText>
