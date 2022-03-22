@@ -1,5 +1,6 @@
+@import "Font";
 .idInputAdorn {
-  font-family: NanumGothicBold, sans-serif;
+  @include NanumGothicBold;
   font-size: 36px;
 }
 
