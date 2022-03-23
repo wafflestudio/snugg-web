@@ -29,7 +29,7 @@
 }
 .previewHeader1Text {
   @include NanumGothicExtraBold;
-  font-size: 20px;
+  font-size: 15px;
   line-height: 17px;
   letter-spacing: 0em;
   text-align: center;
@@ -54,7 +54,7 @@
   align-items: center;
   height: 50px;
   @include NanumGothicExtraBold;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 23px;
   letter-spacing: 0em;
   text-align: left;
@@ -62,4 +62,6 @@
 }
 .previewBody {
   margin-bottom: 10px;
+  @include NanumGothicRegular;
+  font-size: 15px;
 }
