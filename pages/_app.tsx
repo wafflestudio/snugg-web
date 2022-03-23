@@ -6,11 +6,13 @@ import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComp
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
     case "ProfileComponent":
+    case "TagsPageComponent":
       return (
         <OnlyHeaderLayoutComponent>
           <Component {...pageProps} />
         </OnlyHeaderLayoutComponent>
       );
+      break;
     default:
       return (
         <DefaultLayoutComponent>
