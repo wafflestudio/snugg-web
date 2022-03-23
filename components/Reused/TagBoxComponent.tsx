@@ -4,12 +4,12 @@ interface props {}
 
 const TagBoxComponent = (props: props) => {
   return (
-    <div className={styles.tagBox}>
+    <li className={styles.tagBox}>
       <span className={styles.tagName}>TagName</span>
       <br />
       <span className={styles.tagContents}>contents 주절주절...</span>
       <span className={styles.tagCount}>질문개수: XX개</span>
-    </div>
+    </li>
   );
 };
 

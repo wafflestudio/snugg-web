@@ -6,7 +6,7 @@ import TagBoxComponent from "../Reused/TagBoxComponent";
 
 const TagsPageComponent = () => {
   const a = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 100; i++) {
     a.push(<TagBoxComponent />);
   }
   return (
@@ -35,6 +35,7 @@ const TagsPageComponent = () => {
         </div>
       </div>
       <div className={styles.tagsPageBody}>
+        {/*<ul className={styles.tagLine}>{a}</ul>
         <ul className={styles.tagLine}>{a}</ul>
         <ul className={styles.tagLine}>{a}</ul>
         <ul className={styles.tagLine}>{a}</ul>
@@ -42,8 +43,8 @@ const TagsPageComponent = () => {
         <ul className={styles.tagLine}>{a}</ul>
         <ul className={styles.tagLine}>{a}</ul>
         <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
+        <ul className={styles.tagLine}>{a}</ul>*/}
+        {a}
       </div>
     </div>
   );

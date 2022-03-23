@@ -29,7 +29,12 @@
   }
   .tagsPageBody {
     background: rgba(242, 242, 242, 0.49);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+    row-gap: 20px;
     margin-top: 20px;
+    padding-top: 20px;
     height: 900px;
     overflow-y: scroll;
     .tagLine {
