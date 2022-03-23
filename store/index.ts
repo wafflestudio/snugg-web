@@ -16,11 +16,6 @@ const hydratedReducer: Reducer<RootState> = (state, action) => {
 const makeStore = () =>
   configureStore({
     reducer: hydratedReducer,
-    preloadedState: {
-      users: {
-        data: null,
-      },
-    },
   });
 
 type AppDispatch = ReturnType<typeof makeStore>["dispatch"];
