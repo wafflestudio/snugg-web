@@ -11,6 +11,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </OnlyHeaderLayoutComponent>
       );
+    case "QuestionPage":
+      return (
+        <OnlyHeaderLayoutComponent>
+          <Component {...pageProps} />
+        </OnlyHeaderLayoutComponent>
+      );
     default:
       return (
         <DefaultLayoutComponent>
