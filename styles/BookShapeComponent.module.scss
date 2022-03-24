@@ -1,3 +1,4 @@
+@import "Font";
 .container {
   background-color: #E5E3C9;
   position: absolute;
@@ -50,7 +51,7 @@
     }
 
     .snugg {
-      font-family: NanumGothicBold, sans-serif;
+      @include NanumGothicBold;
       text-align: left;
       min-width: 100%;
       font-size: 96px;
@@ -58,7 +59,7 @@
     }
 
     .description {
-      font-family: NanumGothicBold, sans-serif;
+      @include NanumGothicBold;
       text-align: right;
       min-width: 100%;
       font-size: 36px;
@@ -73,7 +74,7 @@
     border-radius: 100px 0 0 100px;
 
     .logoContainer {
-      font-family: NanumGothicBold, sans-serif;
+      @include NanumGothicBold;
       font-size: 50px;
       display: flex;
       flex-direction: column;
