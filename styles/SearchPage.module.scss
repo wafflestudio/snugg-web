@@ -24,7 +24,7 @@
             display: flex;
             font-size: 15px;
             font-family: Nanum Gothic;
-            line-height: 30px;
+            line-height: 35px;
     
             .conditionTitle {
                 margin-right: 10px;
@@ -33,29 +33,38 @@
             }
         }
 
-        .buttons {
-            display: flex;
+        .button {
+            width: 90px;
+            height: 35px;
+            font-size: 15px;
+            font-family: Nanum Gothic;
+            font-weight: bold;
+            border: 1px solid #588A69;
+            border-radius: 0px;
+            background-color: white;
+            color: #588A69;
 
-            .button {
-                width: 80px;
-                height: 30px;
-                font-size: 15px;
-                font-family: Nanum Gothic;
-                font-weight: bold;
-                border: 1px solid #588A69;
-                border-radius: 0px;
-                margin-left: 5px;
+            // &.click {
+            //     background-color: #588A69;
+            //     color: white;
+            // }
 
-                &.click {
-                    background-color: #588A69;
-                    color: white;
-                }
-    
-                &.unclick {
-                    background-color: white;
-                    color: #588A69;
-                }
-            }
+            // &.unclick {
+            //     background-color: white;
+            //     color: #588A69;
+            // }
+        }
+
+        .button:focus {
+            width: 90px;
+            height: 35px;
+            font-size: 15px;
+            font-family: Nanum Gothic;
+            font-weight: bold;
+            border: 1px solid #588A69;
+            border-radius: 0px;
+            background-color: #588A69;
+            color: white
         }
     }
 }
