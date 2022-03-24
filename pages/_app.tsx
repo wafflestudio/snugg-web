@@ -7,6 +7,7 @@ import { wrapper } from "../store";
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
     case "ProfileComponent":
+    case "TagsPageComponent":
       return (
         <OnlyHeaderLayoutComponent>
           <Component {...pageProps} />

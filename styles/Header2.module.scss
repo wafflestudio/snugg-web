@@ -1,12 +1,12 @@
 @import 'Font';
 @mixin button_default {
-  width: 80px;
+  width: 90px;
   height: 40px;
   background-color: #ffffff;
   border: none;
   justify-content: center;
   @include NanumGothicBold;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 23px;
   display: flex;
   align-items: center;
@@ -29,14 +29,18 @@
 .buttonGroup {
   display: flex;
 }
-.unSelectedButton {
+.button {
   @include button_default;
 }
-.questionButton {
-  @include button_default;
+.Selected {
+
+}
+.unSelected {
+
+}
+.question {
   width: 120px;
   height: 35px;
   color: white;
   background: #ea910c;
-  font-size: 18px;
 }
