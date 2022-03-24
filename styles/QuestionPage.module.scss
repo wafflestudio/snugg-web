@@ -1,3 +1,5 @@
+@import "Font";
+
 .container {
   width: 1440px;
   height: 100%;
@@ -13,8 +15,7 @@
 
   .title {
     font-size: 25px;
-    font-family: Nanum Gothic;
-    font-weight: bold;
+    @include NanumGothicBold;
     line-height: 40px;
     margin-top: 20px;
     margin-left: 32px;
@@ -39,8 +40,7 @@
       padding-left: 10px;
       color: #588a69;
       font-size: 20px;
-      font-family: Nanum Gothic;
-      font-weight: bold;
+      @include NanumGothicBold;
       line-height: 47px;
       border: 1px solid #588a69;
       border-radius: 5px;
@@ -53,7 +53,7 @@
     border: 1px solid #588a69;
     border-radius: 5px;
     font-size: 15px;
-    font-family: Nanum Gothic;
+    @include NanumGothicRegular;
     margin: 0px auto 0px auto;
   }
 
@@ -65,8 +65,7 @@
     color: white;
     border: none;
     font-size: 20px;
-    font-family: Nanum Gothic;
-    font-weight: bold;
+    @include NanumGothicBold;
   }
 }
 
@@ -76,8 +75,7 @@
   .sideTitle {
     color: #588a69;
     font-size: 20px;
-    font-family: Nanum Gothic;
-    font-weight: bold;
+    @include NanumGothicBold;
     margin-bottom: 10px;
   }
 
@@ -91,7 +89,7 @@
       border: 1px solid #588a69;
       border-radius: 5px;
       font-size: 15px;
-      font-family: Nanum Gothic;
+      @include NanumGothicRegular;
     }
   }
 
@@ -105,7 +103,7 @@
       border: 1px solid #588a69;
       border-radius: 5px;
       font-size: 15px;
-      font-family: Nanum Gothic;
+      @include NanumGothicRegular;
       padding-left: 5px;
     }
   }
@@ -125,8 +123,7 @@
 
     div {
       font-size: 15px;
-      font-family: Nanum Gothic;
-      font-weight: bold;
+      @include NanumGothicBold;
       color: #588a69;
       line-height: 20px;
     }
