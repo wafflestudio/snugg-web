@@ -1,3 +1,6 @@
+$side-width: 300px;
+$header-height: 100px;
+
 .pageWrapper {
   height: 100vh;
   width: 100vw;
@@ -8,7 +11,7 @@
 
 .pageHeader {
   width: 1440px;
-  height: 100px;
+  height: $header-height;
   margin: auto;
   position: relative;
   display: flex;
@@ -16,15 +19,15 @@
 }
 .pageContent {
   width: 1440px;
-  height: calc(100% - 100px);
+  height: calc(100% - $header-height);
   min-height: 800px;
   margin: auto;
   display: flex;
 }
 .pageMain {
-  width: 1140px;
+  width: calc(1440px - $side-width);
 }
 .pageSideBar {
   border-left: 1px solid #f2f2f2;
-  width: 300px;
+  width: $side-width;
 }
