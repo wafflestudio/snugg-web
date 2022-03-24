@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import DefaultLayoutComponent from "../components/Layout/DefaultLayoutComponent";
 import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComponent";
+import { wrapper } from "../store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </OnlyHeaderLayoutComponent>
       );
-      break;
+    case "SignInPage":
+    case "SignUpPage":
+      return <Component {...pageProps} />;
     default:
       return (
         <DefaultLayoutComponent>
@@ -22,4 +25,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
