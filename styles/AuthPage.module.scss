@@ -1,0 +1,35 @@
+@import "Buttons";
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  padding: 30px;
+  border: var(--color-main) 1px solid;
+
+  .schoolEmail {
+    color: black !important;
+  }
+
+  .input {
+    :global(.MuiAutocomplete-popupIndicatorOpen) {
+      transform: rotate(0);
+    }
+  }
+
+  .button {
+    @include button1;
+    line-height: 1;
+    padding: 5px 0;
+    margin: 5px 0;
+  }
+
+  .label {
+    margin-top: 10px;
+  }
+}
+

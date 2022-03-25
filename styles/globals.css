@@ -13,3 +13,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --color-main: #588A69;
+  --color-button1-background: #EA910C;
+  --color-button1-foreground: #FFFFFF;
+}

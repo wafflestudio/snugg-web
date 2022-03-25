@@ -14,7 +14,7 @@ export const UnAuthPage: FunctionComponent<Props> = () => {
         아래 버튼을 눌러 인증을 완료해주세요.
       </div>
       <NextLink href={"auth"} passHref>
-        <Button className={styles.button}>인증하기</Button>
+        <Button className={styles.button} variant="contained">인증하기</Button>
       </NextLink>
     </div>
   );

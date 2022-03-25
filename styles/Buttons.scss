@@ -1,8 +1,8 @@
-@mixin button-primary {
-  background: #EA910C;
-  color: #FFFFFF;
+@mixin button1 {
+  background: var(--color-button1-background);
+  color: var(--color-button1-foreground);
   border-radius: 5px;
   &:hover {
-    background: #EA910C;
+    background: var(--color-button1-background);
   }
 }
