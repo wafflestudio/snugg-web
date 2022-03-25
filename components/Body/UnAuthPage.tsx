@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "../../styles/AuthPage.module.scss";
+import styles from "../../styles/UnAuthPage.module.scss";
 import { Button } from "@mui/material";
 import NextLink from "next/link";
 
