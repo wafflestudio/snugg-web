@@ -17,8 +17,8 @@ const handleApi = (req: NextApiRequest, res: NextApiResponse) =>
         changeOrigin: true,
         pathRewrite: [
           {
-            patternStr: "^/api",
-            replaceStr: "",
+            patternStr: "^/api/(.*)$",
+            replaceStr: "/$1/",
           },
         ],
         onProxyInit: (server) => {
