@@ -8,12 +8,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
     case "ProfileComponent":
     case "TagsPageComponent":
-      return (
-        <OnlyHeaderLayoutComponent>
-          <Component {...pageProps} />
-        </OnlyHeaderLayoutComponent>
-      );
     case "QuestionPage":
+    case "UnAuthPage":
       return (
         <OnlyHeaderLayoutComponent>
           <Component {...pageProps} />
