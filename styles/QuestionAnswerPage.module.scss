@@ -1,76 +1,70 @@
-.container {
-    width: 1440px;
-    height: 100vh;
-    display: flex;
-    // border: 1px solid grey;
-}
+@import "Font";
 
 .mainContainer {
-    width: 1140px;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid #f2f2f2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #f2f2f2;
+  padding-top: 30px;
 }
 
 .answerCount {
-    font-size: 20px;
-    font-family: Nanum Gothic;
-    font-weight: bold;
-    color: #588A69;
-    margin-bottom: 15px;
-    margin-top: 10px;
-    margin-left: 32px;
+  font-size: 20px;
+  @include NanumGothicBold;
+  color: #588a69;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-left: 32px;
 }
 
 .answerWriter {
+  width: 1075px;
+  margin: 0px auto;
+
+  div {
+    font-size: 20px;
+    @include NanumGothicBold;
+    color: #588a69;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+
+  input {
     width: 1075px;
-    margin: 0px auto;
+    min-height: 250px;
+    font-size: 15px;
+    @include NanumGothicRegular;
+    margin-bottom: 15px;
+  }
 
-    div {
-        font-size: 20px;
-        font-family: Nanum Gothic;
-        font-weight: bold;
-        color: #588A69;
-        margin-top: 10px;
-        margin-bottom: 15px;
-    }
-
-    input {
-        width: 1075px;
-        min-height: 250px;
-        font-size: 15px;
-        font-family: Nanum Gothic;
-        margin-bottom: 15px;
-    }
-
-    button {
-        width: 150px;
-        height: 50px;
-        background-color: #588A69;
-        color: white;
-        border: none;
-        font-size: 20px;
-        font-family: Nanum Gothic;
-        font-weight: bold;
-        margin-left: 462.5px;
-    }
+  button {
+    width: 150px;
+    height: 50px;
+    background-color: #588a69;
+    color: white;
+    border: none;
+    font-size: 20px;
+    @include NanumGothicBold;
+    margin-left: 462.5px;
+    margin-bottom: 30px;
+  }
 }
 
 .sideContainer {
-    width: 300px;
+  width: 300px;
 
-    .recent {
-        width: 260px;
-        font-size: 20px;
-        font-family: Nanum Gothic;
-        font-weight: bold;
-        margin: 0px auto;
-    }
+  .recent {
+    width: 260px;
+    font-size: 20px;
+    @include NanumGothicBold;
+    margin: 0px auto;
+  }
 
-    .recentQuestion {
-        width: 260px;
-        height: 300px;
-        background-color: #f2f2f2;
-        margin: 20px auto;
-    }
+  .recentQuestion {
+    width: 260px;
+    height: 300px;
+    background-color: #f2f2f2;
+    margin: 20px auto;
+  }
 }

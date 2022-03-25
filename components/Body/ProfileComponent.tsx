@@ -94,16 +94,16 @@ const ProfileComponent = (props: props) => {
           </div>
           <div className={styles.profileQuestionsBody}>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
+              <SimplifiedPreviewComponent />
+              <SimplifiedPreviewComponent />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
+              <SimplifiedPreviewComponent />
+              <SimplifiedPreviewComponent />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
+              <SimplifiedPreviewComponent />
+              <SimplifiedPreviewComponent />
             </div>
           </div>
         </div>
@@ -119,16 +119,16 @@ const ProfileComponent = (props: props) => {
           </div>
           <div className={styles.profileQuestionsBody}>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
+              <SimplifiedPreviewComponent />
+              <SimplifiedPreviewComponent />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
+              <SimplifiedPreviewComponent />
+              <SimplifiedPreviewComponent />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
-              <SimplifiedPreviewComponent></SimplifiedPreviewComponent>
+              <SimplifiedPreviewComponent />
+              <SimplifiedPreviewComponent />
             </div>
           </div>
         </div>
