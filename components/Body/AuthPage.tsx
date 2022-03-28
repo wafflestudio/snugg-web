@@ -2,7 +2,7 @@ import { FormEventHandler, FunctionComponent, useState } from "react";
 import styles from "../../styles/AuthPage.module.scss";
 import {
   Autocomplete,
-  Button,
+  Button, FilterOptionsState,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -12,6 +12,7 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
+import * as Hangul from "hangul-js";
 
 interface Props {}
 
@@ -35,7 +36,11 @@ export const AuthPage: FunctionComponent<Props> = () => {
 
   const onFormSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    alert(`${school} : ${admissionYear} : ${major} : ${degree}`);
+    alert(`${school} : ${email} : ${admissionYear} : ${major} : ${degree}`);
+  };
+  const filterOptions = (options: string[], state: FilterOptionsState<string>) => {
+    const searcher = new Hangul.Searcher(state.inputValue);
+    return options.filter((value) => searcher.search(value) != -1);
   };
 
   return (
@@ -58,6 +63,9 @@ export const AuthPage: FunctionComponent<Props> = () => {
           )}
           value={school ? school : null}
           onChange={(e, value) => setSchool(value ?? "")}
+          noOptionsText="학교를 찾을 수 없습니다"
+          filterOptions={filterOptions}
+          autoSelect
         />
         <InputLabel htmlFor="school-mail-verification" className={styles.label}>
           학교 메일 인증
@@ -70,6 +78,7 @@ export const AuthPage: FunctionComponent<Props> = () => {
           fullWidth
           type="email"
           placeholder="학교 이메일을 입력하세요"
+          required
         />
         <Button
           className={styles.button}
