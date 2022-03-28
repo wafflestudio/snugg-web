@@ -12,10 +12,6 @@
   padding: 45px 270px;
   border: var(--color-main) 1px solid;
 
-  .schoolEmail {
-    color: black !important;
-  }
-
   .input {
     height: 30px;
     margin: 5px 0;
@@ -34,10 +30,10 @@
       color: #c4c4c4 !important;
     }
 
-    :global(.MuiSelect-select) {
-      // Select 팝업 간격 조정
-      padding-top: 4.5px;
-      padding-bottom: 4.5px;
+    :global(.MuiSelect-select), :global(.MuiInputBase-input) {
+      // Select 팝업 간격 및 Input 높이 조정
+      padding-top: 4px;
+      padding-bottom: 4px;
     }
   }
 

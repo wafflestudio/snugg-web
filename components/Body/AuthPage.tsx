@@ -69,6 +69,7 @@ export const AuthPage: FunctionComponent<Props> = () => {
           onChange={(e) => setEmail(e.target.value)}
           fullWidth
           type="email"
+          placeholder="학교 이메일을 입력하세요"
         />
         <Button
           className={styles.button}
