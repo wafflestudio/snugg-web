@@ -1,4 +1,4 @@
-import { FormEventHandler, FunctionComponent } from "react";
+import { FormEventHandler, FunctionComponent, useState } from "react";
 import styles from "../../styles/AuthPage.module.scss";
 import {
   Autocomplete,
@@ -12,13 +12,12 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
-import { onEnterDo } from "../../utility";
 
 interface Props {}
 
 const ADMISSION_YEARS = ((begin: number, end: number) => {
   const result = [];
-  for (let i = begin; i <= end; ++i) result.push(i);
+  for (let i = end; i >= begin; --i) result.push(i);
   return result;
 })(2000, 2022);
 const MAJORS = ["컴퓨터공학부", "통계학과", "수리과학부", "경영학부"];
@@ -26,17 +25,23 @@ const DEGREES = ["학부", "졸업", "대학원", "석·박사"];
 const SCHOOLS = ["서울대학교", "고려대학교", "연세대학교"];
 
 export const AuthPage: FunctionComponent<Props> = () => {
-  const onFormSubmit: FormEventHandler = (e) => e.preventDefault();
-  const onSchoolSearch = () => {};
   const onSchoolEmailVerify = () => {};
+
+  const [school, setSchool] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [admissionYear, setAdmissionYear] = useState<number | null>(null);
+  const [major, setMajor] = useState<string>("");
+  const [degree, setDegree] = useState(DEGREES[0]);
+
+  const onFormSubmit: FormEventHandler = (e) => {
+    e.preventDefault();
+    alert(`${school} : ${admissionYear} : ${major} : ${degree}`);
+  };
+
   return (
     <div className={styles.container} onSubmit={onFormSubmit}>
       <form className={styles.form}>
-        <InputLabel
-          htmlFor="school"
-          onKeyDown={onEnterDo(onSchoolSearch)}
-          className={styles.label}
-        >
+        <InputLabel htmlFor="school" className={styles.label}>
           학교
         </InputLabel>
         <Autocomplete
@@ -48,8 +53,11 @@ export const AuthPage: FunctionComponent<Props> = () => {
               {...params}
               id="school"
               placeholder="학교를 검색하세요"
+              required
             />
           )}
+          value={school ? school : null}
+          onChange={(e, value) => setSchool(value ?? "")}
         />
         <InputLabel htmlFor="school-mail-verification" className={styles.label}>
           학교 메일 인증
@@ -57,9 +65,10 @@ export const AuthPage: FunctionComponent<Props> = () => {
         <OutlinedInput
           className={`${styles.schoolEmail} ${styles.input}`}
           id="school-mail-verification"
-          value="foobar@snu.ac.kr"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           fullWidth
-          readOnly
+          type="email"
         />
         <Button
           className={styles.button}
@@ -71,7 +80,20 @@ export const AuthPage: FunctionComponent<Props> = () => {
         <InputLabel htmlFor="admission-year" className={styles.label}>
           입학년도
         </InputLabel>
-        <Select id="admission-year" fullWidth>
+        <Select
+          className={styles.input}
+          id="admission-year"
+          fullWidth
+          value={admissionYear ?? ""}
+          onChange={(e) => {
+            const value = e.target.value;
+            setAdmissionYear(value ? Number(value) : null);
+          }}
+          displayEmpty
+        >
+          <MenuItem value="">
+            <span className={styles.placeholder}>학번을 선택하세요</span>
+          </MenuItem>
           {ADMISSION_YEARS.map((value) => (
             <MenuItem key={value} value={value}>
               {value}년
@@ -81,7 +103,17 @@ export const AuthPage: FunctionComponent<Props> = () => {
         <InputLabel htmlFor="major" className={styles.label}>
           전공
         </InputLabel>
-        <Select id="major" fullWidth>
+        <Select
+          className={styles.input}
+          id="major"
+          fullWidth
+          value={major ?? ""}
+          onChange={(e) => setMajor(e.target.value)}
+          displayEmpty
+        >
+          <MenuItem value="">
+            <span className={styles.placeholder}>전공을 선택하세요</span>
+          </MenuItem>
           {MAJORS.map((value) => (
             <MenuItem key={value} value={value}>
               {value}
@@ -91,9 +123,18 @@ export const AuthPage: FunctionComponent<Props> = () => {
         <InputLabel htmlFor="degree" className={styles.label}>
           과정
         </InputLabel>
-        <ToggleButtonGroup exclusive fullWidth>
+        <ToggleButtonGroup
+          exclusive
+          fullWidth
+          value={degree}
+          onChange={(event, value) => setDegree(value)}
+        >
           {DEGREES.map((value) => (
-            <ToggleButton value={value} key={value}>
+            <ToggleButton
+              value={value}
+              key={value}
+              className={styles.degreeButton}
+            >
               {value}
             </ToggleButton>
           ))}

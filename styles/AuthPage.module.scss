@@ -1,4 +1,5 @@
 @import "Buttons";
+
 .container {
   width: 100%;
   height: 100%;
@@ -8,7 +9,7 @@
 }
 
 .form {
-  padding: 30px;
+  padding: 45px 270px;
   border: var(--color-main) 1px solid;
 
   .schoolEmail {
@@ -16,8 +17,27 @@
   }
 
   .input {
+    height: 30px;
+    margin: 5px 0;
+
     :global(.MuiAutocomplete-popupIndicatorOpen) {
-      transform: rotate(0);
+      transform: rotate(0); // Search 아이콘 뒤집힘 방지
+    }
+
+    :global(.MuiAutocomplete-inputRoot) {
+      // Autocomplete 높이 조정
+      height: 30px;
+      align-content: center;
+    }
+
+    &::placeholder, &::-webkit-input-placeholder {
+      color: #c4c4c4 !important;
+    }
+
+    :global(.MuiSelect-select) {
+      // Select 팝업 간격 조정
+      padding-top: 4.5px;
+      padding-bottom: 4.5px;
     }
   }
 
@@ -29,7 +49,28 @@
   }
 
   .label {
-    margin-top: 10px;
+    margin-top: 9px;
+  }
+
+  .degreeButton {
+    border-radius: 5px !important;
+    border-color: #c4c4c4 !important;
+    color: #c4c4c4;
+    height: 30px;
+
+    &:not(:first-of-type) {
+      margin-left: 4px;
+    }
+
+    &:global(.Mui-selected) {
+      background: initial;
+      color: var(--color-main);
+      border-color: var(--color-main) !important;
+    }
+  }
+
+  .placeholder {
+    color: #c4c4c4;
   }
 }
 
