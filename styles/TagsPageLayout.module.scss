@@ -1,0 +1,21 @@
+@import "Font";
+.pageWrapper {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.pageHeader {
+  width: 1440px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+.pageContent {
+  width: 1440px;
+  height: calc(100% - 100px);
+  min-height: 800px;
+  margin: auto;
+}

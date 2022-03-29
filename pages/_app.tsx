@@ -3,15 +3,21 @@ import type { AppProps } from "next/app";
 import DefaultLayoutComponent from "../components/Layout/DefaultLayoutComponent";
 import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComponent";
 import { wrapper } from "../store";
+import TagsPageLayoutComponent from "../components/Layout/TagsPageLayoutComponent";
 
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
     case "ProfileComponent":
-    case "TagsPageComponent":
       return (
         <OnlyHeaderLayoutComponent>
           <Component {...pageProps} />
         </OnlyHeaderLayoutComponent>
+      );
+    case "TagsPageComponent":
+      return (
+        <TagsPageLayoutComponent>
+          <Component {...pageProps} />
+        </TagsPageLayoutComponent>
       );
     case "QuestionPage":
       return (

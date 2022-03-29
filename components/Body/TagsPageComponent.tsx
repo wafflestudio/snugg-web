@@ -34,18 +34,7 @@ const TagsPageComponent = () => {
           </Button>
         </div>
       </div>
-      <div className={styles.tagsPageBody}>
-        {/*<ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>
-        <ul className={styles.tagLine}>{a}</ul>*/}
-        {a}
-      </div>
+      <div className={styles.tagsPageBody}>{a}</div>
     </div>
   );
 };
