@@ -3,6 +3,7 @@ import { queryToString } from "../../../utility";
 
 import styles from "../../../styles/AgoraListPage.module.scss";
 import ClassPostPreview from "../../../components/Reused/ClassPostPreview";
+import { Pagination } from "@mui/material";
 
 interface Props {
   className: string | null;
@@ -15,6 +16,7 @@ const AgoraListPage: NextPage<Props> = ({ className }) => {
       {[...Array(10)].map((item) => {
         return <ClassPostPreview key={item} />;
       })}
+      <Pagination count={10} siblingCount={10} size="small" />
     </div>
   );
 };
