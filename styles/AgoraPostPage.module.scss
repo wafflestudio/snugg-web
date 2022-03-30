@@ -71,4 +71,42 @@
       }
     }
   }
+
+  .divider {
+    background-color: #588a69;
+    margin-bottom: 10px;
+  }
+
+  .writeComment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .accountCircleIcon {
+      color: #c4c4c4;
+      width: 25px;
+      height: 25px;
+    }
+
+    input {
+      width: 935px;
+      height: 35px;
+      font-size: 15px;
+      @include NanumGothicRegular;
+      line-height: 35px;
+      border: 1px solid #588a69;
+      border-radius: 5px;
+      padding: 0px 5px;
+    }
+
+    button {
+      width: 60px;
+      height: 35px;
+      border: none;
+      background-color: #588a69;
+      color: white;
+      font-size: 15px;
+      @include NanumGothicBold;
+    }
+  }
 }

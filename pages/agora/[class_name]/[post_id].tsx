@@ -7,6 +7,7 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 import styles from "../../../styles/AgoraPostPage.module.scss";
 import LoremIpsum from "react-lorem-ipsum";
+import { Divider } from "@mui/material";
 
 interface Props {
   className: string | null;
@@ -32,6 +33,12 @@ const AgoraPostPage: NextPage<Props> = ({ className, postId }) => {
         <div className={styles.postContent}>
           <LoremIpsum p={2} />
         </div>
+      </div>
+      <Divider className={styles.divider} />
+      <div className={styles.writeComment}>
+        <AccountCircleIcon className={styles.accountCircleIcon} />
+        <input placeholder="댓글을 남겨주세요." />
+        <button>등록</button>
       </div>
     </div>
   );
