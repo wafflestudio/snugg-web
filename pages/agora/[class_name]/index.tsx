@@ -3,7 +3,7 @@ import { queryToString } from "../../../utility";
 
 import styles from "../../../styles/AgoraListPage.module.scss";
 import ClassPostPreview from "../../../components/Reused/ClassPostPreview";
-import { Pagination } from "@mui/material";
+import { MenuItem, Pagination, Select } from "@mui/material";
 
 interface Props {
   className: string | null;
@@ -16,7 +16,18 @@ const AgoraListPage: NextPage<Props> = ({ className }) => {
       {[...Array(10)].map((item) => {
         return <ClassPostPreview key={item} />;
       })}
-      <Pagination count={10} siblingCount={10} size="small" />
+      <div className={styles.bottom1}>
+        <Pagination className={styles.pagination} count={10} siblingCount={10} size="small" />
+        <button className={styles.writeButton}>글쓰기</button>
+      </div>
+      <div className={styles.bottom2}>
+        <Select defaultValue={"content"} className={styles.searchCondition}>
+          <MenuItem value={"content"}>제목 + 내용</MenuItem>
+          <MenuItem value={"title"}>제목</MenuItem>
+          <MenuItem value={"writer"}>작성자</MenuItem>
+        </Select>
+        <input className={styles.search} />
+      </div>
     </div>
   );
 };
