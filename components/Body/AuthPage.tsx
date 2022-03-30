@@ -137,7 +137,7 @@ export const AuthPage: FunctionComponent<Props> = () => {
           exclusive
           fullWidth
           value={degree}
-          onChange={(event, value) => setDegree(value)}
+          onChange={(event, value) => value && setDegree(value)}
         >
           {DEGREES.map((value) => (
             <ToggleButton
