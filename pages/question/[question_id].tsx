@@ -1,9 +1,9 @@
-import {GetServerSideProps, NextPage} from "next";
+import { GetServerSideProps, NextPage } from "next";
 
 import styles from "../../styles/QuestionAnswerPage.module.scss";
-import QuestionBoxComponent from "../../components/QuestionBoxComponent";
-import AnswerBoxComponent from "../../components/AnswerBoxComponent";
-import {queryToString} from "../../utility";
+import QuestionBoxComponent from "../../components/Reused/QuestionBoxComponent";
+import AnswerBoxComponent from "../../components/Reused/AnswerBoxComponent";
+import { queryToString } from "../../utility";
 
 interface Props {
   questionId: number;
@@ -26,12 +26,10 @@ const QuestionAnswerPage: NextPage<Props> = () => {
 
 export default QuestionAnswerPage;
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
   return {
     props: {
       questionId: Number(queryToString(context.params?.question_id))
-    },
+    }
   };
 };
