@@ -1,13 +1,13 @@
 import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../../utility";
 
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 import styles from "../../../styles/AgoraPostPage.module.scss";
 import LoremIpsum from "react-lorem-ipsum";
 import { Divider } from "@mui/material";
+import ClassPostComment from "../../../components/Reused/ClassPostComment";
 
 interface Props {
   className: string | null;
@@ -27,7 +27,7 @@ const AgoraPostPage: NextPage<Props> = ({ className, postId }) => {
           </div>
           <div className={styles.postComment}>
             <ChatBubbleIcon className={styles.chatBubbleIcon} />
-            <div>3</div>
+            <div>5</div>
           </div>
         </div>
         <div className={styles.postContent}>
@@ -40,6 +40,9 @@ const AgoraPostPage: NextPage<Props> = ({ className, postId }) => {
         <input placeholder="댓글을 남겨주세요." />
         <button>등록</button>
       </div>
+      {[...Array(5)].map((item) => {
+        return <ClassPostComment key={item} />;
+      })}
     </div>
   );
 };

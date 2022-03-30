@@ -6,7 +6,7 @@
   border: 1px solid #588a69;
   border-radius: 5px;
   padding: 20px;
-  margin: 20px auto 0px auto;
+  margin: 20px auto;
 
   .mainText {
     .postTitle {
@@ -74,13 +74,14 @@
 
   .divider {
     background-color: #588a69;
-    margin-bottom: 10px;
+    margin: 20px 0px;
   }
 
   .writeComment {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 
     .accountCircleIcon {
       color: #c4c4c4;
