@@ -11,6 +11,8 @@ const AgoraSearchPage: NextPage<Props> = ({ content }) => {
 
 export default AgoraSearchPage;
 
+AgoraSearchPage.displayName = "AgoraSearchPage";
+
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {

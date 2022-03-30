@@ -1,3 +1,4 @@
+@import 'Font';
 $side-width: 300px;
 $header-height: 100px;
 
@@ -19,17 +20,37 @@ $header-height: 100px;
 }
 .pageContent {
   width: 1440px;
-  height: calc(100% - #{$header-height
-});
+  height: calc(100% - #{$header-height});
   min-height: 800px;
   margin: auto;
   display: flex;
 }
 .pageMain {
-  width: calc(1440px - #{$side-width
-});
+  width: calc(1440px - #{$side-width});
+}
+.padding {
+  padding-left: 28px;
+  padding-right: 28px;
 }
 .pageSideBar {
   border-left: 1px solid #f2f2f2;
   width: $side-width;
+
+  padding-top: 18px;
+  .dividerWrapper {
+    display: flex;
+    justify-content: center;
+    .divider {
+      margin-top: 20px;
+      background-color: black;
+      width: 90%;
+    }
+  }
+
+  .myLecture {
+    @include NanumGothicBold;
+  }
 }
+
+
+

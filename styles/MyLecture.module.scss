@@ -1,0 +1,12 @@
+@import "Font";
+
+.myLecture {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  .nameWrapper {
+    @include NanumGothicRegular;
+    margin-right: 10px;
+  }
+
+}

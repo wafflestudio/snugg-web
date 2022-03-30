@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import DefaultLayoutComponent from "../components/Layout/DefaultLayoutComponent";
 import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComponent";
 import { wrapper } from "../store";
+import LectureExploreLayout from "../components/Layout/LectureExploreLayout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
@@ -12,6 +13,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <OnlyHeaderLayoutComponent>
           <Component {...pageProps} />
         </OnlyHeaderLayoutComponent>
+      );
+    case "AgoraSearchPage":
+      return (
+        <LectureExploreLayout>
+          <Component {...pageProps} />
+        </LectureExploreLayout>
       );
     case "QuestionPage":
       return (
