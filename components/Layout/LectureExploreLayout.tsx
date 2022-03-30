@@ -8,7 +8,7 @@ import { Divider } from "@mui/material";
 import MyLecture from "../Reused/MyLecture";
 
 interface props {}
-const DefaultLayoutComponent: React.FC<props> = ({ children }) => {
+const LectureExploreLayout: React.FC<props> = ({ children }) => {
   return (
     <div className={styles.pageWrapper}>
       <header className={styles.pageHeader}>
@@ -36,4 +36,4 @@ const DefaultLayoutComponent: React.FC<props> = ({ children }) => {
   );
 };
 
-export default DefaultLayoutComponent;
+export default LectureExploreLayout;
