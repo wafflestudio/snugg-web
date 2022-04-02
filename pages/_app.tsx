@@ -4,9 +4,10 @@ import DefaultLayoutComponent from "../components/Layout/DefaultLayoutComponent"
 import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComponent";
 import { wrapper } from "../store";
 
+import LectureExploreLayout from "../components/Layout/LectureExploreLayout";
+
 import { theme } from "../utility";
 import { ThemeProvider } from "@mui/system";
-
 
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
