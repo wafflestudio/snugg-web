@@ -35,6 +35,7 @@ const TagsPageComponent = () => {
         </div>
       </div>
       <div className={styles.tagsPageBody}>{a}</div>
+      <footer></footer>
     </div>
   );
 };
