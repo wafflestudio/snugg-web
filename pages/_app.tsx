@@ -3,27 +3,13 @@ import type { AppProps } from "next/app";
 import DefaultLayoutComponent from "../components/Layout/DefaultLayoutComponent";
 import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComponent";
 import { wrapper } from "../store";
-
 import { theme } from "../utility";
 import { ThemeProvider } from "@mui/system";
-
 
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
     case "ProfileComponent":
     case "TagsPageComponent":
-      return (
-        <OnlyHeaderLayoutComponent>
-          <Component {...pageProps} />
-        </OnlyHeaderLayoutComponent>
-      );
-    case "AgoraSearchPage":
-      return (
-        <LectureExploreLayout>
-          <Component {...pageProps} />
-        </LectureExploreLayout>
-      );
-
     case "QuestionPage":
     case "UnAuthPage":
       return (

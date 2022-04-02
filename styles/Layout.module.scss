@@ -19,15 +19,13 @@ $header-height: 100px;
 }
 .pageContent {
   width: 1440px;
-  height: calc(100% - #{$header-height
-});
+  height: calc(100% - $header-height);
   min-height: 800px;
   margin: auto;
   display: flex;
 }
 .pageMain {
-  width: calc(1440px - #{$side-width
-});
+  width: calc(1440px - $side-width);
 }
 .pageSideBar {
   border-left: 1px solid #f2f2f2;
