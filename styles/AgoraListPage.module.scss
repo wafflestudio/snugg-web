@@ -1,5 +1,4 @@
 @import "Font";
-@import "./Layout.module.scss";
 
 .container {
   width: 100%;
@@ -45,7 +44,6 @@
     .searchCondition {
       width: 125px;
       height: 35px;
-      @include NanumGothicRegular;
       font-size: 15px;
       border-radius: 5px;
       margin-right: 10px;
@@ -54,7 +52,6 @@
     .search {
       width: 300px;
       height: 35px;
-      @include NanumGothicRegular;
       font-size: 15px;
       border: 1px solid #c4c4c4;
       border-radius: 5px;

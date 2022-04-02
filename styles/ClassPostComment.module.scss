@@ -24,7 +24,6 @@
 
     .postTime {
       font-size: 15px;
-      @include NanumGothicRegular;
       line-height: 25px;
     }
   }
@@ -33,6 +32,5 @@
     width: calc(100% - 30px);
     margin-left: 35px;
     font-size: 15px;
-    @include NanumGothicRegular;
   }
 }

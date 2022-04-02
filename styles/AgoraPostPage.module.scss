@@ -19,7 +19,6 @@
 
     .postContent {
       font-size: 15px;
-      @include NanumGothicRegular;
     }
 
     .mainTextHeader {
@@ -47,7 +46,6 @@
 
         .postTime {
           font-size: 15px;
-          @include NanumGothicRegular;
           line-height: 25px;
         }
       }
@@ -65,7 +63,6 @@
 
         div {
           font-size: 15px;
-          @include NanumGothicRegular;
           line-height: 25px;
         }
       }
@@ -89,15 +86,13 @@
       height: 25px;
     }
 
-    input {
+    .input {
       width: 935px;
       height: 35px;
       font-size: 15px;
-      @include NanumGothicRegular;
       line-height: 35px;
       border: 1px solid #588a69;
       border-radius: 5px;
-      padding: 0px 5px;
     }
 
     button {
