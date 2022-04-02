@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import DefaultLayoutComponent from "../components/Layout/DefaultLayoutComponent";
 import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComponent";
 import { wrapper } from "../store";
+
 import LectureExploreLayout from "../components/Layout/LectureExploreLayout";
 
 function MyApp({ Component, pageProps }: AppProps) {
