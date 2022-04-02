@@ -1,9 +1,10 @@
 import { NextPage } from "next";
+import {AuthPage} from "../../components/Body/AuthPage";
 
 interface Props {}
 
-const AuthPage: NextPage<Props> = () => {
-  return <div>auth</div>;
+const AuthPageContainer: NextPage<Props> = () => {
+  return <AuthPage/>
 };
 
-export default AuthPage;
+export default AuthPageContainer;
