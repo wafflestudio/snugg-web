@@ -1,0 +1,44 @@
+@import "Font";
+
+.lectureInfo {
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: black 1px solid;
+  border-radius: 5px;
+  padding-left: 28px;
+  padding-right: 28px;
+  width: 1000px;
+  height: 110px;
+  margin-bottom: 15px;
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 28px;
+    .topLeft {
+      width: 190px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .topRight {
+      width:210px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+}
+
+.regularText {
+  @include NanumGothicRegular;
+
+}
+.boldText {
+  @include NanumGothicBold;
+}
+.greyText {
+  color: #C4C4C4;
+}

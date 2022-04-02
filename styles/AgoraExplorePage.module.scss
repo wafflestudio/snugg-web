@@ -1,0 +1,12 @@
+@import "Font";
+.page {
+  padding-right: 50px;
+  padding-left: 50px;
+
+}
+.text {
+  @include NanumGothicBold;
+  font-size: 20px;
+  margin-bottom: 34px;
+  margin-top: 34px;
+}
