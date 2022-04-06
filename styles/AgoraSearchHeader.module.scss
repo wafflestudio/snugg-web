@@ -1,0 +1,13 @@
+@import "Font";
+
+.header {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  padding-left: 42px;
+  border-bottom: #588A69 1px solid;
+  .headerInput {
+      width: 400px;
+      height: 30px;
+  }
+}

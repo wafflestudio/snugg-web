@@ -4,6 +4,11 @@ import DefaultLayoutComponent from "../components/Layout/DefaultLayoutComponent"
 import OnlyHeaderLayoutComponent from "../components/Layout/OnlyHeaderLayoutComponent";
 import { wrapper } from "../store";
 
+import LectureExploreLayout from "../components/Layout/LectureExploreLayout";
+
+import { theme } from "../utility";
+import { ThemeProvider } from "@mui/system";
+
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
     case "ProfileComponent":
@@ -13,20 +18,36 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </OnlyHeaderLayoutComponent>
       );
-    case "QuestionPage":
+    case "AgoraSearchPage":
       return (
-        <OnlyHeaderLayoutComponent>
+        <LectureExploreLayout>
           <Component {...pageProps} />
-        </OnlyHeaderLayoutComponent>
+        </LectureExploreLayout>
+      );
+
+    case "QuestionPage":
+    case "UnAuthPage":
+      return (
+        <ThemeProvider theme={theme}>
+          <OnlyHeaderLayoutComponent>
+            <Component {...pageProps} />
+          </OnlyHeaderLayoutComponent>
+        </ThemeProvider>
       );
     case "SignInPage":
     case "SignUpPage":
-      return <Component {...pageProps} />;
+      return (
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      );
     default:
       return (
-        <DefaultLayoutComponent>
-          <Component {...pageProps} />
-        </DefaultLayoutComponent>
+        <ThemeProvider theme={theme}>
+          <DefaultLayoutComponent>
+            <Component {...pageProps} />
+          </DefaultLayoutComponent>
+        </ThemeProvider>
       );
   }
 }

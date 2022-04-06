@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import HelpIcon from "@mui/icons-material/Help";
 
-import styles from "../styles/QuestionPage.module.scss";
+import styles from "../../styles/QuestionPage.module.scss";
 import { Select, FormControl, MenuItem } from "@mui/material";
 
 interface Props {}
