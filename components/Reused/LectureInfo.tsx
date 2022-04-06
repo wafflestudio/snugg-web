@@ -3,13 +3,13 @@ import styles from "/styles/LectureInfo.module.scss";
 import { Person } from "@mui/icons-material";
 
 interface Props {
-  courseName: string;
-  professor: string;
-  credits: number;
-  courseCode: string;
-  studentNumber: number;
-  grade: number;
-  dept: string;
+  courseName?: string;
+  professor?: string;
+  credits?: number;
+  courseCode?: string;
+  studentNumber?: number;
+  grade?: number;
+  dept?: string;
 }
 
 const LectureInfo = (props: Props) => {
