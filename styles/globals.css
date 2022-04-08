@@ -15,7 +15,12 @@ a {
 }
 
 :root {
-  --color-main: #588A69;
-  --color-button1-background: #EA910C;
-  --color-button1-foreground: #FFFFFF;
+  --color-main: #588a69;
+  --color-button1-background: #ea910c;
+  --color-button1-foreground: #ffffff;
+}
+
+/* 텍스트에디터 css */
+.ProseMirror:focus {
+  outline: none;
 }

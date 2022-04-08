@@ -5,6 +5,7 @@ import HelpIcon from "@mui/icons-material/Help";
 
 import styles from "../../styles/QuestionPage.module.scss";
 import { Select, FormControl, MenuItem } from "@mui/material";
+import TextEditor from "../../components/Reused/TextEditor";
 
 interface Props {}
 
@@ -17,7 +18,7 @@ const QuestionPage: NextPage<Props> = () => {
           <CreateOutlinedIcon className={styles.icon} />
           <input placeholder="제목을 입력하세요." />
         </div>
-        <input className={styles.questionBox} />
+        <TextEditor />
         <button className={styles.button}>질문 등록하기</button>
       </div>
       <div className={styles.sideContainer}>
