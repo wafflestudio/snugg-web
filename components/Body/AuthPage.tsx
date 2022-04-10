@@ -2,7 +2,8 @@ import { FormEventHandler, FunctionComponent, useState } from "react";
 import styles from "../../styles/AuthPage.module.scss";
 import {
   Autocomplete,
-  Button, FilterOptionsState,
+  Button,
+  FilterOptionsState,
   InputLabel,
   MenuItem,
   OutlinedInput,
@@ -38,7 +39,10 @@ export const AuthPage: FunctionComponent<Props> = () => {
     e.preventDefault();
     alert(`${school} : ${email} : ${admissionYear} : ${major} : ${degree}`);
   };
-  const filterOptions = (options: string[], state: FilterOptionsState<string>) => {
+  const filterOptions = (
+    options: string[],
+    state: FilterOptionsState<string>
+  ) => {
     const searcher = new Hangul.Searcher(state.inputValue);
     return options.filter((value) => searcher.search(value) != -1);
   };

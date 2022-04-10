@@ -1,4 +1,4 @@
-@import 'Font';
+@import "Font";
 .tagsPage {
   display: flex;
   flex-direction: column;
@@ -6,7 +6,7 @@
   padding-left: 43px;
   padding-top: 42px;
   @include NanumGothicRegular;
-  .tagsPageHeader{
+  .tagsPageHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,7 +23,7 @@
         @include NanumGothicExtraBold;
         color: black;
         margin-left: 14px;
-        background-color: #93C5A4;
+        background-color: #93c5a4;
       }
     }
   }
@@ -41,7 +41,6 @@
       padding: 0px;
       justify-content: space-between;
     }
-
   }
   footer {
     margin-top: 20px;

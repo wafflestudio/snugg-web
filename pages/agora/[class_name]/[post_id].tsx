@@ -37,7 +37,10 @@ const AgoraPostPage: NextPage<Props> = ({ className, postId }) => {
       <Divider className={styles.divider} />
       <div className={styles.writeComment}>
         <AccountCircleIcon className={styles.accountCircleIcon} />
-        <OutlinedInput className={styles.input} placeholder="댓글을 남겨주세요." />
+        <OutlinedInput
+          className={styles.input}
+          placeholder="댓글을 남겨주세요."
+        />
         <button>등록</button>
       </div>
       {[...Array(5)].map((item) => {
@@ -49,11 +52,13 @@ const AgoraPostPage: NextPage<Props> = ({ className, postId }) => {
 
 export default AgoraPostPage;
 
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   return {
     props: {
       className: queryToString(context.params?.class_name),
-      postId: Number(queryToString(context.params?.post_id))
-    }
+      postId: Number(queryToString(context.params?.post_id)),
+    },
   };
 };
