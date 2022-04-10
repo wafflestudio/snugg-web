@@ -23,22 +23,20 @@
       justify-content: space-between;
     }
     .topRight {
-      width:210px;
+      width: 210px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
   }
-
 }
 
 .regularText {
   @include NanumGothicRegular;
-
 }
 .boldText {
   @include NanumGothicBold;
 }
 .greyText {
-  color: #C4C4C4;
+  color: #c4c4c4;
 }

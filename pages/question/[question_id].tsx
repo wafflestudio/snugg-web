@@ -26,10 +26,12 @@ const QuestionAnswerPage: NextPage<Props> = () => {
 
 export default QuestionAnswerPage;
 
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   return {
     props: {
-      questionId: Number(queryToString(context.params?.question_id))
-    }
+      questionId: Number(queryToString(context.params?.question_id)),
+    },
   };
 };

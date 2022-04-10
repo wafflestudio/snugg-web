@@ -6,10 +6,10 @@ const nextConfig = {
       {
         source: "/",
         destination: "/question",
-        permanent: true
-      }
+        permanent: true,
+      },
     ];
-  }
+  },
 };
 
 module.exports = nextConfig;
