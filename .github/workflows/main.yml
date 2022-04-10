@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: .next
-          target: ${{ secrets.ROOT_DIR }}
+          target: ${{ secrets.ROOT_DIR }}/
 
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.4
