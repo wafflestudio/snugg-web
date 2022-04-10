@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prettier": {
+    "tabWidth": 2
+  },
   "dependencies": {
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
