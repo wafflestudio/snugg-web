@@ -2,7 +2,7 @@ name: CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
   workflow_dispatch:
 
@@ -11,6 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node
+        with:
+          cache: yarn
+          node-version: "16"
+      - run: yarn
+      - run: yarn build
+
+      - name: Upload
+        uses: appleboy/scp@v0.1.2
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: .next
+          target: ${{ secrets.ROOT_DIR }}
+
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.4
         with:
@@ -19,13 +36,9 @@ jobs:
           key: ${{ secrets.KEY }}
           script_stop: true
           script: |
+            pm2 stop ${{ secrets.PM2_NAME }}
             cd ${{ secrets.ROOT_DIR }}
-            echo "========== git pull       =========="
             git restore .
             git pull
-            echo "========== yarn install    =========="
             yarn install
-            echo "========== yarn run build  =========="
-            yarn build
-            echo "========== pm2 reload ... =========="
-            pm2 reload ${{ secrets.PM2_NAME }}
+            pm2 restart ${{ secrets.PM2_NAME }}
