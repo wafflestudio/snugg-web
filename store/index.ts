@@ -6,7 +6,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const rootReducer = combineReducers({
-  users, qnaPosts
+  users,
+  qnaPosts,
 });
 export type AppState = ReturnType<typeof rootReducer>;
 
@@ -17,7 +18,7 @@ const hydratedReducer: Reducer<AppState> = (state, action) => {
 
 const makeStore = () =>
   configureStore({
-    reducer: hydratedReducer
+    reducer: hydratedReducer,
   });
 
 export type AppStore = ReturnType<typeof makeStore>;
@@ -27,5 +28,5 @@ export const useAppSelector: TypedUseSelectorHook<AppState> = (selector) =>
   useSelector(selector);
 
 export const wrapper = createWrapper(makeStore, {
-  debug: process.env.NODE_ENV !== "production"
+  debug: process.env.NODE_ENV !== "production",
 });

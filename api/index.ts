@@ -6,8 +6,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const isServer = typeof window === "undefined";
 
 // 서버에서 api를 요청하는 경우 백엔드로 바로 요청
-axios.defaults.baseURL =
-  isProduction || isServer ? API_ENDPOINT : "/api/";
+axios.defaults.baseURL = isProduction || isServer ? API_ENDPOINT : "/api/";
 
 export interface User {
   pk: number;
@@ -76,7 +75,6 @@ export interface ListQnaParams {
   writer?: number;
 }
 
-
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -85,7 +83,7 @@ const api = {
   signUp: async (params: SignUpParams) =>
     await axios.post<UserTokenResponse>("/auth/signup/", params),
   listQna: async (params: ListQnaParams) =>
-    await axios.get<ListQnaResponse>("/qna/posts", {params}),
+    await axios.get<ListQnaResponse>("/qna/posts", { params }),
 };
 
 export default api;

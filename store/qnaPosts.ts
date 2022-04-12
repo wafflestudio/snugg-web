@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api, { ListQnaParams, ListQnaResponse} from "../api";
+import api, { ListQnaParams, ListQnaResponse } from "../api";
 
 interface QnaPostState {
   data: ListQnaResponse | null;
@@ -13,14 +13,14 @@ export const listQna = createAsyncThunk(
     const res = await api.listQna(params);
     return res.data;
   }
-)
+);
 
 const qnaPostsSlice = createSlice({
   name: "qnaPosts",
   initialState: {
     data: null,
     loading: false,
-    error: null
+    error: null,
   } as QnaPostState,
   reducers: {},
   extraReducers: (builder) =>
@@ -35,7 +35,7 @@ const qnaPostsSlice = createSlice({
       .addCase(listQna.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error;
-      })
+      }),
 });
 
 export default qnaPostsSlice.reducer;
