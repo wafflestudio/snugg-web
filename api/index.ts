@@ -53,7 +53,7 @@ const api = {
   signIn: async (params: SignInParams) => await axios.post<UserTokenResponse>("/auth/signin/", params),
   signOut: async (params: SignOutParams) => await axios.post<SuccessResponse>("/auth/signout/", params),
   signUp: async (params: SignUpParams) => await axios.post<UserTokenResponse>("/auth/signup/", params),
-  askQuestion: async (params: PostParams) => await axios.post<UserTokenResponse>("/qna/posts", params)
+  createPost: async (params: PostParams) => await axios.post<UserTokenResponse>("/qna/posts", params)
 };
 
 export default api;
