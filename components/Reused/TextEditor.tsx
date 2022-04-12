@@ -1,6 +1,7 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
+import { FC } from "react";
 
 import styles from "../../styles/TextEditor.module.scss";
 
@@ -15,9 +16,11 @@ import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import Highlight from "@tiptap/extension-highlight";
 
-interface Props {}
+interface Props {
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const TextEditor = (props: Props) => {
+const TextEditor: FC<Props> = ({ setContent }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -26,7 +29,10 @@ const TextEditor = (props: Props) => {
       }),
       Highlight
     ],
-    content: "질문을 입력하세요."
+    content: "질문을 입력하세요.",
+    onUpdate({ editor }) {
+      setContent(editor.getHTML());
+    }
   });
 
   if (!editor) {

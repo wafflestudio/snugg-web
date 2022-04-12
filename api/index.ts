@@ -46,7 +46,7 @@ export interface PostParams {
   title: string;
   content: string;
   accepted_answer: number;
-  tags: string;
+  tags: string[];
 }
 
 const api = {
