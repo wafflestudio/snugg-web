@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LargeNumberLike } from "crypto";
 
 export const API_ENDPOINT = "http://54.180.123.137/";
 
@@ -41,6 +42,25 @@ export interface SignUpParams {
   birth_date: string | null;
 }
 
+export interface PostResponse {
+  pk: number;
+  field: string;
+  writer: {
+    pk: number;
+    email: string;
+    username: string;
+    birth_date: string;
+    created_at: string;
+    last_login: string;
+  };
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  accepted_answer: number;
+  tags: string;
+}
+
 export interface PostParams {
   field: string;
   title: string;
@@ -53,7 +73,7 @@ const api = {
   signIn: async (params: SignInParams) => await axios.post<UserTokenResponse>("/auth/signin/", params),
   signOut: async (params: SignOutParams) => await axios.post<SuccessResponse>("/auth/signout/", params),
   signUp: async (params: SignUpParams) => await axios.post<UserTokenResponse>("/auth/signup/", params),
-  createPost: async (params: PostParams) => await axios.post<UserTokenResponse>("/qna/posts", params)
+  createPost: async (params: PostParams) => await axios.post<PostResponse>("/qna/posts", params)
 };
 
 export default api;

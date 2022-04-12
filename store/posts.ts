@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api, { PostParams, UserTokenResponse } from "../api";
+import api, { PostParams, PostResponse } from "../api";
 
 interface UserState {
-  data: UserTokenResponse | null;
+  data: PostResponse | null;
 }
 
 // 액션타입을 넣어주면 액션생성함수를 반환
