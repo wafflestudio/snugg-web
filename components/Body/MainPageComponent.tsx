@@ -1,14 +1,18 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from "../../styles/MainPage.module.scss";
 import PreviewComponent from "../Reused/PreviewComponent";
-const MainPage = () => {
+import { Post } from "../../api";
+
+interface Props {
+  posts: Post[];
+}
+const MainPage: FunctionComponent<Props> = ({posts}) => {
   return (
     <div className={styles.mainPage}>
       <div className={styles.mainHeader}>최근 질문</div>
-      {/*배열로 렌더링해야되는 부분*/}
-      <PreviewComponent /> {/*제목, 내용등이 인자로 들어가야됨.*/}
-      <PreviewComponent />
-      <PreviewComponent />
+      {posts.map((post) => (
+        <PreviewComponent key={post.pk} post={post} />
+      ))}
     </div>
   );
 };

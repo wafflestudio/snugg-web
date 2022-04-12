@@ -2,8 +2,12 @@ import axios from "axios";
 
 export const API_ENDPOINT = "http://54.180.123.137/";
 
+const isProduction = process.env.NODE_ENV === "production";
+const isServer = typeof window === "undefined";
+
+// 서버에서 api를 요청하는 경우 백엔드로 바로 요청
 axios.defaults.baseURL =
-  process.env.NODE_ENV === "production" ? API_ENDPOINT : "/api/";
+  isProduction || isServer ? API_ENDPOINT : "/api/";
 
 export interface User {
   pk: number;

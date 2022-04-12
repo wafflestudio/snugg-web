@@ -6,7 +6,7 @@ interface UserState {
 }
 
 export const signIn = createAsyncThunk(
-  "users/signIn",
+  "signIn",
   async (params: SignInParams) => {
     const res = await api.signIn(params);
     return res.data;
@@ -14,7 +14,7 @@ export const signIn = createAsyncThunk(
 );
 
 export const signUp = createAsyncThunk(
-  "users/signUp",
+  "signUp",
   async (params: SignUpParams) => {
     const res = await api.signUp(params);
     return res.data;
@@ -22,7 +22,7 @@ export const signUp = createAsyncThunk(
 );
 
 export const signOut = createAsyncThunk<void, any, { state: UserState }>(
-  "users/signOut",
+  "signOut",
   async (_payload, { getState }) => {
     const data = getState().data;
     if (!data) throw new Error("토큰이 없어 로그아웃할 수 없습니다");
