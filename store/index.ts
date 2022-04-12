@@ -6,6 +6,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 const rootReducer = combineReducers({
   users: usersReducer,
 });
+
 type RootState = ReturnType<typeof rootReducer>;
 
 const hydratedReducer: Reducer<RootState> = (state, action) => {
