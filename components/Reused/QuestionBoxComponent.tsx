@@ -1,6 +1,9 @@
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 import styles from "../../styles/QuestionAnswerBoxComponent.module.scss";
 import LoremIpsum from "react-lorem-ipsum";
@@ -14,6 +17,13 @@ const QuestionBoxComponent = (props: Props) => {
         <QuestionMarkIcon className={styles.questionMarkIcon} />
         <div>제목을 입력하세요</div>
       </div>
+      <div className={styles.previewHeader1}>
+        <span className={styles.previewHeader1Text}>전공분야</span>
+        <div className={`${styles.previewHeaderTag} ${styles.bg1}`}>#태그1</div>
+        <div className={`${styles.previewHeaderTag} ${styles.bg2}`}>#태그2</div>
+        <div className={`${styles.previewHeaderTag} ${styles.bg3}`}>#태그3</div>
+        <MoreHorizIcon className={styles.moreTags} />
+      </div>
       <div className={styles.questionText}>
         <LoremIpsum p={2} />
       </div>
@@ -23,9 +33,19 @@ const QuestionBoxComponent = (props: Props) => {
           <div className={styles.questionUser}>user 님의 질문</div>
           <div className={styles.questionTime}>2022.02.28</div>
         </div>
-        <div className={styles.questionComment}>
-          <ChatBubbleIcon className={styles.chatBubbleIcon} />
-          <div>댓글쓰기</div>
+        <div className={styles.questionButtons}>
+          <div className={styles.questionButton}>
+            <EditIcon className={styles.questionButtonIcon} />
+            <div>수정하기</div>
+          </div>
+          <div className={styles.questionButton}>
+            <DeleteIcon className={styles.questionButtonIcon} />
+            <div>삭제하기</div>
+          </div>
+          <div className={styles.questionButton}>
+            <ChatBubbleIcon className={styles.questionButtonIcon} />
+            <div>댓글쓰기</div>
+          </div>
         </div>
       </div>
     </div>
