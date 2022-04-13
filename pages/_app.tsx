@@ -26,6 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       );
 
     case "QuestionPage":
+    case "QuestionEditPage":
     case "UnAuthPage":
       return (
         <ThemeProvider theme={theme}>

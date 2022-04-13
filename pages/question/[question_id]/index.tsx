@@ -1,9 +1,9 @@
 import { GetServerSideProps, NextPage } from "next";
 
-import styles from "../../styles/QuestionAnswerPage.module.scss";
-import QuestionBoxComponent from "../../components/Reused/QuestionBoxComponent";
-import AnswerBoxComponent from "../../components/Reused/AnswerBoxComponent";
-import { queryToString } from "../../utility";
+import styles from "../../../styles/QuestionAnswerPage.module.scss";
+import QuestionBoxComponent from "../../../components/Reused/QuestionBoxComponent";
+import AnswerBoxComponent from "../../../components/Reused/AnswerBoxComponent";
+import { queryToString } from "../../../utility";
 
 interface Props {
   questionId: number;
