@@ -69,11 +69,17 @@ export interface PostParams {
   tags: string[];
 }
 
+export interface PostId {
+  id: number;
+}
+
 const api = {
   signIn: async (params: SignInParams) => await axios.post<UserTokenResponse>("/auth/signin/", params),
   signOut: async (params: SignOutParams) => await axios.post<SuccessResponse>("/auth/signout/", params),
   signUp: async (params: SignUpParams) => await axios.post<UserTokenResponse>("/auth/signup/", params),
-  createPost: async (params: PostParams) => await axios.post<PostResponse>("/qna/posts", params)
+  createPost: async (params: PostParams) => await axios.post<PostResponse>("/qna/posts", params),
+  updatePost: async (id: PostId, params: PostParams) => await axios.put<PostResponse>(`/qna/posts/${id}`, params),
+  partialUpdatePost: async (id: PostId, params: PostParams) => await axios.patch<PostResponse>(`/qna/posts/${id}`, params)
 };
 
 export default api;
