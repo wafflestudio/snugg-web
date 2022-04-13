@@ -4,15 +4,20 @@ import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import HelpIcon from "@mui/icons-material/Help";
 
 import styles from "../../../styles/QuestionPage.module.scss";
-import { Select, FormControl, MenuItem, Chip, Input, SelectChangeEvent } from "@mui/material";
+import { Select, MenuItem, Chip, Input, SelectChangeEvent } from "@mui/material";
 import TextEditor from "../../../components/Reused/TextEditor";
 import React, { useState } from "react";
-import { createPost } from "../../../store/posts";
+import { updatePost } from "../../../store/posts";
 import { useAppDispatch } from "../../../store";
+import { useRouter } from "next/router";
+import { PostId } from "../../../api";
 
 interface Props {}
 
 const QuestionEditPage: NextPage<Props> = () => {
+  const { query } = useRouter();
+  const postId = query.question_id;
+
   const [field, setField] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -27,17 +32,18 @@ const QuestionEditPage: NextPage<Props> = () => {
   };
 
   const dispatch = useAppDispatch();
-  const handleCreatePost = (field: string, title: string, content: string, accepted_answer: number, tags: string[]) => {
-    dispatch(createPost({ field, title, content, accepted_answer, tags }))
+  const handleUpdatePost = (id: PostId, field: string, title: string, content: string, accepted_answer: number, tags: string[]) => {
+    const params = { field, title, content, accepted_answer, tags };
+    dispatch(updatePost({ id, params }))
       .then((action) => {
-        if (createPost.fulfilled.match(action)) {
-          alert("질문 등록 완료");
-        } else if (createPost.rejected.match(action)) {
-          alert("질문 등록 실패");
+        if (updatePost.fulfilled.match(action)) {
+          alert("질문 수정 완료");
+        } else if (updatePost.rejected.match(action)) {
+          alert("질문 수정 실패");
         }
       })
       .catch((reason) => {
-        alert(`질문 등록 실패 ${reason}`);
+        alert(`질문 수정 실패 ${reason}`);
       });
     console.log(field, title, content, accepted_answer, tags);
   };
@@ -59,7 +65,9 @@ const QuestionEditPage: NextPage<Props> = () => {
           className={styles.button}
           onClick={(e) => {
             e.preventDefault;
-            handleCreatePost(field, title, content, 0, tags);
+            if (typeof postId == "number") {
+              handleUpdatePost(postId, field, title, content, 0, tags);
+            }
           }}
         >
           질문 등록하기
