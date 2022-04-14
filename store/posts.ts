@@ -10,9 +10,14 @@ interface PostIdParams {
   params: PostParams;
 }
 
+interface PostTokenParams {
+  params: PostParams;
+  token: string;
+}
+
 // 액션타입을 넣어주면 액션생성함수를 반환
-export const createPost = createAsyncThunk("posts/createPost", async (params: PostParams) => {
-  const res = await api.createPost(params);
+export const createPost = createAsyncThunk("posts/createPost", async ({ params, token }: PostTokenParams) => {
+  const res = await api.createPost(params, token);
   return res.data;
 });
 

@@ -9,6 +9,8 @@ import TextEditor from "../../components/Reused/TextEditor";
 import React, { useState } from "react";
 import { createPost } from "../../store/posts";
 import { useAppDispatch } from "../../store";
+import { createStore } from "redux";
+import users, { signIn } from "../../store/users";
 
 interface Props {}
 
@@ -26,9 +28,13 @@ const QuestionPage: NextPage<Props> = () => {
     }
   };
 
+  const store = createStore(users);
+  const token = store.getState().data?.token.refresh;
+
   const dispatch = useAppDispatch();
-  const handleCreatePost = (field: string, title: string, content: string, accepted_answer: number, tags: string[]) => {
-    dispatch(createPost({ field, title, content, accepted_answer, tags }))
+  const handleCreatePost = (field: string, title: string, content: string, accepted_answer: number, tags: string[], token: string) => {
+    const params = { field, title, content, accepted_answer, tags };
+    dispatch(createPost({ params, token }))
       .then((action) => {
         if (createPost.fulfilled.match(action)) {
           alert("질문 등록 완료");
@@ -59,7 +65,11 @@ const QuestionPage: NextPage<Props> = () => {
           className={styles.button}
           onClick={(e) => {
             e.preventDefault;
-            handleCreatePost(field, title, content, 0, tags);
+            if (token !== undefined) {
+              handleCreatePost(field, title, content, 0, tags, token);
+            } else {
+              alert("로그인하세요.");
+            }
           }}
         >
           질문 등록하기
