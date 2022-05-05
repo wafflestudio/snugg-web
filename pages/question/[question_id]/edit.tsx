@@ -3,18 +3,21 @@ import { NextPage } from "next";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import HelpIcon from "@mui/icons-material/Help";
 
-import styles from "../../styles/QuestionPage.module.scss";
-import { Select, FormControl, MenuItem, Chip, Input, SelectChangeEvent } from "@mui/material";
-import TextEditor from "../../components/Reused/TextEditor";
+import styles from "../../../styles/QuestionPage.module.scss";
+import { Select, MenuItem, Chip, Input, SelectChangeEvent } from "@mui/material";
+import TextEditor from "../../../components/Reused/TextEditor";
 import React, { useState } from "react";
-import { createPost } from "../../store/posts";
-import { useAppDispatch } from "../../store";
-import { createStore } from "redux";
-import users, { signIn } from "../../store/users";
+import { updatePost } from "../../../store/posts";
+import { useAppDispatch } from "../../../store";
+import { useRouter } from "next/router";
+import { PostId } from "../../../api";
 
 interface Props {}
 
-const QuestionPage: NextPage<Props> = () => {
+const QuestionEditPage: NextPage<Props> = () => {
+  const { query } = useRouter();
+  const postId = query.question_id;
+
   const [field, setField] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -28,22 +31,19 @@ const QuestionPage: NextPage<Props> = () => {
     }
   };
 
-  const store = createStore(users);
-  const token = store.getState().data?.token.refresh;
-
   const dispatch = useAppDispatch();
-  const handleCreatePost = (field: string, title: string, content: string, accepted_answer: number, tags: string[], token: string) => {
+  const handleUpdatePost = (id: PostId, field: string, title: string, content: string, accepted_answer: number, tags: string[]) => {
     const params = { field, title, content, accepted_answer, tags };
-    dispatch(createPost({ params, token }))
+    dispatch(updatePost({ id, params }))
       .then((action) => {
-        if (createPost.fulfilled.match(action)) {
-          alert("질문 등록 완료");
-        } else if (createPost.rejected.match(action)) {
-          alert("질문 등록 실패");
+        if (updatePost.fulfilled.match(action)) {
+          alert("질문 수정 완료");
+        } else if (updatePost.rejected.match(action)) {
+          alert("질문 수정 실패");
         }
       })
       .catch((reason) => {
-        alert(`질문 등록 실패 ${reason}`);
+        alert(`질문 수정 실패 ${reason}`);
       });
     console.log(field, title, content, accepted_answer, tags);
   };
@@ -65,10 +65,8 @@ const QuestionPage: NextPage<Props> = () => {
           className={styles.button}
           onClick={(e) => {
             e.preventDefault;
-            if (token !== undefined) {
-              handleCreatePost(field, title, content, 0, tags, token);
-            } else {
-              alert("로그인하세요.");
+            if (typeof postId == "number") {
+              handleUpdatePost(postId, field, title, content, 0, tags);
             }
           }}
         >
@@ -108,6 +106,6 @@ const QuestionPage: NextPage<Props> = () => {
   );
 };
 
-QuestionPage.displayName = "QuestionPage";
+QuestionEditPage.displayName = "QuestionEditPage";
 
-export default QuestionPage;
+export default QuestionEditPage;

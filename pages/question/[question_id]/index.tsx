@@ -1,11 +1,11 @@
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
-import styles from "../../styles/QuestionAnswerPage.module.scss";
-import QuestionBoxComponent from "../../components/Reused/QuestionBoxComponent";
-import AnswerBoxComponent from "../../components/Reused/AnswerBoxComponent";
-import { queryToString } from "../../utility";
+import styles from "../../../styles/QuestionAnswerPage.module.scss";
+import QuestionBoxComponent from "../../../components/Reused/QuestionBoxComponent";
+import AnswerBoxComponent from "../../../components/Reused/AnswerBoxComponent";
+import { queryToString } from "../../../utility";
 import { useEffect, useState } from "react";
-import { QuestionResponse } from "../../api";
-import api from "../../api";
+import { QuestionResponse } from "../../../api";
+import api from "../../../api";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/router";
 interface Props {
@@ -53,7 +53,6 @@ export default QuestionAnswerPage;
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-
   const response = await axios.get(
     `http://54.180.123.137/qna/posts/${queryToString(
       context.params?.question_id

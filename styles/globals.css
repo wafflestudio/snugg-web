@@ -19,3 +19,7 @@ a {
   --color-button1-background: #ea910c;
   --color-button1-foreground: #ffffff;
 }
+
+.ProseMirror:focus {
+  outline: none;
+}
