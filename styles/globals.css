@@ -20,7 +20,6 @@ a {
   --color-button1-foreground: #ffffff;
 }
 
-/* 텍스트에디터 css */
 .ProseMirror:focus {
   outline: none;
 }

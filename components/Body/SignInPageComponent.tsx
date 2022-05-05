@@ -6,17 +6,13 @@ import {
   PageItem,
 } from "../Reused/BookShapeComponent";
 import styles from "../../styles/SignInPage.module.scss";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
 import { EmailOutlined, LockOutlined } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import Divider from "@mui/material/Divider";
+import { Button, OutlinedInput, InputAdornment, Divider, Link } from "@mui/material";
 import GoogleLogin from "react-google-login";
 import Image from "next/image";
 import KakaoLogin from "../../public/images/kakaoLogin.png";
 import NaverLogin from "../../public/images/naverLogin.png";
 import NextLink from "next/link";
-import Link from "@mui/material/Link";
 
 interface Props {
   onFormSubmit: (email: string, password: string) => void;

@@ -1,6 +1,6 @@
 @import "Font";
 .container {
-  background-color: #E5E3C9;
+  background-color: #e5e3c9;
   position: absolute;
   left: 0;
   right: 0;
@@ -29,9 +29,8 @@
     padding: 30px;
   }
 
-
   &.left {
-    background: #588A69;
+    background: #588a69;
     border-radius: 0 100px 100px 0;
 
     .pageItem {
@@ -70,7 +69,7 @@
   }
 
   &.right {
-    background: #B9F1CCB2;
+    background: #b9f1ccb2;
     border-radius: 100px 0 0 100px;
 
     .logoContainer {
