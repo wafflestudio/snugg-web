@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^1.8.0",
     "axios": "^0.26.1",
     "hangul-js": "^0.2.6",
+    "moment": "^2.29.2",
     "next": "12.1.0",
     "next-http-proxy-middleware": "^1.2.4",
     "next-redux-wrapper": "^7.0.5",
@@ -26,6 +27,7 @@
     "react-google-login": "^5.2.2",
     "react-kakao-login": "^2.1.0",
     "react-lorem-ipsum": "^1.4.10",
+    "react-moment": "^1.1.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "sass": "^1.49.9"
