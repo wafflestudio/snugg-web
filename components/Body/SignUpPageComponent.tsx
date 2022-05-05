@@ -19,8 +19,8 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
+  InputAdornment,
 } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
 import {
   AccountCircleRounded,
   EmailOutlined,

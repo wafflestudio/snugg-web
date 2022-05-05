@@ -7,7 +7,7 @@ interface Props {
   userId: number;
 }
 
-const ProfilePage: NextPage<Props> = ({userId}) => {
+const ProfilePage: NextPage<Props> = ({ userId }) => {
   return <ProfileComponent id={userId} />;
 };
 ProfilePage.displayName = "ProfileComponent";

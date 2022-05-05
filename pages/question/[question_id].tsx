@@ -53,6 +53,7 @@ export default QuestionAnswerPage;
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
+
   const response = await axios.get(
     `http://54.180.123.137/qna/posts/${queryToString(
       context.params?.question_id
@@ -63,6 +64,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   return {
     props: {
       questionData: response.data,
+
       questionId: Number(queryToString(context.params?.question_id)),
     },
   };
