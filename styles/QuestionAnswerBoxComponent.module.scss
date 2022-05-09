@@ -1,4 +1,5 @@
 @import "Font";
+@import "Preview.module.scss";
 
 .questionBox {
   width: 1075px;
@@ -25,6 +26,12 @@
       @include NanumGothicBold;
       line-height: 40px;
     }
+  }
+
+  .moreTags {
+    width: 25px;
+    height: 25px;
+    color: #588a69;
   }
 
   .questionText {
@@ -70,21 +77,26 @@
       }
     }
 
-    .questionComment {
+    .questionButtons {
       display: flex;
-      align-items: center;
 
-      .chatBubbleIcon {
-        color: #588a69;
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-      }
+      .questionButton {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
 
-      div {
-        font-size: 15px;
-        @include NanumGothicRegular;
-        line-height: 25px;
+        .questionButtonIcon {
+          color: #588a69;
+          width: 20px;
+          height: 20px;
+          margin-right: 2px;
+        }
+
+        div {
+          font-size: 15px;
+          @include NanumGothicRegular;
+          line-height: 25px;
+        }
       }
     }
   }

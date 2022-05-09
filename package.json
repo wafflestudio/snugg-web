@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
@@ -14,8 +15,13 @@
     "@mui/icons-material": "^5.5.1",
     "@mui/material": "^5.4.4",
     "@reduxjs/toolkit": "^1.8.0",
+    "@tiptap/extension-highlight": "^2.0.0-beta.33",
+    "@tiptap/extension-text-align": "^2.0.0-beta.29",
+    "@tiptap/react": "^2.0.0-beta.108",
+    "@tiptap/starter-kit": "^2.0.0-beta.183",
     "axios": "^0.26.1",
     "hangul-js": "^0.2.6",
+    "moment": "^2.29.2",
     "next": "12.1.0",
     "next-http-proxy-middleware": "^1.2.4",
     "next-redux-wrapper": "^7.0.5",
@@ -25,13 +31,16 @@
     "react-google-login": "^5.2.2",
     "react-kakao-login": "^2.1.0",
     "react-lorem-ipsum": "^1.4.10",
+    "react-moment": "^1.1.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "sass": "^1.49.9"
   },
   "devDependencies": {
+    "@mui/codemod": "^5.6.0",
     "@types/node": "17.0.21",
     "@types/react": "17.0.39",
+    "babel-plugin-import": "^1.13.3",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "prettier": "^2.5.1",

@@ -1,4 +1,4 @@
-@import 'Font';
+@import "Font";
 $side-width: 300px;
 $header-height: 100px;
 
@@ -33,7 +33,6 @@ $header-height: 100px;
   padding-right: 28px;
 }
 .pageSideBar {
-
   width: $side-width;
 
   padding-top: 18px;
@@ -51,6 +50,3 @@ $header-height: 100px;
     @include NanumGothicBold;
   }
 }
-
-
-

@@ -10,21 +10,21 @@
   border: none;
   @include NanumGothicRegular;
   line-height: 21px;
-  background-color: #E5E3C9;
+  background-color: #e5e3c9;
   .tagName {
     font-size: 20px;
     line-height: 27px;
     display: flex;
     align-items: center;
     text-align: center;
-    color: #35523F;
+    color: #35523f;
   }
   .tagContents {
     width: 190px;
     height: 90px;
     font-size: 11px;
     line-height: 15px;
-    color: #588A69;
+    color: #588a69;
   }
   .tagCount {
     font-size: 11px;

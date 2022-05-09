@@ -34,28 +34,28 @@
       height: 40px;
     }
 
-    input {
+    .titleInput {
       width: 1024px;
       height: 47px;
+      line-height: 47px;
       padding-left: 10px;
       color: #588a69;
       font-size: 20px;
       @include NanumGothicBold;
-      line-height: 47px;
       border: 1px solid #588a69;
       border-radius: 5px;
     }
   }
 
-  .questionBox {
-    width: 1075px;
-    height: 600px;
-    border: 1px solid #588a69;
-    border-radius: 5px;
-    font-size: 15px;
-    @include NanumGothicRegular;
-    margin: 0px auto 0px auto;
-  }
+  // .questionBox {
+  //   width: 1075px;
+  //   height: 600px;
+  //   border: 1px solid #588a69;
+  //   border-radius: 5px;
+  //   font-size: 15px;
+  //   @include NanumGothicRegular;
+  //   margin: 0px auto 0px auto;
+  // }
 
   .button {
     width: 150px;
@@ -97,14 +97,27 @@
     width: 245px;
     margin: 0px auto 20px auto;
 
-    input {
+    .tagList {
       width: 245px;
-      height: 150px;
+      height: fit-content;
+
+      .chip {
+        height: 30px;
+        margin: 5px 5px 0px 0px;
+        font-size: 15px;
+        border: 1px solid #588a69;
+        border-radius: 5px;
+      }
+    }
+
+    .tagInput {
+      width: 245px;
+      height: 35px;
       border: 1px solid #588a69;
       border-radius: 5px;
       font-size: 15px;
-      @include NanumGothicRegular;
-      padding-left: 5px;
+      padding-left: 10px;
+      margin-bottom: 5px;
     }
   }
 

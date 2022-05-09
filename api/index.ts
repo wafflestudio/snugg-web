@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LargeNumberLike } from "crypto";
 
 export const API_ENDPOINT = "http://54.180.123.137/";
 
@@ -22,6 +23,25 @@ export interface UserTokenResponse {
   };
 }
 
+export interface QuestionResponse {
+  pk: number;
+  field: string;
+  writer: {
+    pk: number;
+    email: string;
+    username: string;
+    birth_date: string;
+    created_at: string;
+    last_login: string;
+  };
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  accepted_answer: number;
+  tags: string;
+}
+
 interface SuccessResponse {
   success: true;
 }
@@ -42,6 +62,45 @@ export interface SignUpParams {
   birth_date: string | null;
 }
 
+export interface QuestionGetParams {
+  id: number;
+}
+
+export interface QuestionDeleteParams {
+  id: number;
+}
+
+export interface PostResponse {
+  pk: number;
+  field: string;
+  writer: {
+    pk: number;
+    email: string;
+    username: string;
+    birth_date: string;
+    created_at: string;
+    last_login: string;
+  };
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  accepted_answer: number;
+  tags: string;
+}
+
+export interface PostParams {
+  field: string;
+  title: string;
+  content: string;
+  accepted_answer: number;
+  tags: string[];
+}
+
+export interface PostId {
+  id: number;
+}
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -49,6 +108,20 @@ const api = {
     await axios.post<SuccessResponse>("/auth/signout/", params),
   signUp: async (params: SignUpParams) =>
     await axios.post<UserTokenResponse>("/auth/signup/", params),
+  questionGet: async (params: QuestionGetParams) =>
+    await axios.get<QuestionResponse>(`/qna/posts/${params.id}`),
+  questionDelete: async (params: QuestionDeleteParams) =>
+    await axios.delete<QuestionResponse>(`/qna/posts/${params.id}`),
+  createPost: async (params: PostParams, token: string) =>
+    await axios.post<PostResponse>("/qna/posts", params, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  updatePost: async (id: PostId, params: PostParams) =>
+    await axios.put<PostResponse>(`/qna/posts/${id}`, params),
+  partialUpdatePost: async (id: PostId, params: PostParams) =>
+    await axios.patch<PostResponse>(`/qna/posts/${id}`, params),
 };
 
 export default api;
