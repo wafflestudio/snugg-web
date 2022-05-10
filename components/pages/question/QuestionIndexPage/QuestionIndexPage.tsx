@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../../styles/MainPage.module.scss";
-import PreviewComponent from "../reused/PreviewComponent";
-const MainPage = () => {
+import styles from "../styles/QuestionIndexPage.module.scss";
+import PreviewComponent from "../../../reused/PreviewComponent";
+const QuestionIndexPage = () => {
   return (
     <div className={styles.mainPage}>
       <div className={styles.mainHeader}>최근 질문</div>
@@ -13,4 +13,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default QuestionIndexPage;

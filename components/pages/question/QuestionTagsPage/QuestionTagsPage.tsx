@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "../../styles/TagsPageComponent.module.scss";
+import styles from "../QuestionTagsPage.module.scss";
 import { Button, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import TagBoxComponent from "../reused/TagBoxComponent";
+import TagBoxComponent from "../../../reused/TagBoxComponent";
 
-const TagsPageComponent = () => {
+const QuestionTagsPage = () => {
   const a = [];
   for (let i = 0; i < 100; i++) {
     a.push(<TagBoxComponent />);
@@ -40,4 +40,4 @@ const TagsPageComponent = () => {
   );
 };
 
-export default TagsPageComponent;
+export default QuestionTagsPage;
