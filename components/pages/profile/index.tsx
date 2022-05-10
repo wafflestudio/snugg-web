@@ -1,17 +1,17 @@
 import React from "react";
-import styles from "../../styles/Profile.module.scss";
+import styles from "./styles.module.scss";
 import Image from "next/image";
-import testImg from "../../Image/magnifier.svg";
-import EditIcon from "../../Image/edit_icon_151377.svg";
-import TagStatBoxComponent from "../reused/TagStatBoxComponent";
-import SimplifiedPreviewComponent from "../reused/SimplifiedPreviewComponent";
-import PlusIcon from "../../Image/plus.svg";
+import testImg from "../../../Image/magnifier.svg";
+import EditIcon from "../../../Image/edit_icon_151377.svg";
+import TagStatBoxComponent from "../../reused/TagStatBoxComponent";
+import SimplifiedPreviewComponent from "../../reused/SimplifiedPreviewComponent";
+import PlusIcon from "../../../Image/plus.svg";
 
 interface props {
   id: number;
 }
 
-const ProfileComponent = (props: props) => {
+const ProfilePage = (props: props) => {
   return (
     <div className={styles.profile}>
       <div className={styles.profileLeft}>
@@ -137,4 +137,4 @@ const ProfileComponent = (props: props) => {
   );
 };
 
-export default ProfileComponent;
+export default ProfilePage;

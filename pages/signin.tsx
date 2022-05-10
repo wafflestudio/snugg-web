@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useEffect } from "react";
-import { SignInPage } from "../components/legacy_pages/SignInPageComponent";
+import { SignInPage } from "../components/pages/root/SignInPage";
 import { signIn } from "../store/users";
 import { useAppDispatch, useAppSelector } from "../store";
 

@@ -4,14 +4,20 @@ import {
   bottomTextStyle,
   inputStyle,
   PageItem,
-} from "../reused/BookShapeComponent";
-import styles from "../../styles/SignInPage.module.scss";
+} from "../../../reused/BookShapeComponent";
+import styles from "./styles.module.scss";
 import { EmailOutlined, LockOutlined } from "@mui/icons-material";
-import { Button, OutlinedInput, InputAdornment, Divider, Link } from "@mui/material";
+import {
+  Button,
+  OutlinedInput,
+  InputAdornment,
+  Divider,
+  Link,
+} from "@mui/material";
 import GoogleLogin from "react-google-login";
 import Image from "next/image";
-import KakaoLogin from "../../public/images/kakaoLogin.png";
-import NaverLogin from "../../public/images/naverLogin.png";
+import KakaoLogin from "../../../../public/images/kakaoLogin.png";
+import NaverLogin from "../../../../public/images/naverLogin.png";
 import NextLink from "next/link";
 
 interface Props {

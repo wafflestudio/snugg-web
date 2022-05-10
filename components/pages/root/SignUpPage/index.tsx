@@ -9,8 +9,8 @@ import {
   bottomTextStyle,
   inputStyle,
   PageItem,
-} from "../reused/BookShapeComponent";
-import styles from "../../styles/SignupPage.module.scss";
+} from "../../../reused/BookShapeComponent";
+import styles from "./styles.module.scss";
 import {
   Button,
   FormControl,
