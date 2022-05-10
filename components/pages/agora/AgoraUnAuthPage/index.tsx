@@ -1,11 +1,11 @@
 import { FunctionComponent } from "react";
-import styles from "../../styles/UnAuthPage.module.scss";
+import styles from "./styles.module.scss";
 import { Button } from "@mui/material";
 import NextLink from "next/link";
 
 interface Props {}
 
-export const UnAuthPage: FunctionComponent<Props> = () => {
+export const AgoraUnAuthPage: FunctionComponent<Props> = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>

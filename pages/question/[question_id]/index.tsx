@@ -1,54 +1,19 @@
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
-import styles from "../../../styles/QuestionAnswerPage.module.scss";
-import QuestionBoxComponent from "../../../components/reused/QuestionBoxComponent";
-import AnswerBoxComponent from "../../../components/reused/AnswerBoxComponent";
 import { queryToString } from "../../../utility";
-import { useEffect, useState } from "react";
 import { QuestionResponse } from "../../../api";
-import api from "../../../api";
-import axios, { AxiosError } from "axios";
-import { useRouter } from "next/router";
+import axios from "axios";
+import QuestionViewPage from "../../../components/pages/question/QuestionViewPage/QuestionViewPage";
+import QuestionIndexPage from "../../../components/pages/question/QuestionIndexPage/QuestionIndexPage";
 interface Props {
   questionId: number;
   questionData: QuestionResponse;
 }
 
-const QuestionAnswerPage: NextPage<Props> = (Props: Props) => {
-  const router = useRouter();
-  const onDeleteQuestion = async () => {
-    try {
-      const response = await api.questionDelete({ id: Props.questionId });
-      console.log(response);
-      router.push("/question");
-    } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
-      window.alert(err.response?.data.detail);
-    }
-  };
-
-  useEffect(() => {
-    console.log(Props.questionData);
-  }, []);
-
-  return (
-    <div className={styles.mainContainer}>
-      <QuestionBoxComponent
-        onDeleteQuestion={onDeleteQuestion}
-        questionData={Props.questionData}
-      />
-      <div className={styles.answerCount}>N개의 답변</div>
-      <AnswerBoxComponent />
-      <div className={styles.answerWriter}>
-        <div>답변 작성하기</div>
-        <input />
-        <button>답변 등록하기</button>
-      </div>
-    </div>
-  );
+const QuestionViewPageContainer: NextPage<Props> = (Props: Props) => {
+  return <QuestionViewPage />;
 };
 
-export default QuestionAnswerPage;
+export default QuestionViewPageContainer;
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
