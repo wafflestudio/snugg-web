@@ -7,13 +7,12 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import styles from "../../../styles/AgoraPostPage.module.scss";
 import LoremIpsum from "react-lorem-ipsum";
 import { Divider, Input, OutlinedInput } from "@mui/material";
-import ClassPostComment from "../../../components/Reused/ClassPostComment";
+import ClassPostComment from "../../../components/reused/ClassPostComment";
 
 interface Props {
   className: string | null;
   postId: number;
 }
-
 const AgoraPostPage: NextPage<Props> = ({ className, postId }) => {
   return (
     <div className={styles.container}>

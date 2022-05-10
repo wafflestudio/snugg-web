@@ -3,8 +3,8 @@ import styles from "../../styles/Profile.module.scss";
 import Image from "next/image";
 import testImg from "../../Image/magnifier.svg";
 import EditIcon from "../../Image/edit_icon_151377.svg";
-import TagStatBoxComponent from "../Reused/TagStatBoxComponent";
-import SimplifiedPreviewComponent from "../Reused/SimplifiedPreviewComponent";
+import TagStatBoxComponent from "../reused/TagStatBoxComponent";
+import SimplifiedPreviewComponent from "../reused/SimplifiedPreviewComponent";
 import PlusIcon from "../../Image/plus.svg";
 
 interface props {

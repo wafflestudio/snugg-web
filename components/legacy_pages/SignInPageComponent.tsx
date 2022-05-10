@@ -4,7 +4,7 @@ import {
   bottomTextStyle,
   inputStyle,
   PageItem,
-} from "../Reused/BookShapeComponent";
+} from "../reused/BookShapeComponent";
 import styles from "../../styles/SignInPage.module.scss";
 import { EmailOutlined, LockOutlined } from "@mui/icons-material";
 import { Button, OutlinedInput, InputAdornment, Divider, Link } from "@mui/material";

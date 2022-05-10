@@ -1,7 +1,7 @@
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import styles from "../../../styles/QuestionAnswerPage.module.scss";
-import QuestionBoxComponent from "../../../components/Reused/QuestionBoxComponent";
-import AnswerBoxComponent from "../../../components/Reused/AnswerBoxComponent";
+import QuestionBoxComponent from "../../../components/reused/QuestionBoxComponent";
+import AnswerBoxComponent from "../../../components/reused/AnswerBoxComponent";
 import { queryToString } from "../../../utility";
 import { useEffect, useState } from "react";
 import { QuestionResponse } from "../../../api";

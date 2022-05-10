@@ -9,7 +9,7 @@ import {
   bottomTextStyle,
   inputStyle,
   PageItem,
-} from "../Reused/BookShapeComponent";
+} from "../reused/BookShapeComponent";
 import styles from "../../styles/SignupPage.module.scss";
 import {
   Button,

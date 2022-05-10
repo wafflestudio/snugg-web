@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import styles from "../../styles/SearchPage.module.scss";
-import PreviewComponent from "../../components/Reused/PreviewComponent";
+import PreviewComponent from "../../components/reused/PreviewComponent";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { queryToString } from "../../utility";
 

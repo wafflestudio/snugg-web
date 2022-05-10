@@ -5,7 +5,7 @@ import HelpIcon from "@mui/icons-material/Help";
 
 import styles from "../../../styles/QuestionPage.module.scss";
 import { Select, MenuItem, Chip, Input, SelectChangeEvent } from "@mui/material";
-import TextEditor from "../../../components/Reused/TextEditor";
+import TextEditor from "../../../components/reused/TextEditor";
 import React, { useState } from "react";
 import { updatePost } from "../../../store/posts";
 import { useAppDispatch } from "../../../store";

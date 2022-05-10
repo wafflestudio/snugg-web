@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../styles/TagsPageComponent.module.scss";
 import { Button, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import TagBoxComponent from "../Reused/TagBoxComponent";
+import TagBoxComponent from "../reused/TagBoxComponent";
 
 const TagsPageComponent = () => {
   const a = [];

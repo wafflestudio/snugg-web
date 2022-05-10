@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileComponent from "../../components/Body/ProfileComponent";
+import ProfileComponent from "../../components/legacy_pages/ProfileComponent";
 import { queryToString } from "../../utility";
 import { GetServerSideProps, NextPage } from "next";
 

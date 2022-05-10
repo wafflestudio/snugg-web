@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import { SignUpPage } from "../components/Body/SignUpPageComponent";
+import { SignUpPage } from "../components/legacy_pages/SignUpPageComponent";
 import { useAppDispatch } from "../store";
 import { signUp } from "../store/users";
 
