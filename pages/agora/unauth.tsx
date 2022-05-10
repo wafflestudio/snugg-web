@@ -1,10 +1,10 @@
 import { NextPage } from "next";
-import { UnAuthPage } from "../../components/legacy_pages/UnAuthPage";
+import { AgoraUnAuthPage } from "../../components/pages/agora/AgoraUnAuthPage";
 
 interface Props {}
 
 const UnAuthPageContainer: NextPage<Props> = () => {
-  return <UnAuthPage />;
+  return <AgoraUnAuthPage />;
 };
 
 UnAuthPageContainer.displayName = "UnAuthPage";
