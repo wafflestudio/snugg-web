@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { UnAuthPage } from "../../components/Body/UnAuthPage";
+import { UnAuthPage } from "../../components/legacy_pages/UnAuthPage";
 
 interface Props {}
 

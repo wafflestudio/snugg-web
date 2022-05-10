@@ -1,8 +1,8 @@
 import styles from "../../styles/OnlyHeaderLayout.module.scss";
 
 import React from "react";
-import Header1Component from "../Header/Header1Component";
-import Header2Component from "../Header/Header2Component";
+import Header1Component from "./Header1Component";
+import Header2Component from "./Header2Component";
 
 type props = {
   children: React.ReactNode;

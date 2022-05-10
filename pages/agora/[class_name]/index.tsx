@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../../utility";
 
 import styles from "../../../styles/AgoraListPage.module.scss";
-import ClassPostPreview from "../../../components/Reused/ClassPostPreview";
+import ClassPostPreview from "../../../components/reused/ClassPostPreview";
 import { MenuItem, Pagination, Select } from "@mui/material";
 
 interface Props {

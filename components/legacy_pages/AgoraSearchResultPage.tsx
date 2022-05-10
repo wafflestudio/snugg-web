@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "/styles/AgoraExplorePage.module.scss";
-import LectureInfo from "../Reused/LectureInfo";
+import LectureInfo from "../reused/LectureInfo";
 
 const AgoraSearchResultPage = () => {
   //검색 로직

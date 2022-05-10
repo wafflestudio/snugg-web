@@ -1,11 +1,11 @@
 import styles from "../../styles/LectureExploreLayout.module.scss";
 
 import React from "react";
-import Header1Component from "../Header/Header1Component";
-import Header2Component from "../Header/Header2Component";
-import SideComponent from "../Reused/SideComponent";
+import Header1Component from "./Header1Component";
+import Header2Component from "./Header2Component";
+import SideComponent from "./SideComponent";
 import { Divider } from "@mui/material";
-import MyLecture from "../Reused/MyLecture";
+import MyLecture from "./MyLecture";
 
 interface props {}
 const LectureExploreLayout: React.FC<props> = ({ children }) => {

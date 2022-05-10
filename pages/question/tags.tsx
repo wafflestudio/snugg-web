@@ -1,5 +1,5 @@
 import React from "react";
-import TagsPageComponent from "../../components/Body/TagsPageComponent";
+import TagsPageComponent from "../../components/legacy_pages/TagsPageComponent";
 
 const TagsPage = () => {
   return <TagsPageComponent />;

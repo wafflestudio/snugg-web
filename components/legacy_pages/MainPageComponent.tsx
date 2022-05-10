@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../styles/MainPage.module.scss";
-import PreviewComponent from "../Reused/PreviewComponent";
+import PreviewComponent from "../reused/PreviewComponent";
 const MainPage = () => {
   return (
     <div className={styles.mainPage}>
