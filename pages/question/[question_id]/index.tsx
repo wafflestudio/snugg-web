@@ -1,16 +1,16 @@
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../../utility";
 import { QuestionResponse } from "../../../api";
 import axios from "axios";
 import QuestionViewPage from "../../../components/pages/question/QuestionViewPage/QuestionViewPage";
-import QuestionIndexPage from "../../../components/pages/question/QuestionIndexPage/QuestionIndexPage";
+
 interface Props {
   questionId: number;
   questionData: QuestionResponse;
 }
 
 const QuestionViewPageContainer: NextPage<Props> = (Props: Props) => {
-  return <QuestionViewPage />;
+  return <QuestionViewPage  questionData={Props.questionData} questionId={Props.questionId}/>;
 };
 
 export default QuestionViewPageContainer;

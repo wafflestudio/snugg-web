@@ -4,7 +4,7 @@ import QuestionAskPage from "../../components/pages/question/QuestionAskPage/Que
 interface Props {}
 
 const QuestionAskPageContainer: NextPage<Props> = () => {
-  return <QuestionAskPageContainer />;
+  return <QuestionAskPage />;
 };
 
 // 고치기!

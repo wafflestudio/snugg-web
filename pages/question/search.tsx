@@ -6,8 +6,8 @@ interface Props {
   content: string | null;
 }
 
-const QuestionSearchPageContainer: NextPage<Props> = () => {
-  return <QuestionSearchPage content={content} />;
+const QuestionSearchPageContainer: NextPage<Props> = (props: Props) => {
+  return <QuestionSearchPage content={props.content} />;
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (

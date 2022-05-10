@@ -1,4 +1,4 @@
-import styles from "../SearchPage.module.scss";
+import styles from "./QuestionSearchPage.module.scss";
 import PreviewComponent from "../../../../components/reused/PreviewComponent";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
