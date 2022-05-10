@@ -1,4 +1,4 @@
-import styles from "../QuestionViewPage.module.scss";
+import styles from "./QuestionViewPage.module.scss";
 import QuestionBoxComponent from "../../../../components/reused/QuestionBoxComponent";
 import AnswerBoxComponent from "../../../../components/reused/AnswerBoxComponent";
 import { useEffect, useState } from "react";

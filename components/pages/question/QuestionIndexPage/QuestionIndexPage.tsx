@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/QuestionIndexPage.module.scss";
+import styles from "../QuestionIndexPage/QuestionIndexPage.module.scss";
 import PreviewComponent from "../../../reused/PreviewComponent";
 const QuestionIndexPage = () => {
   return (

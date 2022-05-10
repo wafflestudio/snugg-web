@@ -1,7 +1,7 @@
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import HelpIcon from "@mui/icons-material/Help";
 
-import styles from "../QuestionAskPage.module.scss";
+import styles from "./QuestionAskPage.module.scss";
 import {
   Select,
   MenuItem,
