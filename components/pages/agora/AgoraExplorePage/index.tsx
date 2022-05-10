@@ -1,25 +1,17 @@
 import React from "react";
-import styles from "/styles/AgoraExplorePage.module.scss";
-import LectureInfo from "../reused/LectureInfo";
+import styles from "./styles.module.scss";
+import LectureInfo from "../../../reused/LectureInfo";
+import { dummyLectures } from "../../../../utility";
 
-const AgoraExplorePage = () => {
-  const lectureInfo = {
-    courseName: "대학영어",
-    professor: "홍길동",
-    credits: 3,
-    courseCode: "L0441.000600 / 007",
-    studentNumber: 22,
-    grade: 3,
-    dept: "영어영문학과",
-    key: 1,
-  };
-  const lectureInfos = [];
-  for (let i = 0; i < 10; i++) {
-    lectureInfos.push({ ...lectureInfo, key: i });
-  }
+interface Props {
+  query: string | null;
+}
+
+const AgoraExplorePage = ({query}: Props) => {
+  const lectureInfos = dummyLectures();
   return (
     <div className={styles.page}>
-      <div className={styles.text}>인기 강의</div>
+      <div className={styles.text}>{query ? "검색 결과" : "인기 강의"}</div>
       {lectureInfos.map((lectureInfo) => (
         <LectureInfo
           courseCode={lectureInfo.courseCode}
