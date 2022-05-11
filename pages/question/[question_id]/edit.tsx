@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 
 import React from "react";
-import QuestionEditPage from "../../../components/pages/question/QuestionEditPage/QuestionEditPage";
+import QuestionEditPage from "../../../components/pages/question/QuestionEditPage";
 
 interface Props {}
 

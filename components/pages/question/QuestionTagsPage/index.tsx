@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./QuestionTagsPage.module.scss";
+import styles from "./styles.module.scss";
 import { Button, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TagBoxComponent from "../../../reused/TagBoxComponent";
