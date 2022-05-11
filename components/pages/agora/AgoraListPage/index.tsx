@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styles from "./styles.module.scss";
-import ClassPostPreview from "../../../reused/ClassPostPreview";
+import ClassPostPreview from "../../../reused/agora/ClassPostPreview";
 import { MenuItem, Pagination, Select } from "@mui/material";
 
 export interface Props {

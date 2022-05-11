@@ -1,10 +1,10 @@
 import { NextPage } from "next";
-import { AuthPage } from "../../components/legacy_pages/AuthPage";
+import { Index } from "../../components/pages/agora/AgoraAuthPage";
 
 interface Props {}
 
 const AuthPageContainer: NextPage<Props> = () => {
-  return <AuthPage />;
+  return <Index />;
 };
 
 export default AuthPageContainer;

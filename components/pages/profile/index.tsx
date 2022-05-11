@@ -3,8 +3,8 @@ import styles from "./styles.module.scss";
 import Image from "next/image";
 import testImg from "../../../Image/magnifier.svg";
 import EditIcon from "../../../Image/edit_icon_151377.svg";
-import TagStatBoxComponent from "../../reused/TagStatBoxComponent";
-import SimplifiedPreviewComponent from "../../reused/SimplifiedPreviewComponent";
+import TagStatBox from "../question/QuestionTagsPage/TagStatBox";
+import SimplifiedPreview from "../../reused/question/SimplifiedPreview";
 import PlusIcon from "../../../Image/plus.svg";
 
 interface props {
@@ -71,12 +71,12 @@ const ProfilePage = (props: props) => {
           </div>
           <div className={styles.profileStatBody}>
             <div className={styles.Boxes}>
-              <TagStatBoxComponent />
-              <TagStatBoxComponent />
+              <TagStatBox />
+              <TagStatBox />
             </div>
             <div className={styles.Boxes}>
-              <TagStatBoxComponent />
-              <TagStatBoxComponent />
+              <TagStatBox />
+              <TagStatBox />
             </div>
           </div>
         </div>
@@ -94,16 +94,16 @@ const ProfilePage = (props: props) => {
           </div>
           <div className={styles.profileQuestionsBody}>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent />
-              <SimplifiedPreviewComponent />
+              <SimplifiedPreview />
+              <SimplifiedPreview />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent />
-              <SimplifiedPreviewComponent />
+              <SimplifiedPreview />
+              <SimplifiedPreview />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent />
-              <SimplifiedPreviewComponent />
+              <SimplifiedPreview />
+              <SimplifiedPreview />
             </div>
           </div>
         </div>
@@ -119,16 +119,16 @@ const ProfilePage = (props: props) => {
           </div>
           <div className={styles.profileQuestionsBody}>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent />
-              <SimplifiedPreviewComponent />
+              <SimplifiedPreview />
+              <SimplifiedPreview />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent />
-              <SimplifiedPreviewComponent />
+              <SimplifiedPreview />
+              <SimplifiedPreview />
             </div>
             <div className={styles.Previews}>
-              <SimplifiedPreviewComponent />
-              <SimplifiedPreviewComponent />
+              <SimplifiedPreview />
+              <SimplifiedPreview />
             </div>
           </div>
         </div>

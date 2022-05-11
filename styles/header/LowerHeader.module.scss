@@ -1,0 +1,46 @@
+@import "styles/Font";
+@import "styles/Color";
+
+@mixin button_default {
+  width: 90px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  justify-content: center;
+  @include NanumGothicBold;
+  font-size: 20px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.header2 {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $light-grey;
+  padding-right: 30px;
+}
+.buttonGroup {
+  display: flex;
+}
+.button {
+  @include button_default;
+}
+.Selected {
+}
+.unSelected {
+}
+.question {
+  width: 120px;
+  height: 35px;
+  color: white;
+  background: $special-button;
+}

@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import LectureInfo from "../../../reused/LectureInfo";
+import LectureInfo from "../../../reused/agora/LectureInfo";
 import { dummyLectures } from "../../../../utility";
 
 interface Props {
   query: string | null;
 }
 
-const AgoraExplorePage = ({query}: Props) => {
+const AgoraExplorePage = ({ query }: Props) => {
   const lectureInfos = dummyLectures();
   return (
     <div className={styles.page}>

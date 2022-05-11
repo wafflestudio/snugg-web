@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import {
-  BookShapeComponent,
+  BookShape,
   bottomTextStyle,
   inputStyle,
   PageItem,
-} from "../../../reused/BookShapeComponent";
+} from "../../../reused/root/BookShape";
 import styles from "./styles.module.scss";
 import { EmailOutlined, LockOutlined } from "@mui/icons-material";
 import {
@@ -28,7 +28,7 @@ export const SignInPage: FC<Props> = ({ onFormSubmit }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
-    <BookShapeComponent>
+    <BookShape>
       <PageItem>
         <form
           className={styles.form}
@@ -106,6 +106,6 @@ export const SignInPage: FC<Props> = ({ onFormSubmit }) => {
           <Link>회원가입하기</Link>
         </NextLink>
       </div>
-    </BookShapeComponent>
+    </BookShape>
   );
 };
