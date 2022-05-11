@@ -1,12 +1,11 @@
-import styles from "./QuestionSearchPage.module.scss";
-import PreviewComponent from "../../../../components/reused/PreviewComponent";
+import styles from "./styles.module.scss";
+import PreviewComponent from "../../../reused/PreviewComponent";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 interface Props {
   content: string | null;
 }
 
-// 고치기!
 const QuestionSearchPage = (props: Props) => {
   const content = props;
 

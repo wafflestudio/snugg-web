@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../../utility";
 import { QuestionResponse } from "../../../api";
 import axios from "axios";
-import QuestionViewPage from "../../../components/pages/question/QuestionViewPage/QuestionViewPage";
+import QuestionViewPage from "../../../components/pages/question/QuestionViewPage";
 
 interface Props {
   questionId: number;
@@ -10,7 +10,12 @@ interface Props {
 }
 
 const QuestionViewPageContainer: NextPage<Props> = (Props: Props) => {
-  return <QuestionViewPage  questionData={Props.questionData} questionId={Props.questionId}/>;
+  return (
+    <QuestionViewPage
+      questionData={Props.questionData}
+      questionId={Props.questionId}
+    />
+  );
 };
 
 export default QuestionViewPageContainer;

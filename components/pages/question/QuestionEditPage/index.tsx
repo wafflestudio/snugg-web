@@ -1,7 +1,7 @@
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import HelpIcon from "@mui/icons-material/Help";
 
-import styles from "../QuestionViewPage/QuestionViewPage.module.scss";
+import styles from "../QuestionAskPage/styles.module.scss";
 import {
   Select,
   MenuItem,
@@ -9,7 +9,7 @@ import {
   Input,
   SelectChangeEvent,
 } from "@mui/material";
-import TextEditor from "../../../../components/reused/TextEditor";
+import TextEditor from "../../../reused/TextEditor";
 import React, { useState } from "react";
 import { updatePost } from "../../../../store/posts";
 import { useAppDispatch } from "../../../../store";

@@ -1,5 +1,5 @@
 import React from "react";
-import QuestionTagsPage from "../../components/pages/question/QuestionTagsPage/QuestionTagsPage";
+import QuestionTagsPage from "../../components/pages/question/QuestionTagsPage";
 
 const QuestionTagsPageContainer = () => {
   return <QuestionTagsPage />;

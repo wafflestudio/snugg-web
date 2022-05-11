@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import QuestionAskPage from "../../components/pages/question/QuestionAskPage/QuestionAskPage";
+import QuestionAskPage from "../../components/pages/question/QuestionAskPage";
 
 interface Props {}
 

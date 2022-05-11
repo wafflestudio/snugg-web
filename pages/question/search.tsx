@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../utility";
-import QuestionSearchPage from "../../components/pages/question/QuestionSearchPage/QuestionSearchPage";
+import QuestionSearchPage from "../../components/pages/question/QuestionSearchPage";
 
 interface Props {
   content: string | null;
