@@ -1,0 +1,16 @@
+@import "styles/Font";
+.TagStatBox {
+  width: 200px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid $main-color;
+  @include NanumGothicRegular;
+  font-size: 18px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  text-align: center;
+  color: #35523f;
+}

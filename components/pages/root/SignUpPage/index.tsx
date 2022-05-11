@@ -5,11 +5,11 @@ import React, {
   useState,
 } from "react";
 import {
-  BookShapeComponent,
+  BookShape,
   bottomTextStyle,
   inputStyle,
   PageItem,
-} from "../../../reused/BookShapeComponent";
+} from "../../../reused/root/BookShape";
 import styles from "./styles.module.scss";
 import {
   Button,
@@ -104,7 +104,7 @@ export function SignUpPage({
     }
   };
   return (
-    <BookShapeComponent>
+    <BookShape>
       <PageItem>
         <form className={styles.form} onSubmit={onSubmit}>
           <div className={styles.emailInputContainer}>
@@ -211,6 +211,6 @@ export function SignUpPage({
           <Link>로그인하기</Link>
         </NextLink>
       </div>
-    </BookShapeComponent>
+    </BookShape>
   );
 }

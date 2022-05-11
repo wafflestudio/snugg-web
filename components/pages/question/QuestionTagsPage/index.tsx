@@ -2,12 +2,12 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { Button, OutlinedInput, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import TagBoxComponent from "../../../reused/TagBoxComponent";
+import TagBox from "./TagBox";
 
 const QuestionTagsPage = () => {
   const a = [];
   for (let i = 0; i < 100; i++) {
-    a.push(<TagBoxComponent />);
+    a.push(<TagBox />);
   }
   return (
     <div className={styles.tagsPage}>

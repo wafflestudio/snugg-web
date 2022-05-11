@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
-import QuestionBoxComponent from "../../../reused/QuestionBoxComponent";
-import AnswerBoxComponent from "../../../reused/AnswerBoxComponent";
+import QuestionBox from "../../../reused/question/QuestionBox";
+import AnswerBox from "../../../reused/question/AnswerBox";
 import { useEffect, useState } from "react";
 import { QuestionResponse } from "../../../../api";
 import api from "../../../../api";
@@ -31,12 +31,12 @@ const QuestionViewPage = (Props: Props) => {
 
   return (
     <div className={styles.mainContainer}>
-      <QuestionBoxComponent
+      <QuestionBox
         onDeleteQuestion={onDeleteQuestion}
         questionData={Props.questionData}
       />
       <div className={styles.answerCount}>N개의 답변</div>
-      <AnswerBoxComponent />
+      <AnswerBox />
       <div className={styles.answerWriter}>
         <div>답변 작성하기</div>
         <input />

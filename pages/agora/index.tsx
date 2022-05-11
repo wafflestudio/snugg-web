@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../utility";
 import AgoraExplorePage from "../../components/pages/agora/AgoraExplorePage";
-import AgoraSearchHeader from "../../components/reused/AgoraSearchHeader";
+import AgoraSearchHeader from "../../components/reused/header/AgoraSearchHeader";
 
 interface Props {
   content: string | null;

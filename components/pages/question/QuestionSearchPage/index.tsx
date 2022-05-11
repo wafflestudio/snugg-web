@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import PreviewComponent from "../../../reused/PreviewComponent";
+import QuestionPreview from "../../../reused/question/QuestionPreview";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 interface Props {
@@ -37,9 +37,9 @@ const QuestionSearchPage = (props: Props) => {
                 <button className={`${styles.button} ${styles.unclick}`}>최신순</button>
             </div> */}
       </div>
-      <PreviewComponent />
-      <PreviewComponent />
-      <PreviewComponent />
+      <QuestionPreview />
+      <QuestionPreview />
+      <QuestionPreview />
     </div>
   );
 };

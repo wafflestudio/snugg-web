@@ -1,0 +1,38 @@
+@import "styles/Font";
+@import "styles/Color";
+
+
+.container {
+  width: 1075px;
+  height: 60px;
+  margin: 0px auto 5px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 15px;
+
+  border: 1px solid $light-grey;
+
+  .postInfo {
+    display: flex;
+
+    .postNum {
+      width: 90px;
+    }
+
+    .postTitle {
+      width: 700px;
+      color: $main-color;
+    }
+
+    .postWriter {
+      width: 130px;
+    }
+
+    .postTime {
+      width: 115px;
+      text-align: right;
+    }
+  }
+}

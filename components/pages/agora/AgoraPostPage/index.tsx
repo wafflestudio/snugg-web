@@ -4,7 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LoremIpsum from "react-lorem-ipsum";
 import { Divider, OutlinedInput } from "@mui/material";
-import ClassPostComment from "../../../reused/ClassPostComment";
+import ClassPostComment from "../../../reused/agora/ClassPostComment";
 
 interface Props {
   className: string | null;

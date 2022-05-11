@@ -1,0 +1,104 @@
+@import "styles/Font";
+@import "styles/Color";
+@import "QuestionPreview.module";
+
+.questionBox {
+  width: 1075px;
+  height: fit-content;
+  border: 1px solid $main-color;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 0px auto 20px auto;
+
+  .questionTitle {
+    display: flex;
+    align-items: center;
+
+    .questionMarkIcon {
+      width: 30px;
+      height: 40px;
+      color: $main-color;
+      margin-right: 5px;
+    }
+
+    div {
+      color: $main-color;
+      font-size: 20px;
+      @include NanumGothicBold;
+      line-height: 40px;
+    }
+  }
+
+  .moreTags {
+    width: 25px;
+    height: 25px;
+    color: $main-color;
+  }
+
+  .questionText {
+    font-size: 15px;
+    @include NanumGothicRegular;
+  }
+
+  .questionBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .questionInfo {
+      display: flex;
+      align-items: center;
+
+      .accountCircleIcon {
+        color: $dark-grey;
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+      }
+
+      .questionUser {
+        font-size: 15px;
+        @include NanumGothicBold;
+        margin-right: 10px;
+        line-height: 25px;
+      }
+
+      .questionTime {
+        font-size: 15px;
+        @include NanumGothicRegular;
+        line-height: 25px;
+      }
+
+      .answerCount {
+        font-size: 15px;
+        @include NanumGothicRegular;
+        line-height: 25px;
+        color: $main-color;
+        margin-right: 10px;
+      }
+    }
+
+    .questionButtons {
+      display: flex;
+
+      .questionButton {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+
+        .questionButtonIcon {
+          color: $main-color;
+          width: 20px;
+          height: 20px;
+          margin-right: 2px;
+        }
+
+        div {
+          font-size: 15px;
+          @include NanumGothicRegular;
+          line-height: 25px;
+        }
+      }
+    }
+  }
+}

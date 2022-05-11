@@ -1,14 +1,15 @@
+@import "styles/Color";
 .editor {
   width: 1075px;
   height: fit-content;
   min-height: 600px;
   margin: 0px auto 0px auto;
-  border: 1px solid #588a69;
+  border: 1px solid $main-color;
   border-radius: 5px;
 
   .menubar {
     height: 45px;
-    border-bottom: 1px solid #588a69;
+    border-bottom: 1px solid $main-color;
     background-color: #f2f2f2;
     border-radius: 5px;
     padding: 0px 10px;
@@ -19,14 +20,14 @@
     button {
       width: 35px;
       border: none;
-      background-color: none;
+      background-color: transparent;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     button:hover {
-      color: #588a69;
+      color: $main-color;
     }
   }
 

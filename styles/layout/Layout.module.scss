@@ -1,0 +1,34 @@
+@import "styles/Color";
+$side-width: 300px;
+$header-height: 100px;
+
+.pageWrapper {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.pageHeader {
+  width: 1440px;
+  height: $header-height;
+  margin: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.pageContent {
+  width: 1440px;
+  height: calc(100% - #{$header-height});
+  min-height: 800px;
+  margin: auto;
+  display: flex;
+}
+.pageMain {
+  width: calc(1440px - #{$side-width});
+}
+.pageSideBar {
+  border-left: 1px solid #f2f2f2;
+  width: $side-width;
+}
