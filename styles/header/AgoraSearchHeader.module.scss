@@ -12,4 +12,13 @@
     width: 400px;
     height: 30px;
   }
+  .button{
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

@@ -1,13 +1,14 @@
 import styles from "./styles.module.scss";
 import QuestionPreview from "../../../reused/question/QuestionPreview";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { useEffect } from "react";
 
 interface Props {
   content: string | null;
 }
 
 const QuestionSearchPage = (props: Props) => {
-  const content = props;
+  //const content = props.content; //여기에서 버그남, JSX Element 안에 object 들어가면 안됨.
 
   return (
     <div className={styles.mainContainer}>
@@ -16,7 +17,7 @@ const QuestionSearchPage = (props: Props) => {
         {/* 구체화 예정 */}
         <div className={styles.condition}>
           <div className={styles.conditionTitle}>검색 조건:</div>
-          <div>검색어 [{content}] 태그 [000] 작성자 [000]</div>
+          <div>검색어 [{props.content}] 태그 [000] 작성자 [000]</div>
         </div>
         <ToggleButtonGroup>
           <ToggleButton

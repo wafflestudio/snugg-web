@@ -9,6 +9,9 @@
   padding-left: 30px;
   padding-right: 30px;
   border-bottom: 1px solid $light-grey;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .headerText {
@@ -31,20 +34,28 @@
   align-items: center;
   justify-content: right;
   padding-right: 10px;
+  padding-left: 5px;
+  .searchInput {
+    height: 100%;
+    width: 100%;
+    border: none;
+    background-color: $light-grey;
+    font-size: 18px;
+    @include NanumGothicBold;
+    line-height: 23px;
+  }
+
+  .labelButton {
+    display: flex;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+  }
+
 }
 
-.searchInput {
-  height: 100%;
-  width: 100%;
-  border: none;
-  background-color: $light-grey;
-  font-size: 18px;
-  @include NanumGothicBold;
-  line-height: 23px;
-  &:focus {
-    outline: none;
-  }
-}
+
+
 
 .profileEclipse {
   width: 38px;
@@ -55,4 +66,8 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
 }
