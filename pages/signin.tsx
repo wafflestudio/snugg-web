@@ -3,19 +3,16 @@ import { useEffect } from "react";
 import { SignInPage } from "../components/pages/root/SignInPage";
 import { signIn } from "../store/users";
 import { useAppDispatch, useAppSelector } from "../store";
-import { useRouter } from "next/router";
 
 interface Props {}
 
 const SignInPageContainer: NextPage<Props> = () => {
   const dispatch = useAppDispatch();
-  const router = useRouter();
   const onFormSubmit = (email: string, password: string) => {
     dispatch(signIn({ email, password }))
       .then((action) => {
         if (signIn.fulfilled.match(action)) {
           alert(`sign in success! ${action.payload.user.username}`);
-          router.push("/question");
         } else if (signIn.rejected.match(action)) {
           alert(`sign in failure! ${JSON.stringify(action.error)}`);
         }

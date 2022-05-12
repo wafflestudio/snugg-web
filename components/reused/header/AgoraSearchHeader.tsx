@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import styles from "/styles/header/AgoraSearchHeader.module.scss";
+import styles from "/styles/AgoraSearchHeader.module.scss";
 import { InputAdornment, OutlinedInput } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useRouter } from "next/router";
 
 interface Props {
   content: string | null;
@@ -13,16 +12,8 @@ const AgoraSearchHeader = (props: Props) => {
   useEffect(() => {
     setValue(props.content);
   }, []);
-  const router = useRouter();
-
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        router.push(`/agora?q=${value}`);
-      }}
-      className={styles.header}
-    >
+    <div className={styles.header}>
       <OutlinedInput
         className={styles.headerInput}
         id="input-with-icon-adornment"
@@ -33,13 +24,11 @@ const AgoraSearchHeader = (props: Props) => {
         }}
         endAdornment={
           <InputAdornment position="end">
-            <button className={styles.button}>
-              <SearchIcon />
-            </button>
+            <SearchIcon />
           </InputAdornment>
         }
       />
-    </form>
+    </div>
   );
 };
 
