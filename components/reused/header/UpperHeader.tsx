@@ -5,9 +5,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Input } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store";
+import NextLink from "next/link";
 
 const UpperHeader = () => {
-  const [value, setValue] = useState<string | null>();
+  const [value, setValue] = useState<string>("");
 
   const router = useRouter(); //getServerSideProps는 Pages에서만 사용 가능함. 일반 컴포넌트에서 query string을 가져올 땐 useRouter를 사용한다.
   const me = useAppSelector((state) => state.users.data);
@@ -18,25 +19,20 @@ const UpperHeader = () => {
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setValue(value == null || value == undefined ? "" : e.target.value);
+    setValue(e.target.value);
   };
   useEffect(() => {
     const { content } = router.query;
-    setValue(content == undefined || content == null ? "" : content.toString());
+    setValue(content?.toString() ?? "");
 
     //props.content == null || props.content == undefined ? "" : props.content
   }, []);
 
   return (
     <div className={styles.header1}>
-      <span
-        onClick={() => {
-          router.push("/question");
-        }}
-        className={styles.headerText}
-      >
-        SNUGG
-      </span>
+      <NextLink href={"/question"}>
+        <div className={styles.headerText}>SNUGG</div>
+      </NextLink>
       <form className={styles.searchLabel} onSubmit={handleSubmit}>
         <Input
           disableUnderline={true}
