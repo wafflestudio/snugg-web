@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../utility";
 import QuestionSearchPage from "../../components/pages/question/QuestionSearchPage";
+import { useEffect } from "react";
 
 interface Props {
   content: string | null;

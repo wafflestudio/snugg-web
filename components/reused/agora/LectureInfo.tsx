@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "/styles/LectureInfo.module.scss";
+import styles from "/styles/agora/LectureInfo.module.scss";
 import { Person } from "@mui/icons-material";
 
 interface Props {
