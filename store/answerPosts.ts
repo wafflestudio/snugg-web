@@ -39,6 +39,13 @@ export const deleteAnswer = createAsyncThunk(
   }
 )
 
+export const createAnswer = createAsyncThunk(
+  "createAnswer",
+  async(params: AnswerPost) => {
+    return (await api.createAnswer(params)).data;
+  }
+)
+
 const answersSlice = createSlice({
   name: "answers",
   initialState: {} as AnswerPostsState,
@@ -56,6 +63,9 @@ const answersSlice = createSlice({
       })
       .addCase(deleteAnswer.fulfilled, (state) => {
         state.answer = null;
+      })
+      .addCase(createAnswer.fulfilled, (state, action) => {
+        state.answer = action.payload;
       })
 });
 
