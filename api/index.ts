@@ -1,10 +1,12 @@
 import axios from "axios";
-import { LargeNumberLike } from "crypto";
 
 export const API_ENDPOINT = "http://54.180.123.137/";
 
-axios.defaults.baseURL =
-  process.env.NODE_ENV === "production" ? API_ENDPOINT : "/api/";
+const isProduction = process.env.NODE_ENV === "production";
+const isServer = typeof window === "undefined";
+
+// 서버에서 api를 요청하는 경우 백엔드로 바로 요청
+axios.defaults.baseURL = isProduction || isServer ? API_ENDPOINT : "/api/";
 
 export interface User {
   pk: number;
@@ -13,6 +15,18 @@ export interface User {
   birth_date?: string;
   created_at: string;
   last_login?: string;
+}
+
+export interface Post {
+  pk: number;
+  field: string;
+  writer?: User;
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at?: string;
+  accepted_answer?: number;
+  tags: string[];
 }
 
 export interface UserTokenResponse {
@@ -42,8 +56,14 @@ export interface QuestionResponse {
   tags: string;
 }
 
-interface SuccessResponse {
+export interface SuccessResponse {
   success: true;
+}
+
+export interface ListQnaResponse {
+  next: string;
+  prev: string;
+  results: Post[];
 }
 
 export interface SignInParams {
@@ -60,6 +80,18 @@ export interface SignUpParams {
   username: string;
   password: string;
   birth_date: string | null;
+}
+
+export interface ListQnaParams {
+  /** 페이지네이션 관련 */
+  cursor?: string;
+  ordering?: string;
+  page_size?: number;
+
+  /** 필터링 관련 */
+  field?: string;
+  tag?: string;
+  writer?: number;
 }
 
 export interface QuestionGetParams {
@@ -122,6 +154,8 @@ const api = {
     await axios.put<PostResponse>(`/qna/posts/${id}`, params),
   partialUpdatePost: async (id: PostId, params: PostParams) =>
     await axios.patch<PostResponse>(`/qna/posts/${id}`, params),
+  listQna: async (params: ListQnaParams) =>
+    await axios.get<ListQnaResponse>("/qna/posts", { params }),
 };
 
 export default api;
