@@ -1,13 +1,15 @@
 import styles from "./styles.module.scss";
 import QuestionPreview from "../../../reused/question/QuestionPreview";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { useEffect } from "react";
+import { FC } from "react";
+import { Post } from "../../../../api";
 
 interface Props {
-  content: string | null;
+  query: string;
+  posts: Post[];
 }
 
-const QuestionSearchPage = (props: Props) => {
+const QuestionSearchPage: FC<Props> = (props) => {
   //const content = props.content; //여기에서 버그남, JSX Element 안에 object 들어가면 안됨.
 
   return (
@@ -17,7 +19,7 @@ const QuestionSearchPage = (props: Props) => {
         {/* 구체화 예정 */}
         <div className={styles.condition}>
           <div className={styles.conditionTitle}>검색 조건:</div>
-          <div>검색어 [{props.content}] 태그 [000] 작성자 [000]</div>
+          <div>검색어 [{props.query}] 태그 [000] 작성자 [000]</div>
         </div>
         <ToggleButtonGroup>
           <ToggleButton
@@ -38,9 +40,9 @@ const QuestionSearchPage = (props: Props) => {
                 <button className={`${styles.button} ${styles.unclick}`}>최신순</button>
             </div> */}
       </div>
-      <QuestionPreview />
-      <QuestionPreview />
-      <QuestionPreview />
+      {props.posts.map((post) =>
+        <QuestionPreview post={post} key={post.pk} />
+      )}
     </div>
   );
 };

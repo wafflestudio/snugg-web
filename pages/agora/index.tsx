@@ -4,14 +4,14 @@ import AgoraExplorePage from "../../components/pages/agora/AgoraExplorePage";
 import AgoraSearchHeader from "../../components/reused/header/AgoraSearchHeader";
 
 interface Props {
-  content: string | null;
+  query: string | null;
 }
 
-const AgoraIndexPageContainer: NextPage<Props> = ({ content }) => {
+const AgoraIndexPageContainer: NextPage<Props> = ({ query }) => {
   return (
     <div>
-      <AgoraSearchHeader content={content} />
-      <AgoraExplorePage query={content} />
+      <AgoraSearchHeader query={query} />
+      <AgoraExplorePage query={query} />
     </div>
   );
 };
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   return {
     props: {
-      content: queryToString(context.query.q),
+      query: queryToString(context.query.q),
     },
   };
 };

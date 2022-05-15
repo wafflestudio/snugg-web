@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useMemo } from "react";
-import styles from "../../styles/Preview.module.scss";
-import { Post } from "../../api";
+import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
+import { Post } from "../../../api";
 
 interface Props {
   post: Post;

@@ -1,24 +1,29 @@
 import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../utility";
 import QuestionSearchPage from "../../components/pages/question/QuestionSearchPage";
-import { useEffect } from "react";
+import { useAppSelector, wrapper } from "../../store";
+import { listQna } from "../../store/qnaPosts";
 
 interface Props {
-  content: string | null;
+  query: string;
 }
 
 const QuestionSearchPageContainer: NextPage<Props> = (props: Props) => {
-  return <QuestionSearchPage content={props.content} />;
+  const posts = useAppSelector(state => state.qnaPosts.data?.results);
+  return posts ? <QuestionSearchPage query={props.query} posts={posts} /> : <div>loading</div>;
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
+export const getServerSideProps: GetServerSideProps<Props> = wrapper.getServerSideProps(store =>
+  async (
   context
 ) => {
+  await store.dispatch(listQna({})); // 일단 list로 둠
+  const query = queryToString(context.query.q) ?? "";
   return {
     props: {
-      content: queryToString(context.query.q),
+      query
     },
   };
-};
+});
 
 export default QuestionSearchPageContainer;

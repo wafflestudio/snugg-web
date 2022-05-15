@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useAppSelector, wrapper } from "../../store";
 import { listQna } from "../../store/qnaPosts";
-import MainPage from "../../components/pages/question/QuestionIndexPage";
+import QuestionIndexPage from "../../components/pages/question/QuestionIndexPage";
 
 const QuestionIndexPageContainer: NextPage = () => {
   const posts = useAppSelector((state) => state.qnaPosts.data?.results);
@@ -9,7 +9,7 @@ const QuestionIndexPageContainer: NextPage = () => {
   return loading ? (
     <div>loading...</div>
   ) : posts ? (
-    <MainPage posts={posts} />
+    <QuestionIndexPage posts={posts} />
   ) : (
     <div>error</div>
   );

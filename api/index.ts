@@ -129,9 +129,7 @@ export interface PostParams {
   tags: string[];
 }
 
-export interface PostId {
-  id: number;
-}
+export type PostId = number;
 
 const api = {
   signIn: async (params: SignInParams) =>

@@ -36,3 +36,5 @@ export const dummyLectures = () => {
   }
   return lectureInfos;
 }
+
+export const nanToNull = (x: number) => isNaN(x) ? null : x;
