@@ -1,6 +1,7 @@
 import users from "./users";
 import qnaPosts from "./qnaPosts";
 import posts from "./posts";
+import answerPosts from "./answerPosts";
 import { combineReducers, Reducer } from "redux";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 import { configureStore } from "@reduxjs/toolkit";
@@ -8,7 +9,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 const rootReducer = combineReducers({
   users,
   qnaPosts,
-  posts
+  posts,
+  answerPosts
 });
 
 type AppState = ReturnType<typeof rootReducer>;

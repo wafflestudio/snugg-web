@@ -41,11 +41,13 @@ export interface SuccessResponse {
   success: true;
 }
 
-export interface ListQnaResponse {
+export interface PaginatedResponse<T> {
   next: string;
   prev: string;
-  results: QuestionPost[];
+  results: T[];
 }
+
+export type ListQnaResponse = PaginatedResponse<QuestionPost>;
 
 export interface SignInParams {
   email: string;
@@ -63,17 +65,17 @@ export interface SignUpParams {
   birth_date: string | null;
 }
 
-export interface ListQnaParams {
-  /** 페이지네이션 관련 */
+export interface PaginationParams {
   cursor?: string;
   ordering?: string;
   page_size?: number;
+}
 
-  /** 필터링 관련 */
+export type ListQnaParams = PaginationParams & {
   field?: string;
   tag?: string;
   writer?: number;
-}
+};
 
 export interface QuestionGetParams {
   id: number;
@@ -91,6 +93,21 @@ export interface PostParams {
   tags: string[];
 }
 
+export interface AnswerPost {
+  post: number;
+  content: string;
+}
+
+export type AnswerPostInfo = AnswerPost & {
+  writer: User;
+  created_at: string;
+  updated_at?: string;
+}
+
+export type ListAnswerParams = PaginationParams & {
+  writer?: User;
+}
+
 export type PostId = number;
 
 const api = {
@@ -103,7 +120,7 @@ const api = {
   getQuestion: async (params: QuestionGetParams) =>
     await axios.get<QuestionPost>(`/qna/posts/${params.id}`),
   deleteQuestion: async (params: QuestionDeleteParams) =>
-    await axios.delete<QuestionPost>(`/qna/posts/${params.id}`),
+    await axios.delete(`/qna/posts/${params.id}`),
   createQuestion: async (params: PostParams, token: string) =>
     await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
@@ -116,6 +133,18 @@ const api = {
     await axios.patch<QuestionPost>(`/qna/posts/${id}`, params),
   listQuestions: async (params: ListQnaParams) =>
     await axios.get<ListQnaResponse>("/qna/posts", { params }),
+  listAnswers: async (params: ListAnswerParams) =>
+    await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", { params }),
+  createAnswer: async (params: AnswerPost) =>
+    await axios.post<AnswerPostInfo>("/qna/answers", params),
+  getAnswer: async (id: number) =>
+    await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
+  updateAnswer: async (id: number, post: AnswerPost) =>
+    await axios.put<AnswerPostInfo>(`/qna/answers/${id}`, post),
+  partialUpdateAnswer: async (id: number, post: AnswerPost) =>
+    await axios.patch(`/qna/answers/${id}`, post),
+  deleteAnswer: async (id: number, token: string) =>
+    await axios.delete(`/qna/answers/${id}`, { headers: {Authorization: `Bearer ${token}`}})
 };
 
 export default api;
