@@ -35,6 +35,6 @@ export const dummyLectures = () => {
     lectureInfos.push({ ...lectureInfo, key: i });
   }
   return lectureInfos;
-}
+};
 
-export const nanToNull = (x: number) => isNaN(x) ? null : x;
+export const nanToNull = (x: number) => (isNaN(x) ? null : x);

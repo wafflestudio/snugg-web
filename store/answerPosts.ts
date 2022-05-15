@@ -3,7 +3,7 @@ import api, {
   AnswerPost,
   AnswerPostInfo,
   ListAnswerParams,
-  PaginatedResponse
+  PaginatedResponse,
 } from "../api";
 
 interface AnswerPostsState {
@@ -16,35 +16,32 @@ export const listAnswers = createAsyncThunk(
   async (params: ListAnswerParams) => {
     return (await api.listAnswers(params)).data;
   }
-)
+);
 
-export const getAnswer = createAsyncThunk(
-  "getAnswer",
-  async (id: number) => {
-    return (await api.getAnswer(id)).data;
-  }
-)
+export const getAnswer = createAsyncThunk("getAnswer", async (id: number) => {
+  return (await api.getAnswer(id)).data;
+});
 
 export const updateAnswer = createAsyncThunk(
   "updateAnswer",
-  async ({id, params}: {id:number, params:AnswerPost}) => {
+  async ({ id, params }: { id: number; params: AnswerPost }) => {
     return (await api.updateAnswer(id, params)).data;
   }
-)
+);
 
 export const deleteAnswer = createAsyncThunk(
   "deleteAnswer",
-  async({id,token}: {id:number, token:string}) => {
+  async ({ id, token }: { id: number; token: string }) => {
     return (await api.deleteAnswer(id, token)).data;
   }
-)
+);
 
 export const createAnswer = createAsyncThunk(
   "createAnswer",
-  async(params: AnswerPost) => {
+  async (params: AnswerPost) => {
     return (await api.createAnswer(params)).data;
   }
-)
+);
 
 const answersSlice = createSlice({
   name: "answers",
@@ -66,7 +63,7 @@ const answersSlice = createSlice({
       })
       .addCase(createAnswer.fulfilled, (state, action) => {
         state.answer = action.payload;
-      })
+      }),
 });
 
 export default answersSlice.reducer;

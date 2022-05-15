@@ -7,9 +7,9 @@ interface Props {
   postId: number;
 }
 
-const AgoraPostPageContainer: NextPage<Props> = ({className, postId}) => {
-  return <AgoraPostPage postId={postId} className={className}/>;
-}
+const AgoraPostPageContainer: NextPage<Props> = ({ className, postId }) => {
+  return <AgoraPostPage postId={postId} className={className} />;
+};
 
 export default AgoraPostPageContainer;
 

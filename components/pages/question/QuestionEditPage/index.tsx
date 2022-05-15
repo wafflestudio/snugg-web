@@ -18,8 +18,7 @@ import { PostId } from "../../../../api";
 interface Props {
   postId: number | null;
 }
-const QuestionEditPage = ({postId}: Props) => {
-
+const QuestionEditPage = ({ postId }: Props) => {
   const [field, setField] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");

@@ -11,7 +11,7 @@ const QuestionIndexPage: FunctionComponent<Props> = ({ posts }) => {
     <div className={styles.mainPage}>
       <div className={styles.mainHeader}>최근 질문</div>
       {posts.map((post) => (
-        <QuestionPreview post={post} key={post.pk}/>
+        <QuestionPreview post={post} key={post.pk} />
       ))}
     </div>
   );

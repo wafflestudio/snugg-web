@@ -40,9 +40,9 @@ const QuestionSearchPage: FC<Props> = (props) => {
                 <button className={`${styles.button} ${styles.unclick}`}>최신순</button>
             </div> */}
       </div>
-      {props.posts.map((post) =>
+      {props.posts.map((post) => (
         <QuestionPreview post={post} key={post.pk} />
-      )}
+      ))}
     </div>
   );
 };

@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   users,
   qnaPosts,
   posts,
-  answerPosts
+  answerPosts,
 });
 
 type AppState = ReturnType<typeof rootReducer>;

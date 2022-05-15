@@ -102,11 +102,11 @@ export type AnswerPostInfo = AnswerPost & {
   writer: User;
   created_at: string;
   updated_at?: string;
-}
+};
 
 export type ListAnswerParams = PaginationParams & {
   writer?: User;
-}
+};
 
 export type PostId = number;
 
@@ -134,7 +134,9 @@ const api = {
   listQuestions: async (params: ListQnaParams) =>
     await axios.get<ListQnaResponse>("/qna/posts", { params }),
   listAnswers: async (params: ListAnswerParams) =>
-    await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", { params }),
+    await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
+      params,
+    }),
   createAnswer: async (params: AnswerPost) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params),
   getAnswer: async (id: number) =>
@@ -144,7 +146,9 @@ const api = {
   partialUpdateAnswer: async (id: number, post: AnswerPost) =>
     await axios.patch(`/qna/answers/${id}`, post),
   deleteAnswer: async (id: number, token: string) =>
-    await axios.delete(`/qna/answers/${id}`, { headers: {Authorization: `Bearer ${token}`}})
+    await axios.delete(`/qna/answers/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
 };
 
 export default api;

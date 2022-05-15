@@ -25,14 +25,14 @@ const TextEditor: FC<Props> = ({ setContent }) => {
     extensions: [
       StarterKit,
       TextAlign.configure({
-        types: ["heading", "paragraph"]
+        types: ["heading", "paragraph"],
       }),
-      Highlight
+      Highlight,
     ],
     content: "질문을 입력하세요.",
     onUpdate({ editor }) {
       setContent(editor.getHTML());
-    }
+    },
   });
 
   if (!editor) {
@@ -53,16 +53,24 @@ const TextEditor: FC<Props> = ({ setContent }) => {
         <button onClick={() => editor.chain().focus().toggleHighlight().run()}>
           <BorderColorIcon />
         </button>
-        <button onClick={() => editor.chain().focus().setTextAlign("left").run()}>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+        >
           <FormatAlignLeftIcon />
         </button>
-        <button onClick={() => editor.chain().focus().setTextAlign("center").run()}>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+        >
           <FormatAlignCenterIcon />
         </button>
-        <button onClick={() => editor.chain().focus().setTextAlign("right").run()}>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+        >
           <FormatAlignRightIcon />
         </button>
-        <button onClick={() => editor.chain().focus().setTextAlign("justify").run()}>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("justify").run()}
+        >
           <FormatAlignJustifyIcon />
         </button>
         <button onClick={() => editor.chain().focus().toggleBulletList().run()}>

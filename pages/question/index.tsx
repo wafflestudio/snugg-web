@@ -16,9 +16,11 @@ const QuestionIndexPageContainer: NextPage = () => {
   //로그인 로직 추후 추가
 };
 
-QuestionIndexPageContainer.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
-  await store.dispatch(listQna({}));
-});
+QuestionIndexPageContainer.getInitialProps = wrapper.getInitialPageProps(
+  (store) => async () => {
+    await store.dispatch(listQna({}));
+  }
+);
 
 QuestionIndexPageContainer.displayName = "Home";
 

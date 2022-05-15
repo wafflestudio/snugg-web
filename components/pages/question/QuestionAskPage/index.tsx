@@ -28,7 +28,7 @@ const QuestionAskPage = () => {
     }
   };
 
-  const token = useAppSelector(state => state.users.data?.token.refresh);
+  const token = useAppSelector((state) => state.users.data?.token.refresh);
 
   const dispatch = useAppDispatch();
   const handleCreatePost = (

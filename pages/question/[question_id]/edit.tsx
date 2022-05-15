@@ -8,18 +8,20 @@ interface Props {
   questionId: string;
 }
 
-const QuestionEditPageContainer: NextPage<Props> = ({questionId}) => {
+const QuestionEditPageContainer: NextPage<Props> = ({ questionId }) => {
   return <QuestionEditPage postId={nanToNull(Number(questionId))} />;
 };
 
 QuestionEditPageContainer.displayName = "QuestionEditPage";
 
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   return {
     props: {
-      questionId: queryToString(context.params?.question_id) ?? ""
-    }
-  }
-}
+      questionId: queryToString(context.params?.question_id) ?? "",
+    },
+  };
+};
 
 export default QuestionEditPageContainer;
