@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api, { PostParams, PostResponse, PostId } from "../api";
+import api, { PostParams, QuestionPost, PostId } from "../api";
 
 interface PostState {
-  data: PostResponse | null;
+  data: QuestionPost | null;
 }
 
 interface PostIdParams {
@@ -16,18 +16,18 @@ interface PostTokenParams {
 }
 
 // 액션타입을 넣어주면 액션생성함수를 반환
-export const createPost = createAsyncThunk("posts/createPost", async ({ params, token }: PostTokenParams) => {
-  const res = await api.createPost(params, token);
+export const createPost = createAsyncThunk("createPost", async ({ params, token }: PostTokenParams) => {
+  const res = await api.createQuestion(params, token);
   return res.data;
 });
 
-export const updatePost = createAsyncThunk("posts/updatePost", async ({ id, params }: PostIdParams) => {
-  const res = await api.updatePost(id, params);
+export const updatePost = createAsyncThunk("updatePost", async ({ id, params }: PostIdParams) => {
+  const res = await api.updateQuestion(id, params);
   return res.data;
 });
 
-export const partialUpdatePost = createAsyncThunk("posts/partialUpdatePost", async ({ id, params }: PostIdParams) => {
-  const res = await api.partialUpdatePost(id, params);
+export const partialUpdatePost = createAsyncThunk("partialUpdatePost", async ({ id, params }: PostIdParams) => {
+  const res = await api.partialUpdateQuestion(id, params);
   return res.data;
 });
 

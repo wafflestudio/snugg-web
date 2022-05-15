@@ -10,7 +10,7 @@ interface QnaPostState {
 export const listQna = createAsyncThunk(
   "listQna",
   async (params: ListQnaParams) => {
-    const res = await api.listQna(params);
+    const res = await api.listQuestions(params);
     return res.data;
   }
 );

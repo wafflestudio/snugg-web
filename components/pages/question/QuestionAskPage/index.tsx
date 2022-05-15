@@ -12,9 +12,7 @@ import {
 import TextEditor from "../../../reused/TextEditor";
 import React, { useState } from "react";
 import { createPost } from "../../../../store/posts";
-import { useAppDispatch } from "../../../../store";
-import { createStore } from "redux";
-import users from "../../../../store/users";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 
 const QuestionAskPage = () => {
   const [field, setField] = useState<string>("");
@@ -30,8 +28,7 @@ const QuestionAskPage = () => {
     }
   };
 
-  const store = createStore(users);
-  const token = store.getState().data?.token.refresh;
+  const token = useAppSelector(state => state.users.data?.token.refresh);
 
   const dispatch = useAppDispatch();
   const handleCreatePost = (

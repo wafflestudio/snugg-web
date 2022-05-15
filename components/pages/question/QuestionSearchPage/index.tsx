@@ -2,11 +2,11 @@ import styles from "./styles.module.scss";
 import QuestionPreview from "../../../reused/question/QuestionPreview";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { FC } from "react";
-import { Post } from "../../../../api";
+import { QuestionPost } from "../../../../api";
 
 interface Props {
   query: string;
-  posts: Post[];
+  posts: QuestionPost[];
 }
 
 const QuestionSearchPage: FC<Props> = (props) => {

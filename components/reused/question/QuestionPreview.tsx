@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
-import { Post } from "../../../api";
+import { QuestionPost } from "../../../api";
 
 interface Props {
-  post: Post;
+  post: QuestionPost;
 }
 
 const summarize = (content: string) => content.substring(0, 300);
