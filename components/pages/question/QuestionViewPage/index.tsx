@@ -1,21 +1,20 @@
 import styles from "./styles.module.scss";
 import QuestionBox from "../../../reused/question/QuestionBox";
 import AnswerBox from "../../../reused/question/AnswerBox";
-import { useEffect, useState } from "react";
-import { QuestionResponse } from "../../../../api";
+import { QuestionPost } from "../../../../api";
 import api from "../../../../api";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 interface Props {
   questionId: number;
-  questionData: QuestionResponse;
+  questionData: QuestionPost;
 }
 
 const QuestionViewPage = (Props: Props) => {
   const router = useRouter();
   const onDeleteQuestion = async () => {
     try {
-      const response = await api.questionDelete({ id: Props.questionId });
+      const response = await api.deleteQuestion({ id: Props.questionId });
       console.log(response);
       router.push("/question");
     } catch (error) {
@@ -24,10 +23,6 @@ const QuestionViewPage = (Props: Props) => {
       window.alert(err.response?.data.detail);
     }
   };
-
-  useEffect(() => {
-    console.log(Props.questionData);
-  }, []);
 
   return (
     <div className={styles.mainContainer}>

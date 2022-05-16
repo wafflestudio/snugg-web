@@ -5,14 +5,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 
 interface Props {
-  content: string | null;
+  query: string | null;
 }
 
 const AgoraSearchHeader = (props: Props) => {
   const [value, setValue] = useState<string | null>();
   useEffect(() => {
-    setValue(props.content);
-  }, []);
+    setValue(props.query);
+  }, [props.query]);
   const router = useRouter();
 
   return (

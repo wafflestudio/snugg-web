@@ -8,11 +8,11 @@ import { Button } from "@mui/material";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import LoremIpsum from "react-lorem-ipsum";
-import { QuestionResponse } from "../../../api";
+import { QuestionPost } from "../../../api";
 import Moment from "react-moment";
 
 interface Props {
-  questionData: QuestionResponse | null;
+  questionData: QuestionPost | null;
   onDeleteQuestion: () => {};
 }
 

@@ -13,13 +13,12 @@ import TextEditor from "../../../reused/TextEditor";
 import React, { useState } from "react";
 import { updatePost } from "../../../../store/posts";
 import { useAppDispatch } from "../../../../store";
-import { useRouter } from "next/router";
 import { PostId } from "../../../../api";
 
-const QuestionEditPage = () => {
-  const { query } = useRouter();
-  const postId = query.question_id;
-
+interface Props {
+  postId: number | null;
+}
+const QuestionEditPage = ({ postId }: Props) => {
   const [field, setField] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -75,7 +74,7 @@ const QuestionEditPage = () => {
         <button
           className={styles.button}
           onClick={(e) => {
-            e.preventDefault;
+            e.preventDefault();
             if (typeof postId == "number") {
               handleUpdatePost(postId, field, title, content, 0, tags);
             }
