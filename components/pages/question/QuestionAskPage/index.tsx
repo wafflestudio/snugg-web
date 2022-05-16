@@ -10,7 +10,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import TextEditor from "../../../reused/TextEditor";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 
@@ -28,7 +28,8 @@ const QuestionAskPage = () => {
     }
   };
 
-  const token = useAppSelector((state) => state.users.data?.token.refresh);
+  const token = useAppSelector((state) => state.users.data?.token.access);
+  // useEffect(() => console.log(token), [token]);
 
   const dispatch = useAppDispatch();
   const handleCreatePost = (
@@ -93,7 +94,8 @@ const QuestionAskPage = () => {
             }
           >
             <MenuItem value={"컴퓨터공학"}>컴퓨터공학</MenuItem>
-            <MenuItem value={"통계학"}>통계학</MenuItem>
+            <MenuItem value={"경제학"}>경제학</MenuItem>
+            <MenuItem value={"인문학"}>인문학</MenuItem>
             <MenuItem value={"기타"}>기타</MenuItem>
           </Select>
         </div>
