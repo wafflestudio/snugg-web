@@ -5,9 +5,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Button } from "@mui/material";
+import NextLink from "next/link";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
-import LoremIpsum from "react-lorem-ipsum";
 import { QuestionPost } from "../../../api";
 import Moment from "react-moment";
 
@@ -17,25 +17,29 @@ interface Props {
 }
 
 const QuestionBox = (Props: Props) => {
+  const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
+
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
         <QuestionMarkIcon className={styles.questionMarkIcon} />
-        <div>제목을 입력하세요</div>
+        <div>{Props.questionData?.title}</div>
       </div>
       <div className={styles.previewHeader1}>
-        <span className={styles.previewHeader1Text}>전공분야</span>
-        <div className={`${styles.previewHeaderTag} ${styles.bg1}`}>#태그1</div>
-        <div className={`${styles.previewHeaderTag} ${styles.bg2}`}>#태그2</div>
-        <div className={`${styles.previewHeaderTag} ${styles.bg3}`}>#태그3</div>
+        <span className={styles.previewHeader1Text}>
+          {Props.questionData?.field}
+        </span>
+        {Props.questionData?.tags.map((tag, i) => (
+          <NextLink href={"/question/tags"} passHref key={tag}>
+            <div
+              key={tag}
+              className={`${styles.previewHeaderTag} ${styleBgs[i % 3]}`}
+            >
+              #{tag}
+            </div>
+          </NextLink>
+        ))}
         <MoreHorizIcon className={styles.moreTags} />
-      </div>
-      <div className={styles.questionText}>
-        <LoremIpsum p={2} />
-        <div>{Props.questionData?.title}</div>
-        <Button onClick={Props.onDeleteQuestion} variant="outlined">
-          삭제
-        </Button>
       </div>
       <div className={styles.questionText}>{Props.questionData?.content}</div>
       <div className={styles.questionBottom}>
@@ -55,10 +59,13 @@ const QuestionBox = (Props: Props) => {
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
           </div>
-          <div className={styles.questionButton}>
+          <Button
+            onClick={Props.onDeleteQuestion}
+            className={styles.questionButton}
+          >
             <DeleteIcon className={styles.questionButtonIcon} />
             <div>삭제하기</div>
-          </div>
+          </Button>
           <div className={styles.questionButton}>
             <ChatBubbleIcon className={styles.questionButtonIcon} />
             <div>댓글쓰기</div>
