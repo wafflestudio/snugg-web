@@ -69,7 +69,10 @@ const QuestionAskPage = () => {
             }
           />
         </div>
-        <QuestionEditor setContent={setContent} />
+        <QuestionEditor
+          setContent={setContent}
+          content={"질문을 입력하세요."}
+        />
         <Button
           className={styles.button}
           onClick={(e) => {

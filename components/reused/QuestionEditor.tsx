@@ -18,9 +18,10 @@ import Highlight from "@tiptap/extension-highlight";
 
 interface Props {
   setContent: React.Dispatch<React.SetStateAction<string>>;
+  content: string;
 }
 
-const QuestionEditor: FC<Props> = ({ setContent }) => {
+const QuestionEditor: FC<Props> = ({ setContent, content }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -29,7 +30,7 @@ const QuestionEditor: FC<Props> = ({ setContent }) => {
       }),
       Highlight,
     ],
-    content: "질문을 입력하세요.",
+    content: content,
     onUpdate({ editor }) {
       setContent(editor.getHTML());
     },

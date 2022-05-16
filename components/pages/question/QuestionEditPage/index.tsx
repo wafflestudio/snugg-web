@@ -9,20 +9,21 @@ import {
   Input,
   SelectChangeEvent,
 } from "@mui/material";
-import TextEditor from "../../../reused/QuestionEditor";
 import React, { useState } from "react";
 import { updatePost } from "../../../../store/posts";
 import { useAppDispatch } from "../../../../store";
-import { PostId } from "../../../../api";
+import { PostId, QuestionPost } from "../../../../api";
+import QuestionEditor from "../../../reused/QuestionEditor";
 
 interface Props {
   postId: number | null;
+  questionData: QuestionPost;
 }
-const QuestionEditPage = ({ postId }: Props) => {
-  const [field, setField] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
+const QuestionEditPage = (props: Props) => {
+  const [field, setField] = useState<string>(props.questionData?.field);
+  const [title, setTitle] = useState<string>(props.questionData?.title);
+  const [content, setContent] = useState<string>(props.questionData?.content);
+  const [tags, setTags] = useState<string[]>(props.questionData?.tags);
 
   const [tagInput, setTagInput] = useState<string>("");
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -65,18 +66,19 @@ const QuestionEditPage = ({ postId }: Props) => {
           <Input
             className={styles.titleInput}
             placeholder="제목을 입력하세요."
+            value={title}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setTitle(e.target.value)
             }
           />
         </div>
-        <TextEditor setContent={setContent} />
+        <QuestionEditor setContent={setContent} content={content} />
         <button
           className={styles.button}
           onClick={(e) => {
             e.preventDefault();
-            if (typeof postId == "number") {
-              handleUpdatePost(postId, field, title, content, 0, tags);
+            if (typeof props.postId == "number") {
+              handleUpdatePost(props.postId, field, title, content, 0, tags);
             }
           }}
         >
@@ -88,12 +90,14 @@ const QuestionEditPage = ({ postId }: Props) => {
           <div className={styles.sideTitle}>전공분야</div>
           <Select
             className={styles.categorySelect}
+            value={field}
             onChange={(e: SelectChangeEvent<string>) =>
               setField(e.target.value)
             }
           >
             <MenuItem value={"컴퓨터공학"}>컴퓨터공학</MenuItem>
-            <MenuItem value={"통계학"}>통계학</MenuItem>
+            <MenuItem value={"경제학"}>경제학</MenuItem>
+            <MenuItem value={"인문학"}>인문학</MenuItem>
             <MenuItem value={"기타"}>기타</MenuItem>
           </Select>
         </div>

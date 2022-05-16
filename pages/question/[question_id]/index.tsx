@@ -33,7 +33,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   return {
     props: {
       questionData: response.data,
-
       questionId: Number(queryToString(context.params?.question_id)),
     },
   };
