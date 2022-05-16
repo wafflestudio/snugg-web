@@ -89,7 +89,7 @@ export interface PostParams {
   field: string;
   title: string;
   content: string;
-  accepted_answer: number;
+  accepted_answer?: number;
   tags: string[];
 }
 

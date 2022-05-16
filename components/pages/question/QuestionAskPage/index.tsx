@@ -36,11 +36,10 @@ const QuestionAskPage = () => {
     field: string,
     title: string,
     content: string,
-    accepted_answer: number,
     tags: string[],
     token: string
   ) => {
-    const params = { field, title, content, accepted_answer, tags };
+    const params = { field, title, content, tags };
     dispatch(createPost({ params, token }))
       .then((action) => {
         if (createPost.fulfilled.match(action)) {
@@ -52,7 +51,7 @@ const QuestionAskPage = () => {
       .catch((reason) => {
         alert(`질문 등록 실패 ${reason}`);
       });
-    console.log(field, title, content, accepted_answer, tags);
+    console.log(field, title, content, tags);
   };
 
   return (
@@ -75,7 +74,7 @@ const QuestionAskPage = () => {
           onClick={(e) => {
             e.preventDefault;
             if (token !== undefined) {
-              handleCreatePost(field, title, content, 0, tags, token);
+              handleCreatePost(field, title, content, tags, token);
             } else {
               alert("로그인하세요.");
             }
