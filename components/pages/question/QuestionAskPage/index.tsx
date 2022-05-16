@@ -9,7 +9,7 @@ import {
   Input,
   SelectChangeEvent,
 } from "@mui/material";
-import TextEditor from "../../../reused/TextEditor";
+import QuestionEditor from "../../../reused/QuestionEditor";
 import React, { useEffect, useState } from "react";
 import { createPost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
@@ -68,7 +68,7 @@ const QuestionAskPage = () => {
             }
           />
         </div>
-        <TextEditor setContent={setContent} />
+        <QuestionEditor setContent={setContent} />
         <button
           className={styles.button}
           onClick={(e) => {

@@ -9,7 +9,7 @@ import {
   Input,
   SelectChangeEvent,
 } from "@mui/material";
-import TextEditor from "../../../reused/TextEditor";
+import TextEditor from "../../../reused/QuestionEditor";
 import React, { useState } from "react";
 import { updatePost } from "../../../../store/posts";
 import { useAppDispatch } from "../../../../store";

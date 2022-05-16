@@ -22,7 +22,7 @@
   width: 1075px;
   margin: 0px auto;
 
-  div {
+  .answerWriterTitle {
     font-size: 20px;
     @include NanumGothicBold;
     color: #588a69;
@@ -30,15 +30,15 @@
     margin-bottom: 15px;
   }
 
-  input {
-    width: 1075px;
-    min-height: 250px;
-    font-size: 15px;
-    @include NanumGothicRegular;
-    margin-bottom: 15px;
-  }
+  // input {
+  //   width: 1075px;
+  //   min-height: 250px;
+  //   font-size: 15px;
+  //   @include NanumGothicRegular;
+  //   margin-bottom: 15px;
+  // }
 
-  button {
+  .answerButton {
     width: 150px;
     height: 50px;
     background-color: #588a69;
