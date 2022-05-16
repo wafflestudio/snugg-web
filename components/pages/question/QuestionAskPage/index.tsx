@@ -8,6 +8,7 @@ import {
   Chip,
   Input,
   SelectChangeEvent,
+  Button,
 } from "@mui/material";
 import QuestionEditor from "../../../reused/QuestionEditor";
 import React, { useEffect, useState } from "react";
@@ -69,7 +70,7 @@ const QuestionAskPage = () => {
           />
         </div>
         <QuestionEditor setContent={setContent} />
-        <button
+        <Button
           className={styles.button}
           onClick={(e) => {
             e.preventDefault;
@@ -81,7 +82,7 @@ const QuestionAskPage = () => {
           }}
         >
           질문 등록하기
-        </button>
+        </Button>
       </div>
       <div className={styles.sideContainer}>
         <div className={styles.category}>

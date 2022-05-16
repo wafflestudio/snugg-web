@@ -55,10 +55,13 @@ const QuestionBox = (Props: Props) => {
           </div>
         </div>
         <div className={styles.questionButtons}>
-          <div className={styles.questionButton}>
+          <Button
+            className={styles.questionButton}
+            href={`/question/${Props.questionData?.pk}/edit`}
+          >
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
-          </div>
+          </Button>
           <Button
             onClick={Props.onDeleteQuestion}
             className={styles.questionButton}

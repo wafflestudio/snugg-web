@@ -137,8 +137,12 @@ const api = {
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
       params,
     }),
-  createAnswer: async (params: AnswerPost) =>
-    await axios.post<AnswerPostInfo>("/qna/answers", params),
+  createAnswer: async (params: AnswerPost, token: string) =>
+    await axios.post<AnswerPostInfo>("/qna/answers", params, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
   getAnswer: async (id: number) =>
     await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
   updateAnswer: async (id: number, post: AnswerPost) =>

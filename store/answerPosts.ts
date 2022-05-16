@@ -38,8 +38,8 @@ export const deleteAnswer = createAsyncThunk(
 
 export const createAnswer = createAsyncThunk(
   "createAnswer",
-  async (params: AnswerPost) => {
-    return (await api.createAnswer(params)).data;
+  async ({ params, token }: { params: AnswerPost; token: string }) => {
+    return (await api.createAnswer(params, token)).data;
   }
 );
 

@@ -29,7 +29,7 @@ const AnswerEditor: FC<Props> = ({ setContent }) => {
       }),
       Highlight,
     ],
-    content: "질문을 입력하세요.",
+    content: "답변을 입력하세요.",
     onUpdate({ editor }) {
       setContent(editor.getHTML());
     },

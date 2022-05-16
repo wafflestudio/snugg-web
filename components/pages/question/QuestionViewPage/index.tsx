@@ -7,6 +7,10 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import AnswerEditor from "../../../reused/AnswerEditor";
+import { useAppDispatch, useAppSelector } from "../../../../store";
+import { stringify } from "querystring";
+import { createAnswer } from "../../../../store/answerPosts";
+import { Button } from "@mui/material";
 interface Props {
   questionId: number;
   questionData: QuestionPost;
@@ -27,7 +31,23 @@ const QuestionViewPage = (Props: Props) => {
   };
 
   const [content, setContent] = useState<string>("");
-  console.log(content);
+  const token = useAppSelector((state) => state.users.data?.token.access);
+
+  const dispatch = useAppDispatch();
+  const handleCreateAnswer = (post: number, content: string, token: string) => {
+    const params = { post, content };
+    dispatch(createAnswer({ params, token }))
+      .then((action) => {
+        if (createAnswer.fulfilled.match(action)) {
+          alert("답변 등록 완료");
+        } else if (createAnswer.rejected.match(action)) {
+          alert("답변 등록 실패");
+        }
+      })
+      .catch((reason) => {
+        alert(`답변 등록 실패 ${reason}`);
+      });
+  };
 
   return (
     <div className={styles.mainContainer}>
@@ -40,7 +60,19 @@ const QuestionViewPage = (Props: Props) => {
       <div className={styles.answerWriter}>
         <div className={styles.answerWriterTitle}>답변 작성하기</div>
         <AnswerEditor setContent={setContent} />
-        <button className={styles.answerButton}>답변 등록하기</button>
+        <Button
+          className={styles.answerButton}
+          onClick={(e) => {
+            e.preventDefault;
+            if (token !== undefined) {
+              handleCreateAnswer(Props.questionData?.pk, content, token);
+            } else {
+              alert("로그인하세요.");
+            }
+          }}
+        >
+          답변 등록하기
+        </Button>
       </div>
     </div>
   );

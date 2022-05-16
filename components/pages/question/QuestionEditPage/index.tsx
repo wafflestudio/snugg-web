@@ -80,7 +80,7 @@ const QuestionEditPage = ({ postId }: Props) => {
             }
           }}
         >
-          질문 등록하기
+          질문 수정하기
         </button>
       </div>
       <div className={styles.sideContainer}>
