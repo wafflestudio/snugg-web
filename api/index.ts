@@ -127,8 +127,12 @@ const api = {
         Authorization: `Bearer ${token}`,
       },
     }),
-  updateQuestion: async (id: PostId, params: PostParams) =>
-    await axios.put<QuestionPost>(`/qna/posts/${id}`, params),
+  updateQuestion: async (id: PostId, params: PostParams, token: string) =>
+    await axios.put<QuestionPost>(`/qna/posts/${id}`, params, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
   partialUpdateQuestion: async (id: PostId, params: PostParams) =>
     await axios.patch<QuestionPost>(`/qna/posts/${id}`, params),
   listQuestions: async (params: ListQnaParams) =>

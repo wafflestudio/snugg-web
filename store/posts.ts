@@ -5,11 +5,6 @@ interface PostState {
   data: QuestionPost | null;
 }
 
-interface PostIdParams {
-  id: PostId;
-  params: PostParams;
-}
-
 interface PostTokenParams {
   params: PostParams;
   token: string;
@@ -26,15 +21,23 @@ export const createPost = createAsyncThunk(
 
 export const updatePost = createAsyncThunk(
   "updatePost",
-  async ({ id, params }: PostIdParams) => {
-    const res = await api.updateQuestion(id, params);
+  async ({
+    id,
+    params,
+    token,
+  }: {
+    id: PostId;
+    params: PostParams;
+    token: string;
+  }) => {
+    const res = await api.updateQuestion(id, params, token);
     return res.data;
   }
 );
 
 export const partialUpdatePost = createAsyncThunk(
   "partialUpdatePost",
-  async ({ id, params }: PostIdParams) => {
+  async ({ id, params }: { id: PostId; params: PostParams }) => {
     const res = await api.partialUpdateQuestion(id, params);
     return res.data;
   }

@@ -30,7 +30,6 @@ const QuestionAskPage = () => {
   };
 
   const token = useAppSelector((state) => state.users.data?.token.access);
-  // useEffect(() => console.log(token), [token]);
 
   const dispatch = useAppDispatch();
   const handleCreatePost = (

@@ -9,9 +9,9 @@ import {
   Input,
   SelectChangeEvent,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { updatePost } from "../../../../store/posts";
-import { useAppDispatch } from "../../../../store";
+import { useAppDispatch, useAppSelector } from "../../../../store";
 import { PostId, QuestionPost } from "../../../../api";
 import QuestionEditor from "../../../reused/QuestionEditor";
 
@@ -33,17 +33,20 @@ const QuestionEditPage = (props: Props) => {
     }
   };
 
+  const token = useAppSelector((state) => state.users.data?.token.access);
+  // useEffect(() => console.log(token), [token]);
+
   const dispatch = useAppDispatch();
   const handleUpdatePost = (
     id: PostId,
     field: string,
     title: string,
     content: string,
-    accepted_answer: number,
-    tags: string[]
+    tags: string[],
+    token: string
   ) => {
-    const params = { field, title, content, accepted_answer, tags };
-    dispatch(updatePost({ id, params }))
+    const params = { field, title, content, tags };
+    dispatch(updatePost({ id, params, token }))
       .then((action) => {
         if (updatePost.fulfilled.match(action)) {
           alert("질문 수정 완료");
@@ -54,7 +57,6 @@ const QuestionEditPage = (props: Props) => {
       .catch((reason) => {
         alert(`질문 수정 실패 ${reason}`);
       });
-    console.log(field, title, content, accepted_answer, tags);
   };
 
   return (
@@ -77,8 +79,17 @@ const QuestionEditPage = (props: Props) => {
           className={styles.button}
           onClick={(e) => {
             e.preventDefault();
-            if (typeof props.postId == "number") {
-              handleUpdatePost(props.postId, field, title, content, 0, tags);
+            if (props.postId !== null && token !== undefined) {
+              handleUpdatePost(
+                props.postId,
+                field,
+                title,
+                content,
+                tags,
+                token
+              );
+            } else {
+              alert("로그인하세요.");
             }
           }}
         >
