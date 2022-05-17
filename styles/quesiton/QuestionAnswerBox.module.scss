@@ -50,17 +50,11 @@
       display: flex;
       align-items: center;
 
-      .accountCircleIcon {
-        color: $dark-grey;
-        width: 25px;
-        height: 25px;
-        margin-right: 10px;
-      }
-
       .questionUser {
         font-size: 15px;
         @include NanumGothicBold;
         margin-right: 10px;
+        margin-left: 10px;
         line-height: 25px;
       }
 
@@ -102,5 +96,54 @@
         }
       }
     }
+  }
+
+  .commentSection {
+    margin-top: 15px;
+
+    .commentDivider {
+      background-color: $dark-grey;
+      margin-bottom: 15px;
+    }
+
+    .commentTitle {
+      @include NanumGothicBold;
+      color: $main-color;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .writeComment {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      input {
+        width: 910px;
+        height: 35px;
+        border: 1px solid $main-color;
+        border-radius: 5px;
+        font-size: 15px;
+        @include NanumGothicRegular;
+        padding: 0px 10px;
+      }
+
+      button {
+        width: 50px;
+        height: 35px;
+        background-color: $main-color;
+        border-radius: 5px;
+        border: none;
+        color: white;
+        font-size: 15px;
+        @include NanumGothicBold;
+      }
+    }
+  }
+
+  .accountCircleIcon {
+    color: $dark-grey;
+    width: 25px;
+    height: 25px;
   }
 }

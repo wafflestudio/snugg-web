@@ -4,12 +4,13 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { Button } from "@mui/material";
+import { Button, Divider, Input } from "@mui/material";
 import NextLink from "next/link";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import { QuestionPost } from "../../../api";
 import Moment from "react-moment";
+import CommentBox from "./CommentBox";
 
 interface Props {
   questionData: QuestionPost | null;
@@ -41,6 +42,7 @@ const QuestionBox = (Props: Props) => {
         ))}
         <MoreHorizIcon className={styles.moreTags} />
       </div>
+      {/* dangerouslySetInnerHTML */}
       <div className={styles.questionText}>{Props.questionData?.content}</div>
       <div className={styles.questionBottom}>
         <div className={styles.questionInfo}>
@@ -73,6 +75,17 @@ const QuestionBox = (Props: Props) => {
             <div>댓글쓰기</div>
           </div>
         </div>
+      </div>
+      <div className={styles.commentSection}>
+        <Divider className={styles.commentDivider} />
+        <div className={styles.commentTitle}>N개의 댓글</div>
+        <div className={styles.writeComment}>
+          <AccountCircleIcon className={styles.accountCircleIcon} />
+          <Input disableUnderline={true} placeholder="댓글을 남겨주세요." />
+          <Button>등록</Button>
+        </div>
+        <CommentBox />
+        <CommentBox />
       </div>
     </div>
   );
