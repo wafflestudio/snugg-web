@@ -11,6 +11,7 @@ import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import { QuestionPost } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
+import { useState } from "react";
 
 interface Props {
   questionData: QuestionPost | null;
@@ -19,6 +20,7 @@ interface Props {
 
 const QuestionBox = (Props: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
+  const [commentOpen, setCommentOpen] = useState<boolean>(false);
 
   return (
     <div className={styles.questionBox}>
@@ -70,13 +72,18 @@ const QuestionBox = (Props: Props) => {
             <DeleteIcon className={styles.questionButtonIcon} />
             <div>삭제하기</div>
           </Button>
-          <div className={styles.questionButton}>
+          <Button
+            className={styles.questionButton}
+            onClick={() => setCommentOpen(!commentOpen)}
+          >
             <ChatBubbleIcon className={styles.questionButtonIcon} />
             <div>댓글쓰기</div>
-          </div>
+          </Button>
         </div>
       </div>
-      <div className={styles.commentSection}>
+      <div
+        className={commentOpen ? styles.commentSection : styles.commentClosed}
+      >
         <Divider className={styles.commentDivider} />
         <div className={styles.commentTitle}>N개의 댓글</div>
         <div className={styles.writeComment}>
