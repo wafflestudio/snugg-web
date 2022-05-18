@@ -13,6 +13,9 @@
   width: 1000px;
   height: 110px;
   margin-bottom: 15px;
+  &:hover .courseName {
+    text-decoration: underline;
+  }
   .top {
     display: flex;
     align-items: center;
