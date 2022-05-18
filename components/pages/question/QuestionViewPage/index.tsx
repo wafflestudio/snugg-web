@@ -5,6 +5,7 @@ import { QuestionPost } from "../../../../api";
 import api from "../../../../api";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import { useAppSelector } from "../../../../store";
 interface Props {
   questionId: number;
   questionData: QuestionPost;
@@ -12,11 +13,33 @@ interface Props {
 
 const QuestionViewPage = (Props: Props) => {
   const router = useRouter();
+  const me = useAppSelector((state) => state.users.data);
+  const AnswerPost = {
+    pk: 1,
+    post: 1,
+    content: "Ss",
+  };
+
   const onDeleteQuestion = async () => {
     try {
       const response = await api.deleteQuestion({ id: Props.questionId });
       console.log(response);
       router.push("/question");
+    } catch (error) {
+      const err = error as AxiosError;
+      console.log(err);
+      window.alert(err.response?.data.detail);
+    }
+  };
+
+  const onDeleteAnswer = async (id: number) => {
+    try {
+      const response = await api.deleteAnswer(
+        id,
+        me?.token.access ?? "" + " " + me?.token.refresh ?? ""
+      );
+      console.log(response);
+      router.push("/question/" + Props.questionId); // router.push는 새로고침이 강제됨.
     } catch (error) {
       const err = error as AxiosError;
       console.log(err);
@@ -31,7 +54,7 @@ const QuestionViewPage = (Props: Props) => {
         questionData={Props.questionData}
       />
       <div className={styles.answerCount}>N개의 답변</div>
-      <AnswerBox />
+      <AnswerBox AnswerData={AnswerPost} onDeleteAnswer={onDeleteAnswer} />
       <div className={styles.answerWriter}>
         <div>답변 작성하기</div>
         <input />

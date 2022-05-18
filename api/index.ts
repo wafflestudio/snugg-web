@@ -94,6 +94,7 @@ export interface PostParams {
 }
 
 export interface AnswerPost {
+  pk: number;
   post: number;
   content: string;
 }
