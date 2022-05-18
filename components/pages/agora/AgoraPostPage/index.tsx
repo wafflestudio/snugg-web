@@ -11,7 +11,7 @@ interface Props {
   postId: number;
 }
 
-export const AgoraPostPage: FC<Props> = ({ className, postId }) => {
+export const AgoraPostPage: FC<Props> = () => {
   return (
     <div className={styles.container}>
       <div className={styles.mainText}>
@@ -40,7 +40,7 @@ export const AgoraPostPage: FC<Props> = ({ className, postId }) => {
         />
         <button>등록</button>
       </div>
-      {[...Array(5)].map((item) => {
+      {[0,1,2,3,4].map((item) => {
         return <ClassPostComment key={item} />;
       })}
     </div>
