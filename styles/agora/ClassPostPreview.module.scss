@@ -21,15 +21,23 @@
     }
 
     .postTitle {
+      &:hover {
+        text-decoration: underline;
+      }
+      display: block;
       width: 700px;
       color: $main-color;
     }
 
     .postWriter {
+      &:hover {
+        text-decoration: underline;
+      }
+      display: block;
       width: 130px;
     }
 
-    .postTime {
+    .createdAt {
       width: 115px;
       text-align: right;
     }
