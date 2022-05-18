@@ -1,0 +1,27 @@
+@import "styles/Font";
+.authorSummary {
+  display: flex;
+  align-items: center;
+
+  .accountCircleIcon {
+    color: #c4c4c4;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+  }
+
+  .user {
+    &:hover {
+      text-decoration: underline;
+    }
+    font-size: 15px;
+    @include NanumGothicBold;
+    margin-right: 10px;
+    line-height: 25px;
+  }
+
+  .createdAt {
+    font-size: 15px;
+    line-height: 25px;
+  }
+}

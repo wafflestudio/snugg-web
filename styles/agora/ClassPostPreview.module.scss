@@ -1,0 +1,45 @@
+@import "styles/Font";
+@import "styles/Color";
+
+.container {
+  width: 1075px;
+  height: 60px;
+  margin: 0 auto 5px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 15px;
+
+  border: 1px solid $light-grey;
+
+  .postInfo {
+    display: flex;
+
+    .postNum {
+      width: 90px;
+    }
+
+    .postTitle {
+      &:hover {
+        text-decoration: underline;
+      }
+      display: block;
+      width: 700px;
+      color: $main-color;
+    }
+
+    .postWriter {
+      &:hover {
+        text-decoration: underline;
+      }
+      display: block;
+      width: 130px;
+    }
+
+    .createdAt {
+      width: 115px;
+      text-align: right;
+    }
+  }
+}

@@ -1,36 +1,31 @@
 import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../utility";
-import AgoraExplorePage from "../../components/Body/AgoraExplorePage";
-import AgoraSearchResultPage from "../../components/Body/AgoraSearchResultPage";
-import AgoraSearchHeader from "../../components/Header/AgoraSearchHeader";
+import AgoraExplorePage from "../../components/pages/agora/AgoraExplorePage";
+import AgoraSearchHeader from "../../components/reused/header/AgoraSearchHeader";
 
 interface Props {
-  content: string | null;
+  query: string | null;
 }
 
-const AgoraSearchPage: NextPage<Props> = ({ content }) => {
+const AgoraIndexPageContainer: NextPage<Props> = ({ query }) => {
   return (
     <div>
-      <AgoraSearchHeader content={content} />
-      {content === null || content === "" ? (
-        <AgoraExplorePage />
-      ) : (
-        <AgoraSearchResultPage />
-      )}
+      <AgoraSearchHeader query={query} />
+      <AgoraExplorePage query={query} />
     </div>
   );
 };
 
-export default AgoraSearchPage;
+export default AgoraIndexPageContainer;
 
-AgoraSearchPage.displayName = "AgoraSearchPage";
+AgoraIndexPageContainer.displayName = "AgoraSearchPage";
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   return {
     props: {
-      content: queryToString(context.query.q),
+      query: queryToString(context.query.q),
     },
   };
 };

@@ -1,0 +1,37 @@
+@import "styles/Font";
+@import "styles/Color";
+
+.container {
+  margin-top: 10px;
+  border-bottom: 1px solid $light-grey;
+
+  .commentInfo {
+    display: flex;
+    align-items: center;
+
+    .accountCircleIcon {
+      color: $dark-grey;
+      width: 25px;
+      height: 25px;
+      margin-right: 10px;
+    }
+
+    .user {
+      font-size: 15px;
+      @include NanumGothicBold;
+      margin-right: 10px;
+      line-height: 25px;
+    }
+
+    .createdAt {
+      font-size: 15px;
+      line-height: 25px;
+    }
+  }
+
+  .commentText {
+    width: calc(100% - 30px);
+    margin-left: 35px;
+    font-size: 15px;
+  }
+}

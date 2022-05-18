@@ -1,0 +1,12 @@
+@import "styles/Font";
+.mainHeader {
+  @include NanumGothicExtraBold;
+  font-size: 25px;
+  line-height: 29px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding-left: 30px;
+  height: 80px;
+  border-bottom: 1px solid #f2f2f2;
+}

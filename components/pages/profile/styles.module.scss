@@ -1,0 +1,179 @@
+@import "styles/Font";
+.profile {
+  display: flex;
+}
+
+.profileLeft {
+  width: 40%;
+  border-right: #f2f2f2 solid 1px;
+}
+.profileLeftUp {
+  padding-left: 60px;
+  padding-right: 60px;
+  border-bottom: 1px solid #f2f2f2;
+}
+.profileRight {
+  width: 70%;
+}
+.profileInfo {
+  padding-top: 40px;
+  padding-left: 15px;
+  display: flex;
+  justify-content: left;
+}
+.profileImg {
+  border-radius: 9999px;
+  width: 120px;
+  height: 120px;
+  background-color: #f2f2f2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 30px;
+}
+.profileNameNPoint {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  @include NanumGothicRegular;
+}
+
+.profileName {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.profilePoint {
+  font-size: 18px;
+  line-height: 21px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.profileBio {
+  margin-top: 20px;
+  width: 100%;
+  border-bottom: 1px solid #588a69;
+  color: #588a69;
+}
+.profileSchoolInfos {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.schoolInfo {
+  display: flex;
+  background-color: #ffffff;
+  align-items: center;
+  width: 100%;
+  border: #0b4e22 1px solid;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  justify-content: space-between;
+  height: 40px;
+  @include NanumGothicRegular;
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.schoolInfoText {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.schoolInfoIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.profileStat {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 20px;
+}
+.profileStatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.profileStatHeaderText {
+  @include NanumGothicExtraBold;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #285236;
+}
+.profileStatHeaderButton {
+  background-color: #69a789;
+  width: 90px;
+  height: 40px;
+  border: none;
+  margin-left: 20px;
+  color: #ffffff;
+  border-radius: 5px;
+  @include NanumGothicBold;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0em;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.profileStatBody {
+  display: flex;
+  flex-direction: column;
+}
+.Boxes {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profileQuestions {
+  display: flex;
+  flex-direction: column;
+}
+.profileQuestionsHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 80px 20px 40px;
+  align-items: center;
+}
+
+.profileQuestionsHeaderText {
+  @include NanumGothicBold;
+  font-size: 20px;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.showMoreButton {
+  width: 90px;
+  height: 30px;
+  background-color: #69a789;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  @include NanumGothicBold;
+  font-size: 18px;
+  line-height: 23px;
+  text-align: center;
+  color: #ffffff;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.Previews {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}

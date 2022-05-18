@@ -1,0 +1,108 @@
+@import "styles/Font";
+
+.container {
+  width: 1075px;
+  height: fit-content;
+  border: 1px solid #588a69;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px auto;
+
+  .mainText {
+    .postTitle {
+      color: #588a69;
+      font-size: 20px;
+      @include NanumGothicBold;
+      line-height: 40px;
+      margin-bottom: 10px;
+    }
+
+    .postContent {
+      font-size: 15px;
+    }
+
+    .mainTextHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .mainTextInfo {
+        display: flex;
+        align-items: center;
+
+        .accountCircleIcon {
+          color: #c4c4c4;
+          width: 25px;
+          height: 25px;
+          margin-right: 10px;
+        }
+
+        .user {
+          font-size: 15px;
+          @include NanumGothicBold;
+          margin-right: 10px;
+          line-height: 25px;
+        }
+
+        .createdAt {
+          font-size: 15px;
+          line-height: 25px;
+        }
+      }
+
+      .postComment {
+        display: flex;
+        align-items: center;
+
+        .chatBubbleIcon {
+          color: #588a69;
+          width: 20px;
+          height: 20px;
+          margin-right: 10px;
+        }
+
+        div {
+          font-size: 15px;
+          line-height: 25px;
+        }
+      }
+    }
+  }
+
+  .divider {
+    background-color: #588a69;
+    margin: 20px 0;
+  }
+
+  .writeComment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .accountCircleIcon {
+      color: #c4c4c4;
+      width: 25px;
+      height: 25px;
+    }
+
+    .input {
+      width: 935px;
+      height: 35px;
+      font-size: 15px;
+      line-height: 35px;
+      border: 1px solid #588a69;
+      border-radius: 5px;
+    }
+
+    .submit {
+      width: 60px;
+      height: 35px;
+      border: none;
+      background-color: #588a69;
+      color: white;
+      font-size: 15px;
+      @include NanumGothicBold;
+    }
+  }
+}

@@ -1,0 +1,69 @@
+@import "styles/Font";
+
+.mainContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #f2f2f2;
+  padding-top: 30px;
+
+  .title {
+    font-size: 25px;
+    @include NanumGothicBold;
+    line-height: 40px;
+    margin-left: 28px;
+  }
+
+  .details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 20px 20px 28px;
+
+    .condition {
+      display: flex;
+      font-size: 15px;
+      @include NanumGothicRegular;
+      line-height: 35px;
+
+      .conditionTitle {
+        margin-right: 10px;
+        color: #588a69;
+        font-weight: bold;
+      }
+    }
+
+    .button {
+      width: 90px;
+      height: 35px;
+      font-size: 15px;
+      @include NanumGothicBold;
+      border: 1px solid #588a69;
+      border-radius: 0px;
+      background-color: white;
+      color: #588a69;
+
+      // &.click {
+      //     background-color: #588A69;
+      //     color: white;
+      // }
+
+      // &.unclick {
+      //     background-color: white;
+      //     color: #588A69;
+      // }
+    }
+
+    .button:focus {
+      width: 90px;
+      height: 35px;
+      font-size: 15px;
+      @include NanumGothicBold;
+      border: 1px solid #588a69;
+      border-radius: 0px;
+      background-color: #588a69;
+      color: white;
+    }
+  }
+}

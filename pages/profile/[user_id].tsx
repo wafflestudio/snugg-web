@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileComponent from "../../components/Body/ProfileComponent";
+import ProfilePage from "../../components/pages/profile";
 import { queryToString } from "../../utility";
 import { GetServerSideProps, NextPage } from "next";
 
@@ -7,11 +7,11 @@ interface Props {
   userId: number;
 }
 
-const ProfilePage: NextPage<Props> = ({ userId }) => {
-  return <ProfileComponent id={userId} />;
+const ProfilePageContainer: NextPage<Props> = ({ userId }) => {
+  return <ProfilePage id={userId} />;
 };
-ProfilePage.displayName = "ProfileComponent";
-export default ProfilePage;
+ProfilePageContainer.displayName = "ProfileComponent";
+export default ProfilePageContainer;
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context

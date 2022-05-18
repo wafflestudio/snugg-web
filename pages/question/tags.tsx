@@ -1,8 +1,8 @@
 import React from "react";
-import TagsPageComponent from "../../components/Body/TagsPageComponent";
+import QuestionTagsPage from "../../components/pages/question/QuestionTagsPage";
 
-const TagsPage = () => {
-  return <TagsPageComponent />;
+const QuestionTagsPageContainer = () => {
+  return <QuestionTagsPage />;
 };
-TagsPage.displayName = "TagsPageComponent";
-export default TagsPage;
+QuestionTagsPageContainer.displayName = "TagsPageComponent";
+export default QuestionTagsPageContainer;
