@@ -13,16 +13,26 @@ interface Props {
   dept?: string;
 }
 
-const LectureInfo = ({ courseCode, courseName, credits, dept, grade, professor, studentNumber }: Props) => {
+const LectureInfo = ({
+  courseCode,
+  courseName,
+  credits,
+  dept,
+  grade,
+  professor,
+  studentNumber,
+}: Props) => {
   return (
     <Link href={`/agora/${courseName}`}>
       <a className={styles.lectureInfo}>
         <div className={styles.top}>
           <div className={styles.topLeft}>
-            <span className={`${styles.boldText} ${styles.courseName}`}>{courseName}</span>
+            <span className={`${styles.boldText} ${styles.courseName}`}>
+              {courseName}
+            </span>
             <span className={styles.regularText}>
-            {professor}/{credits}
-          </span>
+              {professor}/{credits}
+            </span>
           </div>
           <div className={styles.topRight}>
             <span className={styles.regularText}>{courseCode}</span>
@@ -32,9 +42,9 @@ const LectureInfo = ({ courseCode, courseName, credits, dept, grade, professor, 
         </div>
 
         <div className={styles.bottom}>
-        <span>
-          {dept}, {grade}학년
-        </span>
+          <span>
+            {dept}, {grade}학년
+          </span>
         </div>
       </a>
     </Link>

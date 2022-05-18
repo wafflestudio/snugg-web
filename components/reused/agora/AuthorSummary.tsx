@@ -10,11 +10,12 @@ interface Props {
 
 export const AuthorSummary: FC<Props> = ({ userName, createdAt }) => {
   return (
-      <div className={styles.authorSummary}>
-        <AccountCircleIcon className={styles.accountCircleIcon} />
-        <Link href={`/profile/${userName}`}>
+    <div className={styles.authorSummary}>
+      <AccountCircleIcon className={styles.accountCircleIcon} />
+      <Link href={`/profile/${userName}`}>
         <a className={styles.user}>{userName}</a>
-        </Link>
-        <div className={styles.createdAt}>{createdAt}</div>
-      </div>);
+      </Link>
+      <div className={styles.createdAt}>{createdAt}</div>
+    </div>
+  );
 };

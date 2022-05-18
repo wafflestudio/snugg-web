@@ -19,7 +19,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment }) => {
       <div className={styles.mainText}>
         <div className={styles.postTitle}>제목을 입력하세요.</div>
         <div className={styles.mainTextHeader}>
-          <AuthorSummary userName="username" createdAt="2022.02.28"/>
+          <AuthorSummary userName="username" createdAt="2022.02.28" />
           <div className={styles.postComment}>
             <ChatBubbleIcon className={styles.chatBubbleIcon} />
             <div>5</div>
@@ -27,18 +27,24 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment }) => {
         </div>
         <div className={styles.postContent}>
           <p>
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Dictum adipiscing mauris ligula vitae efficitur? Mi
-            egestas pharetra efficitur diam gravida gravida placerat, dui adipiscing. Pharetra elementum ornare fusce hac
-            nibh felis. Sociosqu mauris ultrices ultrices nulla vestibulum etiam magna. Dignissim hac velit integer turpis
-            mauris. Senectus hendrerit senectus maximus, in fermentum nostra bibendum feugiat.
+            Lorem ipsum odor amet, consectetuer adipiscing elit. Dictum
+            adipiscing mauris ligula vitae efficitur? Mi egestas pharetra
+            efficitur diam gravida gravida placerat, dui adipiscing. Pharetra
+            elementum ornare fusce hac nibh felis. Sociosqu mauris ultrices
+            ultrices nulla vestibulum etiam magna. Dignissim hac velit integer
+            turpis mauris. Senectus hendrerit senectus maximus, in fermentum
+            nostra bibendum feugiat.
           </p>
         </div>
       </div>
       <Divider className={styles.divider} />
-      <form className={styles.writeComment} onSubmit={(e) => {
-        e.preventDefault();
-        onSubmitComment(comment);
-      }}>
+      <form
+        className={styles.writeComment}
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmitComment(comment);
+        }}
+      >
         <AccountCircleIcon className={styles.accountCircleIcon} />
         <OutlinedInput
           className={styles.input}
