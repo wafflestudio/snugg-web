@@ -4,6 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { Divider, OutlinedInput } from "@mui/material";
 import ClassPostComment from "../../../reused/agora/ClassPostComment";
+import { AuthorSummary } from "../../../reused/agora/AuthorSummary";
 
 interface Props {
   className: string | null;
@@ -18,11 +19,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment }) => {
       <div className={styles.mainText}>
         <div className={styles.postTitle}>제목을 입력하세요.</div>
         <div className={styles.mainTextHeader}>
-          <div className={styles.mainTextInfo}>
-            <AccountCircleIcon className={styles.accountCircleIcon} />
-            <div className={styles.postUser}>username</div>
-            <div className={styles.postTime}>2022.02.28</div>
-          </div>
+          <AuthorSummary userName="username" createdAt="2022.02.28"/>
           <div className={styles.postComment}>
             <ChatBubbleIcon className={styles.chatBubbleIcon} />
             <div>5</div>

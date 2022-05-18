@@ -37,14 +37,14 @@
           margin-right: 10px;
         }
 
-        .postUser {
+        .user {
           font-size: 15px;
           @include NanumGothicBold;
           margin-right: 10px;
           line-height: 25px;
         }
 
-        .postTime {
+        .createdAt {
           font-size: 15px;
           line-height: 25px;
         }
