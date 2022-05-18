@@ -9,9 +9,9 @@ interface Props {
 }
 
 const AgoraSearchHeader = (props: Props) => {
-  const [value, setValue] = useState<string | null>();
+  const [value, setValue] = useState<string>("");
   useEffect(() => {
-    setValue(props.query);
+    setValue(props.query ?? "");
   }, [props.query]);
   const router = useRouter();
 
@@ -19,7 +19,7 @@ const AgoraSearchHeader = (props: Props) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        router.push(`/agora?q=${value}`);
+        router.push(`/agora?q=${encodeURIComponent(value)}`).then();
       }}
       className={styles.header}
     >
