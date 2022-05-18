@@ -89,7 +89,7 @@ export interface PostParams {
   field: string;
   title: string;
   content: string;
-  accepted_answer: number;
+  accepted_answer?: number;
   tags: string[];
 }
 
@@ -128,8 +128,12 @@ const api = {
         Authorization: `Bearer ${token}`,
       },
     }),
-  updateQuestion: async (id: PostId, params: PostParams) =>
-    await axios.put<QuestionPost>(`/qna/posts/${id}`, params),
+  updateQuestion: async (id: PostId, params: PostParams, token: string) =>
+    await axios.put<QuestionPost>(`/qna/posts/${id}`, params, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
   partialUpdateQuestion: async (id: PostId, params: PostParams) =>
     await axios.patch<QuestionPost>(`/qna/posts/${id}`, params),
   listQuestions: async (params: ListQnaParams) =>
@@ -138,8 +142,12 @@ const api = {
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
       params,
     }),
-  createAnswer: async (params: AnswerPost) =>
-    await axios.post<AnswerPostInfo>("/qna/answers", params),
+  createAnswer: async (params: AnswerPost, token: string) =>
+    await axios.post<AnswerPostInfo>("/qna/answers", params, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
   getAnswer: async (id: number) =>
     await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
   updateAnswer: async (id: number, post: AnswerPost) =>

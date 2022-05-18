@@ -9,20 +9,21 @@ import {
   Input,
   SelectChangeEvent,
 } from "@mui/material";
-import TextEditor from "../../../reused/TextEditor";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { updatePost } from "../../../../store/posts";
-import { useAppDispatch } from "../../../../store";
-import { PostId } from "../../../../api";
+import { useAppDispatch, useAppSelector } from "../../../../store";
+import { PostId, QuestionPost } from "../../../../api";
+import QuestionEditor from "../../../reused/QuestionEditor";
 
 interface Props {
   postId: number | null;
+  questionData: QuestionPost;
 }
-const QuestionEditPage = ({ postId }: Props) => {
-  const [field, setField] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [tags, setTags] = useState<string[]>([]);
+const QuestionEditPage = (props: Props) => {
+  const [field, setField] = useState<string>(props.questionData?.field);
+  const [title, setTitle] = useState<string>(props.questionData?.title);
+  const [content, setContent] = useState<string>(props.questionData?.content);
+  const [tags, setTags] = useState<string[]>(props.questionData?.tags);
 
   const [tagInput, setTagInput] = useState<string>("");
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -32,17 +33,20 @@ const QuestionEditPage = ({ postId }: Props) => {
     }
   };
 
+  const token = useAppSelector((state) => state.users.data?.token.access);
+  // useEffect(() => console.log(token), [token]);
+
   const dispatch = useAppDispatch();
   const handleUpdatePost = (
     id: PostId,
     field: string,
     title: string,
     content: string,
-    accepted_answer: number,
-    tags: string[]
+    tags: string[],
+    token: string
   ) => {
-    const params = { field, title, content, accepted_answer, tags };
-    dispatch(updatePost({ id, params }))
+    const params = { field, title, content, tags };
+    dispatch(updatePost({ id, params, token }))
       .then((action) => {
         if (updatePost.fulfilled.match(action)) {
           alert("질문 수정 완료");
@@ -53,7 +57,6 @@ const QuestionEditPage = ({ postId }: Props) => {
       .catch((reason) => {
         alert(`질문 수정 실패 ${reason}`);
       });
-    console.log(field, title, content, accepted_answer, tags);
   };
 
   return (
@@ -65,22 +68,32 @@ const QuestionEditPage = ({ postId }: Props) => {
           <Input
             className={styles.titleInput}
             placeholder="제목을 입력하세요."
+            value={title}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setTitle(e.target.value)
             }
           />
         </div>
-        <TextEditor setContent={setContent} />
+        <QuestionEditor setContent={setContent} content={content} />
         <button
           className={styles.button}
           onClick={(e) => {
             e.preventDefault();
-            if (typeof postId == "number") {
-              handleUpdatePost(postId, field, title, content, 0, tags);
+            if (props.postId !== null && token !== undefined) {
+              handleUpdatePost(
+                props.postId,
+                field,
+                title,
+                content,
+                tags,
+                token
+              );
+            } else {
+              alert("로그인하세요.");
             }
           }}
         >
-          질문 등록하기
+          질문 수정하기
         </button>
       </div>
       <div className={styles.sideContainer}>
@@ -88,12 +101,14 @@ const QuestionEditPage = ({ postId }: Props) => {
           <div className={styles.sideTitle}>전공분야</div>
           <Select
             className={styles.categorySelect}
+            value={field}
             onChange={(e: SelectChangeEvent<string>) =>
               setField(e.target.value)
             }
           >
             <MenuItem value={"컴퓨터공학"}>컴퓨터공학</MenuItem>
-            <MenuItem value={"통계학"}>통계학</MenuItem>
+            <MenuItem value={"경제학"}>경제학</MenuItem>
+            <MenuItem value={"인문학"}>인문학</MenuItem>
             <MenuItem value={"기타"}>기타</MenuItem>
           </Select>
         </div>

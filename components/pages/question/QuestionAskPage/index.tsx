@@ -8,9 +8,10 @@ import {
   Chip,
   Input,
   SelectChangeEvent,
+  Button,
 } from "@mui/material";
-import TextEditor from "../../../reused/TextEditor";
-import React, { useState } from "react";
+import QuestionEditor from "../../../reused/QuestionEditor";
+import React, { useEffect, useState } from "react";
 import { createPost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 
@@ -28,18 +29,17 @@ const QuestionAskPage = () => {
     }
   };
 
-  const token = useAppSelector((state) => state.users.data?.token.refresh);
+  const token = useAppSelector((state) => state.users.data?.token.access);
 
   const dispatch = useAppDispatch();
   const handleCreatePost = (
     field: string,
     title: string,
     content: string,
-    accepted_answer: number,
     tags: string[],
     token: string
   ) => {
-    const params = { field, title, content, accepted_answer, tags };
+    const params = { field, title, content, tags };
     dispatch(createPost({ params, token }))
       .then((action) => {
         if (createPost.fulfilled.match(action)) {
@@ -51,7 +51,7 @@ const QuestionAskPage = () => {
       .catch((reason) => {
         alert(`질문 등록 실패 ${reason}`);
       });
-    console.log(field, title, content, accepted_answer, tags);
+    console.log(field, title, content, tags);
   };
 
   return (
@@ -68,20 +68,23 @@ const QuestionAskPage = () => {
             }
           />
         </div>
-        <TextEditor setContent={setContent} />
-        <button
+        <QuestionEditor
+          setContent={setContent}
+          content={"질문을 입력하세요."}
+        />
+        <Button
           className={styles.button}
           onClick={(e) => {
             e.preventDefault;
             if (token !== undefined) {
-              handleCreatePost(field, title, content, 0, tags, token);
+              handleCreatePost(field, title, content, tags, token);
             } else {
               alert("로그인하세요.");
             }
           }}
         >
           질문 등록하기
-        </button>
+        </Button>
       </div>
       <div className={styles.sideContainer}>
         <div className={styles.category}>
@@ -93,7 +96,8 @@ const QuestionAskPage = () => {
             }
           >
             <MenuItem value={"컴퓨터공학"}>컴퓨터공학</MenuItem>
-            <MenuItem value={"통계학"}>통계학</MenuItem>
+            <MenuItem value={"경제학"}>경제학</MenuItem>
+            <MenuItem value={"인문학"}>인문학</MenuItem>
             <MenuItem value={"기타"}>기타</MenuItem>
           </Select>
         </div>

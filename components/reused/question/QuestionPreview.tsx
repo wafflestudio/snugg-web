@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
 import { QuestionPost } from "../../../api";
+import NextLink from "next/link";
 
 interface Props {
   post: QuestionPost;
@@ -16,15 +17,19 @@ const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
       <div className={styles.previewHeader1}>
         <span className={styles.previewHeader1Text}>{post.field}</span>
         {post.tags.map((tag, i) => (
-          <div
-            key={tag}
-            className={`${styles.previewHeaderTag} ${styleBgs[i % 3]}`}
-          >
-            #{tag}
-          </div>
+          <NextLink href={"/question/tags"} passHref key={tag}>
+            <div
+              key={tag}
+              className={`${styles.previewHeaderTag} ${styleBgs[i % 3]}`}
+            >
+              #{tag}
+            </div>
+          </NextLink>
         ))}
       </div>
-      <div className={styles.previewHeader2}>{post.title}</div>
+      <NextLink href={`/question/${post.pk}`} passHref>
+        <a className={styles.previewHeader2}>{post.title}</a>
+      </NextLink>
       <div className={styles.previewBody}>{summary}</div>
     </div>
   );

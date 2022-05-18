@@ -6,14 +6,22 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import LoremIpsum from "react-lorem-ipsum";
-import { AnswerPost } from "../../../api";
+
+import { Button, Divider, Input } from "@mui/material";
+import CommentBox from "./CommentBox";
+import { useState } from "react";
+
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
   AnswerData: AnswerPost;
 }
 
-const AnswerBox = (Props: Props) => {
+
+const AnswerBox = (props: Props) => {
+  const [commentOpen, setCommentOpen] = useState<boolean>(false);
+
+
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
@@ -44,11 +52,27 @@ const AnswerBox = (Props: Props) => {
             <DeleteIcon className={styles.questionButtonIcon} />
             <div>삭제하기</div>
           </div>
-          <div className={styles.questionButton}>
+          <Button
+            className={styles.questionButton}
+            onClick={() => setCommentOpen(!commentOpen)}
+          >
             <ChatBubbleIcon className={styles.questionButtonIcon} />
             <div>댓글쓰기</div>
-          </div>
+          </Button>
         </div>
+      </div>
+      <div
+        className={commentOpen ? styles.commentSection : styles.commentClosed}
+      >
+        <Divider className={styles.commentDivider} />
+        <div className={styles.commentTitle}>N개의 댓글</div>
+        <div className={styles.writeComment}>
+          <AccountCircleIcon className={styles.accountCircleIcon} />
+          <Input disableUnderline={true} placeholder="댓글을 남겨주세요." />
+          <Button>등록</Button>
+        </div>
+        <CommentBox />
+        <CommentBox />
       </div>
     </div>
   );

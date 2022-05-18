@@ -3,7 +3,7 @@ import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { FC } from "react";
 
-import styles from "../../styles/TextEditor.module.scss";
+import styles from "../../styles/AnswerEditor.module.scss";
 
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
@@ -20,7 +20,7 @@ interface Props {
   setContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TextEditor: FC<Props> = ({ setContent }) => {
+const AnswerEditor: FC<Props> = ({ setContent }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -29,7 +29,7 @@ const TextEditor: FC<Props> = ({ setContent }) => {
       }),
       Highlight,
     ],
-    content: "질문을 입력하세요.",
+    content: "답변을 입력하세요.",
     onUpdate({ editor }) {
       setContent(editor.getHTML());
     },
@@ -82,4 +82,4 @@ const TextEditor: FC<Props> = ({ setContent }) => {
   );
 };
 
-export default TextEditor;
+export default AnswerEditor;
