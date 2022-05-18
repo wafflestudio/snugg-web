@@ -44,7 +44,14 @@ const QuestionBox = (Props: Props) => {
         ))}
         <MoreHorizIcon className={styles.moreTags} />
       </div>
+
       {/* dangerouslySetInnerHTML */}
+
+      <div className={styles.questionText}>
+        <LoremIpsum p={2} />
+        <div>{Props.questionData?.title}</div>
+      </div>
+
       <div className={styles.questionText}>{Props.questionData?.content}</div>
       <div className={styles.questionBottom}>
         <div className={styles.questionInfo}>
@@ -59,6 +66,7 @@ const QuestionBox = (Props: Props) => {
           </div>
         </div>
         <div className={styles.questionButtons}>
+
           <NextLink href={`/question/${Props.questionData?.pk}/edit`} passHref>
             <Button className={styles.questionButton}>
               <EditIcon className={styles.questionButtonIcon} />
@@ -66,6 +74,7 @@ const QuestionBox = (Props: Props) => {
             </Button>
           </NextLink>
           <Button
+
             onClick={Props.onDeleteQuestion}
             className={styles.questionButton}
           >

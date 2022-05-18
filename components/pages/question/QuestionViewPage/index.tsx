@@ -5,12 +5,14 @@ import { QuestionPost } from "../../../../api";
 import api from "../../../../api";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+
 import { useState } from "react";
 import AnswerEditor from "../../../reused/AnswerEditor";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { stringify } from "querystring";
 import { createAnswer } from "../../../../store/answerPosts";
 import { Button } from "@mui/material";
+
 interface Props {
   questionId: number;
   questionData: QuestionPost;
@@ -18,6 +20,13 @@ interface Props {
 
 const QuestionViewPage = (Props: Props) => {
   const router = useRouter();
+  const me = useAppSelector((state) => state.users.data);
+  const AnswerPost = {
+    pk: 1,
+    post: 1,
+    content: "Ss",
+  };
+
   const onDeleteQuestion = async () => {
     try {
       const response = await api.deleteQuestion({ id: Props.questionId });
@@ -29,6 +38,7 @@ const QuestionViewPage = (Props: Props) => {
       window.alert(err.response?.data.detail);
     }
   };
+
 
   const [content, setContent] = useState<string>("");
   const token = useAppSelector((state) => state.users.data?.token.access);
@@ -49,6 +59,22 @@ const QuestionViewPage = (Props: Props) => {
       });
   };
 
+  const onDeleteAnswer = async (id: number) => {
+    try {
+      const response = await api.deleteAnswer(
+        id,
+        me?.token.access ?? "" + " " + me?.token.refresh ?? ""
+      );
+      console.log(response);
+      router.push("/question/" + Props.questionId); // router.push는 새로고침이 강제됨.
+    } catch (error) {
+      const err = error as AxiosError;
+      console.log(err);
+      window.alert(err.response?.data.detail);
+    }
+
+  };
+
   return (
     <div className={styles.mainContainer}>
       <QuestionBox
@@ -56,7 +82,7 @@ const QuestionViewPage = (Props: Props) => {
         questionData={Props.questionData}
       />
       <div className={styles.answerCount}>N개의 답변</div>
-      <AnswerBox />
+      <AnswerBox AnswerData={AnswerPost} onDeleteAnswer={onDeleteAnswer} />
       <div className={styles.answerWriter}>
         <div className={styles.answerWriterTitle}>답변 작성하기</div>
         <AnswerEditor setContent={setContent} />

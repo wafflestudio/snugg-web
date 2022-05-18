@@ -8,7 +8,15 @@ interface Props {
 }
 
 const AgoraPostPageContainer: NextPage<Props> = ({ className, postId }) => {
-  return <AgoraPostPage postId={postId} className={className} />;
+  return (
+    <AgoraPostPage
+      postId={postId}
+      className={className}
+      onSubmitComment={(comment: string) => {
+        alert(`comment: ${comment}`);
+      }}
+    />
+  );
 };
 
 export default AgoraPostPageContainer;

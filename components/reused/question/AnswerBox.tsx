@@ -6,14 +6,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import LoremIpsum from "react-lorem-ipsum";
+
 import { Button, Divider, Input } from "@mui/material";
 import CommentBox from "./CommentBox";
 import { useState } from "react";
 
-interface Props {}
+
+interface Props {
+  onDeleteAnswer: (id: number) => void;
+  AnswerData: AnswerPost;
+}
+
 
 const AnswerBox = (props: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
+
 
   return (
     <div className={styles.questionBox}>
@@ -36,7 +43,12 @@ const AnswerBox = (props: Props) => {
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
           </div>
-          <div className={styles.questionButton}>
+          <div
+            onClick={() => {
+              Props.onDeleteAnswer(Props.AnswerData.pk);
+            }}
+            className={styles.questionButton}
+          >
             <DeleteIcon className={styles.questionButtonIcon} />
             <div>삭제하기</div>
           </div>

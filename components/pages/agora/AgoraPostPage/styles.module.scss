@@ -37,14 +37,14 @@
           margin-right: 10px;
         }
 
-        .postUser {
+        .user {
           font-size: 15px;
           @include NanumGothicBold;
           margin-right: 10px;
           line-height: 25px;
         }
 
-        .postTime {
+        .createdAt {
           font-size: 15px;
           line-height: 25px;
         }
@@ -71,7 +71,7 @@
 
   .divider {
     background-color: #588a69;
-    margin: 20px 0px;
+    margin: 20px 0;
   }
 
   .writeComment {
@@ -95,7 +95,7 @@
       border-radius: 5px;
     }
 
-    button {
+    .submit {
       width: 60px;
       height: 35px;
       border: none;
