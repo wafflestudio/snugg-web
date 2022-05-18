@@ -1,17 +1,18 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./styles.module.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import LoremIpsum from "react-lorem-ipsum";
 import { Divider, OutlinedInput } from "@mui/material";
 import ClassPostComment from "../../../reused/agora/ClassPostComment";
 
 interface Props {
   className: string | null;
   postId: number;
+  onSubmitComment: (comment: string) => void;
 }
 
-export const AgoraPostPage: FC<Props> = () => {
+export const AgoraPostPage: FC<Props> = ({ onSubmitComment }) => {
+  const [comment, setComment] = useState("");
   return (
     <div className={styles.container}>
       <div className={styles.mainText}>
@@ -28,19 +29,29 @@ export const AgoraPostPage: FC<Props> = () => {
           </div>
         </div>
         <div className={styles.postContent}>
-          <LoremIpsum p={2} />
+          <p>
+            Lorem ipsum odor amet, consectetuer adipiscing elit. Dictum adipiscing mauris ligula vitae efficitur? Mi
+            egestas pharetra efficitur diam gravida gravida placerat, dui adipiscing. Pharetra elementum ornare fusce hac
+            nibh felis. Sociosqu mauris ultrices ultrices nulla vestibulum etiam magna. Dignissim hac velit integer turpis
+            mauris. Senectus hendrerit senectus maximus, in fermentum nostra bibendum feugiat.
+          </p>
         </div>
       </div>
       <Divider className={styles.divider} />
-      <div className={styles.writeComment}>
+      <form className={styles.writeComment} onSubmit={(e) => {
+        e.preventDefault();
+        onSubmitComment(comment);
+      }}>
         <AccountCircleIcon className={styles.accountCircleIcon} />
         <OutlinedInput
           className={styles.input}
           placeholder="댓글을 남겨주세요."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
         />
-        <button>등록</button>
-      </div>
-      {[0,1,2,3,4].map((item) => {
+        <input type="submit" value="등록" className={styles.submit} />
+      </form>
+      {[0, 1, 2, 3, 4].map((item) => {
         return <ClassPostComment key={item} />;
       })}
     </div>

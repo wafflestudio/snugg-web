@@ -71,7 +71,7 @@
 
   .divider {
     background-color: #588a69;
-    margin: 20px 0px;
+    margin: 20px 0;
   }
 
   .writeComment {
@@ -95,7 +95,7 @@
       border-radius: 5px;
     }
 
-    button {
+    .submit {
       width: 60px;
       height: 35px;
       border: none;
