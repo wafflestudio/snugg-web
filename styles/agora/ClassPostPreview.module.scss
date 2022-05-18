@@ -13,10 +13,6 @@
 
   border: 1px solid $light-grey;
 
-  &:hover .postTitle {
-    text-decoration: underline;
-  }
-
   .postInfo {
     display: flex;
 
@@ -25,11 +21,19 @@
     }
 
     .postTitle {
+      &:hover {
+        text-decoration: underline;
+      }
+      display: block;
       width: 700px;
       color: $main-color;
     }
 
     .postWriter {
+      &:hover {
+        text-decoration: underline;
+      }
+      display: block;
       width: 130px;
     }
 

@@ -15,7 +15,7 @@ export const AgoraListPage: FC<Props> = ({ className, onSearch }) => {
     <div className={styles.container}>
       <div className={styles.className}>강의 제목</div>
       {[0,1,2,3,4,5,6,7,8,9].map((item) => {
-        return <ClassPostPreview key={item} className={className} />;
+        return <ClassPostPreview key={item} className={className} author={"작성자"} />;
       })}
       <div className={styles.bottom1}>
         <Pagination
