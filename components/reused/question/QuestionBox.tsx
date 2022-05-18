@@ -33,9 +33,6 @@ const QuestionBox = (Props: Props) => {
       <div className={styles.questionText}>
         <LoremIpsum p={2} />
         <div>{Props.questionData?.title}</div>
-        <Button onClick={Props.onDeleteQuestion} variant="outlined">
-          삭제
-        </Button>
       </div>
       <div className={styles.questionText}>{Props.questionData?.content}</div>
       <div className={styles.questionBottom}>
@@ -55,7 +52,10 @@ const QuestionBox = (Props: Props) => {
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
           </div>
-          <div className={styles.questionButton}>
+          <div
+            onClick={Props.onDeleteQuestion}
+            className={styles.questionButton}
+          >
             <DeleteIcon className={styles.questionButtonIcon} />
             <div>삭제하기</div>
           </div>
