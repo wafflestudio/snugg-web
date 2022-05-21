@@ -14,7 +14,9 @@ import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ImageIcon from "@mui/icons-material/Image";
 import Highlight from "@tiptap/extension-highlight";
+import Image from "@tiptap/extension-image";
 
 interface Props {
   setContent: React.Dispatch<React.SetStateAction<string>>;
@@ -29,12 +31,29 @@ const QuestionEditor: FC<Props> = ({ setContent, content }) => {
         types: ["heading", "paragraph"],
       }),
       Highlight,
+      Image,
     ],
     content: content,
     onUpdate({ editor }) {
       setContent(editor.getHTML());
     },
   });
+
+  const addImage = (e: any) => {
+    e.preventDefault();
+    let imageInput = document.getElementById("image-input");
+    imageInput?.click();
+  };
+
+  const convertImage = (e: any) => {
+    const imageReader = new FileReader();
+    imageReader.readAsDataURL(e.target.files[0]);
+    imageReader.onload = () => {
+      if (typeof imageReader.result == "string") {
+        editor?.chain().focus().setImage({ src: imageReader.result }).run();
+      }
+    };
+  };
 
   if (!editor) {
     return null;
@@ -77,6 +96,16 @@ const QuestionEditor: FC<Props> = ({ setContent, content }) => {
         <button onClick={() => editor.chain().focus().toggleBulletList().run()}>
           <FormatListBulletedIcon />
         </button>
+        <button onClick={addImage}>
+          <ImageIcon />
+        </button>
+        <input
+          className={styles.imageInput}
+          type="file"
+          id="image-input"
+          accept="image/jpg, image/png, image/jpeg"
+          onChange={convertImage}
+        />
       </div>
       <EditorContent editor={editor} className={styles.writer} />
     </div>
