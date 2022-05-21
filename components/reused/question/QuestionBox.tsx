@@ -11,7 +11,9 @@ import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import { QuestionPost } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Editor, EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 interface Props {
   questionData: QuestionPost | null;
@@ -21,6 +23,12 @@ interface Props {
 const QuestionBox = (Props: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
+
+  const questionView = useEditor({
+    editable: false,
+    extensions: [StarterKit],
+    content: Props.questionData?.content,
+  });
 
   return (
     <div className={styles.questionBox}>
@@ -44,7 +52,7 @@ const QuestionBox = (Props: Props) => {
         ))}
         <MoreHorizIcon className={styles.moreTags} />
       </div>
-      <div className={styles.questionText}>{Props.questionData?.content}</div>
+      <EditorContent editor={questionView} className={styles.questionText} />
       <div className={styles.questionBottom}>
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
