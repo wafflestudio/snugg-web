@@ -4,7 +4,7 @@ import Magnifier from "../../../Image/magnifier.svg";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Input } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppSelector } from "../../../store";
 import NextLink from "next/link";
 
 const UpperHeader = () => {
@@ -14,7 +14,7 @@ const UpperHeader = () => {
   const me = useAppSelector((state) => state.users.data);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/question/search?content=${value}`);
+    router.push(`/question/search?content=${value}`).then();
   };
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -26,12 +26,12 @@ const UpperHeader = () => {
     setValue(content?.toString() ?? "");
 
     //props.content == null || props.content == undefined ? "" : props.content
-  }, []);
+  }, [router.query]);
 
   return (
     <div className={styles.header1}>
       <NextLink href={"/question"}>
-        <div className={styles.headerText}>SNUGG</div>
+        <a className={styles.headerText}>SNUGG</a>
       </NextLink>
       <form className={styles.searchLabel} onSubmit={handleSubmit}>
         <Input
@@ -43,16 +43,16 @@ const UpperHeader = () => {
           onChange={handleChange}
         />
         <button className={styles.labelButton}>
-          <Image src={Magnifier} />
+          <Image src={Magnifier} alt={"search"} />
         </button>
       </form>
       <button
         onClick={() => {
-          router.push(`/profile/${me?.user.pk}`); //이렇게 하는게 맞는지 잘 모르겠네용...
+          router.push(`/profile/${me?.user.pk}`).then();
         }}
         className={styles.profileEclipse}
       >
-        <Image src={Magnifier} />
+        <Image src={Magnifier} alt={"profile"} />
       </button>
     </div>
   );

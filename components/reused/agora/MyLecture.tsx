@@ -11,7 +11,7 @@ const MyLecture = (props: Props) => {
   const [alarmed, setAlarmed] = useState<boolean>();
   useEffect(() => {
     setAlarmed(props.alarmed);
-  }, []);
+  }, [props.alarmed]);
   return (
     <div className={styles.myLecture}>
       <span className={styles.nameWrapper}>{props.name}</span>

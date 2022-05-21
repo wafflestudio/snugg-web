@@ -9,18 +9,19 @@ import LoremIpsum from "react-lorem-ipsum";
 
 import { Button, Divider, Input } from "@mui/material";
 import CommentBox from "./CommentBox";
-import { useState } from "react";
-
+import { FC, useState } from "react";
+import { AnswerPostInfo } from "../../../api";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
-  AnswerData: AnswerPost;
+  AnswerData: AnswerPostInfo;
 }
 
-
-const AnswerBox = (props: Props) => {
+const AnswerBox: FC<Props> = ({
+  AnswerData: { pk },
+  onDeleteAnswer,
+}: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
-
 
   return (
     <div className={styles.questionBox}>
@@ -45,7 +46,7 @@ const AnswerBox = (props: Props) => {
           </div>
           <div
             onClick={() => {
-              Props.onDeleteAnswer(Props.AnswerData.pk);
+              onDeleteAnswer(pk);
             }}
             className={styles.questionButton}
           >
