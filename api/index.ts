@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const API_ENDPOINT = "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
+export const API_ENDPOINT =
+  "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
 
 const isProduction = process.env.NODE_ENV === "production";
 const isServer = typeof window === "undefined";
@@ -94,7 +95,7 @@ export interface PostParams {
 }
 
 export interface AnswerPost {
-  pk: number;
+  pk?: number;
   post: number;
   content: string;
 }
