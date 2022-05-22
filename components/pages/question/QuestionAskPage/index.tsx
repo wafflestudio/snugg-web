@@ -29,6 +29,8 @@ const QuestionAskPage = () => {
     }
   };
 
+  const [images, setImages] = useState<object[]>([]);
+
   const token = useAppSelector((state) => state.users.data?.token.access);
 
   const dispatch = useAppDispatch();
@@ -71,6 +73,8 @@ const QuestionAskPage = () => {
         <QuestionEditor
           setContent={setContent}
           content={"질문을 입력하세요."}
+          setImages={setImages}
+          images={images}
         />
         <Button
           className={styles.button}
@@ -91,6 +95,7 @@ const QuestionAskPage = () => {
           <div className={styles.sideTitle}>전공분야</div>
           <Select
             className={styles.categorySelect}
+            defaultValue={""}
             onChange={(e: SelectChangeEvent<string>) =>
               setField(e.target.value)
             }

@@ -17,13 +17,21 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ImageIcon from "@mui/icons-material/Image";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
+import { ImagesearchRoller } from "@mui/icons-material";
 
 interface Props {
   setContent: React.Dispatch<React.SetStateAction<string>>;
   content: string;
+  setImages: React.Dispatch<React.SetStateAction<object[]>>;
+  images: object[];
 }
 
-const QuestionEditor: FC<Props> = ({ setContent, content }) => {
+const QuestionEditor: FC<Props> = ({
+  setContent,
+  content,
+  setImages,
+  images,
+}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -53,6 +61,7 @@ const QuestionEditor: FC<Props> = ({ setContent, content }) => {
         editor?.chain().focus().setImage({ src: imageReader.result }).run();
       }
     };
+    setImages([...images, e.target.files[0]]);
   };
 
   if (!editor) {
