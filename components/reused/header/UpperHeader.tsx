@@ -46,14 +46,19 @@ const UpperHeader = () => {
           <Image src={Magnifier} />
         </button>
       </form>
-      <button
-        onClick={() => {
-          router.push(`/profile/${me?.user.pk}`); //이렇게 하는게 맞는지 잘 모르겠네용...
-        }}
-        className={styles.profileEclipse}
-      >
-        <Image src={Magnifier} />
-      </button>
+      {me === null ? (
+        <NextLink href={"/signin"}>
+          <div className={styles.profileEclipse}>
+            <Image src={Magnifier} />
+          </div>
+        </NextLink>
+      ) : (
+        <NextLink href={`/profile/${me?.user.pk}`}>
+          <div className={styles.profileEclipse}>
+            <Image src={Magnifier} />
+          </div>
+        </NextLink>
+      )}
     </div>
   );
 };
