@@ -104,12 +104,12 @@ export interface PostParams {
 }
 
 export interface AnswerPost {
-  pk?: number;
   post: number;
   content: string;
 }
 
 export type AnswerPostInfo = AnswerPost & {
+  pk: number;
   writer: User;
   created_at: string;
   updated_at?: string;

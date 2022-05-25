@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import testImg from "../../../Image/magnifier.svg";
@@ -11,14 +11,14 @@ interface props {
   id: number;
 }
 
-const ProfilePage = (props: props) => {
+const ProfilePage: FC<props> = () => {
   return (
     <div className={styles.profile}>
       <div className={styles.profileLeft}>
         <div className={styles.profileLeftUp}>
           <div className={styles.profileInfo}>
             <div className={styles.profileImg}>
-              <Image src={testImg} width={100} height={100} />
+              <Image src={testImg} width={100} height={100} alt={"profile"} />
             </div>
             <div className={styles.profileNameNPoint}>
               <div className={styles.profileName}>홍길동</div>
@@ -35,7 +35,7 @@ const ProfilePage = (props: props) => {
                 <span>서울대학교</span>
               </div>
               <div className={styles.schoolInfoIcon}>
-                <Image src={EditIcon} />
+                <Image src={EditIcon} alt={"edit"} />
               </div>
             </div>
             <div className={styles.schoolInfo}>
@@ -44,7 +44,7 @@ const ProfilePage = (props: props) => {
                 <span>컴퓨터공학부</span>
               </div>
               <div className={styles.schoolInfoIcon}>
-                <Image src={EditIcon} />
+                <Image src={EditIcon} alt={"edit"} />
               </div>
             </div>
             <div className={styles.schoolInfo}>
@@ -53,7 +53,7 @@ const ProfilePage = (props: props) => {
                 <span>3학년</span>
               </div>
               <div className={styles.schoolInfoIcon}>
-                <Image src={EditIcon} />
+                <Image src={EditIcon} alt={"edit"} />
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ const ProfilePage = (props: props) => {
             </span>
             <div className={styles.showMoreButton}>
               <span className={styles.showMoreButtonText}>더보기</span>
-              <Image src={PlusIcon} />
+              <Image src={PlusIcon} alt={"more"} />
             </div>
           </div>
           <div className={styles.profileQuestionsBody}>
@@ -114,7 +114,7 @@ const ProfilePage = (props: props) => {
             </span>
             <div className={styles.showMoreButton}>
               <span className={styles.showMoreButtonText}>더보기</span>
-              <Image src={PlusIcon} />
+              <Image src={PlusIcon} alt={"more"} />
             </div>
           </div>
           <div className={styles.profileQuestionsBody}>

@@ -1,4 +1,5 @@
 @import "styles/Font";
+@import "styles/Buttons";
 
 .container {
   width: 100%;
@@ -10,7 +11,7 @@
     font-size: 25px;
     @include NanumGothicBold;
     line-height: 40px;
-    margin: 20px 0px 20px 32px;
+    margin: 20px 0 20px 32px;
   }
 
   .bottom1 {
@@ -26,13 +27,9 @@
     }
 
     .writeButton {
+      @include special-button;
       width: 120px;
       height: 35px;
-      color: white;
-      background-color: #ea910c;
-      border: none;
-      font-size: 20px;
-      @include NanumGothicBold;
       margin-left: auto;
     }
   }

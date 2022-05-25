@@ -96,8 +96,7 @@ const QuestionAskPage = () => {
         />
         <Button
           className={styles.button}
-          onClick={(e) => {
-            e.preventDefault;
+          onClick={() => {
             if (token !== undefined) {
               handleCreatePost(field, title, content, tags, token);
             } else {

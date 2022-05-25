@@ -1,5 +1,6 @@
 @import "styles/Font";
 @import "styles/Color";
+@import "styles/Buttons";
 
 @mixin button_default {
   width: 90px;
@@ -39,8 +40,7 @@
 .unSelected {
 }
 .question {
+  @include special-button;
   width: 120px;
   height: 35px;
-  color: white;
-  background: $special-button;
 }

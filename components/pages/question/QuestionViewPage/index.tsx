@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 import QuestionBox from "../../../reused/question/QuestionBox";
 import AnswerBox from "../../../reused/question/AnswerBox";
-import { QuestionPost } from "../../../../api";
+import { AnswerPostInfo, QuestionPost } from "../../../../api";
 import api from "../../../../api";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
@@ -20,7 +20,14 @@ interface Props {
 const QuestionViewPage = (Props: Props) => {
   const router = useRouter();
   const me = useAppSelector((state) => state.users.data);
-  const AnswerPost = {
+  const AnswerPost: AnswerPostInfo = {
+    created_at: "",
+    writer: {
+      pk: 2,
+      email: "asdf@asfd.com",
+      username: "asdf",
+      created_at: "2022/01/01",
+    },
     pk: 1,
     post: 1,
     content: "Ss",
