@@ -92,7 +92,6 @@ const QuestionAskPage = () => {
           content={"질문을 입력하세요."}
           setImages={setImages}
           images={images}
-          formData={formData}
         />
         <Button
           className={styles.button}
