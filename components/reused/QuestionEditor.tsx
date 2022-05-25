@@ -17,13 +17,12 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ImageIcon from "@mui/icons-material/Image";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
-import { ImagesearchRoller } from "@mui/icons-material";
 
 interface Props {
   setContent: React.Dispatch<React.SetStateAction<string>>;
   content: string;
   setImages: React.Dispatch<React.SetStateAction<object[]>>;
-  images: object[];
+  images: any[];
 }
 
 const QuestionEditor: FC<Props> = ({
@@ -49,7 +48,7 @@ const QuestionEditor: FC<Props> = ({
 
   const addImage = (e: any) => {
     e.preventDefault();
-    let imageInput = document.getElementById("image-input");
+    let imageInput = document.getElementById("file");
     imageInput?.click();
   };
 
@@ -111,7 +110,7 @@ const QuestionEditor: FC<Props> = ({
         <input
           className={styles.imageInput}
           type="file"
-          id="image-input"
+          id="file"
           accept="image/jpg, image/png, image/jpeg"
           onChange={convertImage}
         />

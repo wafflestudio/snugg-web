@@ -11,9 +11,10 @@ import {
   Button,
 } from "@mui/material";
 import QuestionEditor from "../../../reused/QuestionEditor";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { createPost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
+import axios from "axios";
 
 const QuestionAskPage = () => {
   const [field, setField] = useState<string>("");
@@ -29,7 +30,8 @@ const QuestionAskPage = () => {
     }
   };
 
-  const [images, setImages] = useState<object[]>([]);
+  const [images, setImages] = useState<any[]>([]);
+  const formData = new FormData();
 
   const token = useAppSelector((state) => state.users.data?.token.access);
 
@@ -46,6 +48,21 @@ const QuestionAskPage = () => {
       .then((action) => {
         if (createPost.fulfilled.match(action)) {
           alert("질문 등록 완료");
+          if (images.length > 0) {
+            formData.append(
+              "key",
+              `${action.payload.presigned.fields.key}${images[0].name}`
+            );
+            formData.append("file", images[0]);
+            axios
+              .post(action.payload.presigned.url, formData)
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
         } else if (createPost.rejected.match(action)) {
           alert("질문 등록 실패");
         }
@@ -75,6 +92,7 @@ const QuestionAskPage = () => {
           content={"질문을 입력하세요."}
           setImages={setImages}
           images={images}
+          formData={formData}
         />
         <Button
           className={styles.button}

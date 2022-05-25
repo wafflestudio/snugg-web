@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import AnswerEditor from "../../../reused/AnswerEditor";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import { stringify } from "querystring";
 import { createAnswer } from "../../../../store/answerPosts";
 import { Button } from "@mui/material";
 
@@ -38,7 +37,6 @@ const QuestionViewPage = (Props: Props) => {
       window.alert(err.response?.data.detail);
     }
   };
-
 
   const [content, setContent] = useState<string>("");
   const token = useAppSelector((state) => state.users.data?.token.access);
@@ -72,7 +70,6 @@ const QuestionViewPage = (Props: Props) => {
       console.log(err);
       window.alert(err.response?.data.detail);
     }
-
   };
 
   return (

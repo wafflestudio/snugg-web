@@ -32,7 +32,7 @@ export interface QuestionPost {
     url: string;
     fields: {
       key: string;
-      AWSAcessKeyId: string;
+      AWSAccessKeyId: string;
       policy: string;
       signature: string;
     };
