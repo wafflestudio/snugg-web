@@ -28,6 +28,15 @@ export interface QuestionPost {
   updated_at?: string;
   accepted_answer?: number;
   tags: string[];
+  presigned: {
+    url: string;
+    fields: {
+      key: string;
+      AWSAccessKeyId: string;
+      policy: string;
+      signature: string;
+    };
+  };
 }
 
 export interface UserTokenResponse {
