@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import QuestionEditor from "../../../reused/QuestionEditor";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { createPost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 
@@ -74,8 +74,7 @@ const QuestionAskPage = () => {
         />
         <Button
           className={styles.button}
-          onClick={(e) => {
-            e.preventDefault;
+          onClick={() => {
             if (token !== undefined) {
               handleCreatePost(field, title, content, tags, token);
             } else {
