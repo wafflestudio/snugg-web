@@ -24,10 +24,24 @@ const QuestionBox = (Props: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
 
+  const rawContent = Props.questionData?.content;
+  let jsonContent: any;
+  let success = false;
+  try {
+    if (rawContent !== undefined) {
+      jsonContent = JSON.parse(rawContent);
+      success = true;
+    }
+  } catch (err) {
+    success = false;
+  }
+  console.log("raw content", rawContent);
+  console.log("json content", jsonContent);
+
   const questionView = useEditor({
     editable: false,
     extensions: [StarterKit],
-    content: Props.questionData?.content,
+    content: success ? jsonContent : rawContent,
   });
 
   return (

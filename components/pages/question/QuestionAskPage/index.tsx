@@ -15,11 +15,31 @@ import React, { useState } from "react";
 import { createPost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import axios from "axios";
+import FormData from "form-data";
+import { JSONContent } from "@tiptap/react";
+
+const replaceImageSrc = (url: string, jsonContent: JSONContent): [JSONContent, string[]] => {
+  if (jsonContent.type === "image") {
+    return [{...jsonContent, attrs: {
+      ...jsonContent.attrs, src: jsonContent.attrs?.alt
+      }}, [jsonContent.attrs?.alt]];
+  }
+  else {
+    const newContents: JSONContent[] = [];
+    const imgs: string[] = [];
+    jsonContent.content?.forEach((cont) => {
+      const [newCont, newImgs] = replaceImageSrc(url, cont);
+      newContents.push(newCont);
+      imgs.push(...newImgs);
+    });
+    return [{...jsonContent, content: newContents}, imgs];
+  }
+}
 
 const QuestionAskPage = () => {
   const [field, setField] = useState<string>("");
   const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<JSONContent>({});
   const [tags, setTags] = useState<string[]>([]);
 
   const [tagInput, setTagInput] = useState<string>("");
@@ -30,7 +50,7 @@ const QuestionAskPage = () => {
     }
   };
 
-  const [images, setImages] = useState<any[]>([]);
+  const [images, setImages] = useState<[string, File][]>([]);
   const formData = new FormData();
 
   const token = useAppSelector((state) => state.users.data?.token.access);
@@ -39,21 +59,25 @@ const QuestionAskPage = () => {
   const handleCreatePost = (
     field: string,
     title: string,
-    content: string,
+    content: JSONContent,
     tags: string[],
     token: string
   ) => {
-    const params = { field, title, content, tags };
+    const [newContent, imgs] = replaceImageSrc("presigned/", content); // TODO
+    const jsonContent = JSON.stringify(newContent); // TODO
+    const params = { field, title, content: jsonContent, tags };
     dispatch(createPost({ params, token }))
       .then((action) => {
         if (createPost.fulfilled.match(action)) {
           alert("질문 등록 완료");
+
+          // TODO replace images with imgs from replaceImageSrc
           if (images.length > 0) {
             formData.append(
               "key",
-              `${action.payload.presigned.fields.key}${images[0].name}`
+              `${action.payload.presigned.fields.key}${images[0][0]}`
             );
-            formData.append("file", images[0]);
+            formData.append("file", images[0][1]);
             axios
               .post(action.payload.presigned.url, formData)
               .then((res) => {
@@ -89,10 +113,9 @@ const QuestionAskPage = () => {
         </div>
         <QuestionEditor
           setContent={setContent}
-          content={"질문을 입력하세요."}
+          content={({})}
           setImages={setImages}
           images={images}
-          formData={formData}
         />
         <Button
           className={styles.button}

@@ -1,7 +1,7 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
-import { FC } from "react";
+import { ChangeEventHandler, FC } from "react";
 
 import styles from "../../styles/QuestionEditor.module.scss";
 
@@ -18,11 +18,13 @@ import ImageIcon from "@mui/icons-material/Image";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
 
+import {v4 as uuid } from "uuid";
+
 interface Props {
-  setContent: React.Dispatch<React.SetStateAction<string>>;
-  content: string;
-  setImages: React.Dispatch<React.SetStateAction<object[]>>;
-  images: any[];
+  setContent: (newValue: JSONContent) => void;
+  content: JSONContent;
+  setImages: (newValue: [string, File][]) => void;
+  images: [string, File][];
 }
 
 const QuestionEditor: FC<Props> = ({
@@ -42,7 +44,7 @@ const QuestionEditor: FC<Props> = ({
     ],
     content: content,
     onUpdate({ editor }) {
-      setContent(editor.getHTML());
+      setContent(editor.getJSON());
     },
   });
 
@@ -52,15 +54,19 @@ const QuestionEditor: FC<Props> = ({
     imageInput?.click();
   };
 
-  const convertImage = (e: any) => {
+  const convertImage: ChangeEventHandler<HTMLInputElement> = (e) => {
     const imageReader = new FileReader();
-    imageReader.readAsDataURL(e.target.files[0]);
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file === null) return;
+    const ext = file.name.split('.').pop();
+    imageReader.readAsDataURL(file);
+    const replacedName = uuid() + '.' + ext;
     imageReader.onload = () => {
       if (typeof imageReader.result == "string") {
-        editor?.chain().focus().setImage({ src: imageReader.result }).run();
+        editor?.chain().focus().setImage({ src: imageReader.result, alt: replacedName }).run();
       }
     };
-    setImages([...images, e.target.files[0]]);
+    setImages([...images, [replacedName, file]]);
   };
 
   if (!editor) {
