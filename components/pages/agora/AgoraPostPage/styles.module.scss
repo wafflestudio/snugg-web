@@ -1,4 +1,5 @@
 @import "styles/Font";
+@import "styles/Buttons";
 
 .container {
   width: 1075px;
@@ -96,13 +97,10 @@
     }
 
     .submit {
+      @include normal-button;
       width: 60px;
       height: 35px;
-      border: none;
-      background-color: #588a69;
-      color: white;
       font-size: 15px;
-      @include NanumGothicBold;
     }
   }
 }
