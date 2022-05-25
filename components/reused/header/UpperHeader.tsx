@@ -46,14 +46,19 @@ const UpperHeader = () => {
           <Image src={Magnifier} alt={"search"} />
         </button>
       </form>
-      <button
-        onClick={() => {
-          router.push(`/profile/${me?.user.pk}`).then();
-        }}
-        className={styles.profileEclipse}
-      >
-        <Image src={Magnifier} alt={"profile"} />
-      </button>
+      {me === null ? (
+        <NextLink href={"/signin"}>
+          <div className={styles.profileEclipse}>
+            <Image src={Magnifier} />
+          </div>
+        </NextLink>
+      ) : (
+        <NextLink href={`/profile/${me?.user.pk}`}>
+          <div className={styles.profileEclipse}>
+            <Image src={Magnifier} />
+          </div>
+        </NextLink>
+      )}
     </div>
   );
 };
