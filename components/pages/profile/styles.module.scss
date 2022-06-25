@@ -15,7 +15,7 @@
 
       .basicProfileEdit {
         height: 30px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
 
         .editIcon {
           float: right;
@@ -148,6 +148,20 @@
 
     .accountManager {
       height: 275px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        width: 170px;
+        height: 40px;
+        background-color: $main-color;
+        color: white;
+        @include NanumGothicBold;
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
     }
   }
 

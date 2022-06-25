@@ -7,6 +7,7 @@ import DiamondIcon from "@mui/icons-material/Diamond";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import ListIcon from "@mui/icons-material/List";
 import Image from "next/image";
+import { Button } from "@mui/material";
 
 interface props {
   id: number;
@@ -20,9 +21,9 @@ const ProfilePage: FC<props> = () => {
       <div className={styles.profileLeft}>
         <div className={styles.basicProfile}>
           <div className={styles.basicProfileEdit}>
-            <button className={styles.editIcon}>
+            <Button className={styles.editIcon}>
               <Image src={EditIcon} width={30} height={30} alt={"Edit"} />
-            </button>
+            </Button>
           </div>
           <div className={styles.basicProfileMain}>
             <div className={styles.basicProfileUp}>
@@ -66,7 +67,10 @@ const ProfilePage: FC<props> = () => {
             <ListIcon className={styles.listIcon} />
           </div>
         </div>
-        <div className={styles.accountManager}>accountManager</div>
+        <div className={styles.accountManager}>
+          <Button variant="contained">비밀번호 변경</Button>
+          <Button variant="contained">회원탈퇴</Button>
+        </div>
       </div>
       <div className={styles.profileRight}>
         <div className={styles.statistics}>statistics</div>
