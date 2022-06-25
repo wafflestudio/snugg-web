@@ -14,7 +14,7 @@
       padding: 10px;
 
       .basicProfileEdit {
-        height: 25px;
+        height: 30px;
         margin-bottom: 10px;
 
         .editIcon {
@@ -121,6 +121,29 @@
     .schoolInfo {
       height: 125px;
       border-bottom: #f2f2f2 solid 1px;
+      padding: 5px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0px 20px;
+
+      .schoolInfoLeft {
+        @include NanumGothicBold;
+        margin-top: 15px;
+
+        div {
+          margin-bottom: 7px;
+        }
+      }
+
+      .schoolInfoRight {
+        color: $main-color;
+        margin-top: 5px;
+
+        .listIcon {
+          width: 30px;
+          height: 30px;
+        }
+      }
     }
 
     .accountManager {

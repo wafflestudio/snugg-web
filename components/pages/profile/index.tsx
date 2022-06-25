@@ -5,6 +5,7 @@ import testImg from "../../../Image/magnifier.svg";
 import EditIcon from "../../../Image/edit_icon_151377.svg";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import PushPinIcon from "@mui/icons-material/PushPin";
+import ListIcon from "@mui/icons-material/List";
 import Image from "next/image";
 
 interface props {
@@ -20,7 +21,7 @@ const ProfilePage: FC<props> = () => {
         <div className={styles.basicProfile}>
           <div className={styles.basicProfileEdit}>
             <button className={styles.editIcon}>
-              <Image src={EditIcon} width={25} height={25} alt={"Edit"} />
+              <Image src={EditIcon} width={30} height={30} alt={"Edit"} />
             </button>
           </div>
           <div className={styles.basicProfileMain}>
@@ -54,7 +55,17 @@ const ProfilePage: FC<props> = () => {
             </div>
           </div>
         </div>
-        <div className={styles.schoolInfo}>schoolInfo</div>
+        <div className={styles.schoolInfo}>
+          <div className={styles.schoolInfoLeft}>
+            <div>서울대학교</div>
+            <div>전공: 컴퓨터공학부</div>
+            <div>과정: 학부생</div>
+            <div>입학년도: 2019</div>
+          </div>
+          <div className={styles.schoolInfoRight}>
+            <ListIcon className={styles.listIcon} />
+          </div>
+        </div>
         <div className={styles.accountManager}>accountManager</div>
       </div>
       <div className={styles.profileRight}>
