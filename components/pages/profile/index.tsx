@@ -6,8 +6,12 @@ import EditIcon from "../../../Image/edit_icon_151377.svg";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import ListIcon from "@mui/icons-material/List";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import CheckIcon from "@mui/icons-material/Check";
+
 import Image from "next/image";
 import { Button } from "@mui/material";
+import SimplifiedPreview from "../../reused/question/SimplifiedPreview";
 
 interface props {
   id: number;
@@ -73,8 +77,43 @@ const ProfilePage: FC<props> = () => {
         </div>
       </div>
       <div className={styles.profileRight}>
-        <div className={styles.statistics}>statistics</div>
-        <div className={styles.myQuestion}>myQuestion</div>
+        <div className={styles.statistics}>
+          <div>통계 (추가예정)</div>
+        </div>
+        <div className={styles.myQuestionAnswer}>
+          <div className={styles.myQuestion}>
+            <div className={styles.myQuestionHeader}>
+              <div className={styles.myQuestionHeaderLeft}>
+                <QuestionMarkIcon className={styles.myQuestionIcon} />
+                <div>내가 쓴 질문</div>
+              </div>
+              <div className={styles.myQuestionHeaderRight}>
+                <Button>더보기</Button>
+              </div>
+            </div>
+            <div className={styles.myQuestionMain}>
+              {[1, 2, 3, 4, 5].map((id) => (
+                <SimplifiedPreview key={id} />
+              ))}
+            </div>
+          </div>
+          <div className={styles.myQuestion}>
+            <div className={styles.myQuestionHeader}>
+              <div className={styles.myQuestionHeaderLeft}>
+                <CheckIcon className={styles.myQuestionIcon} />
+                <div>내가 쓴 답변</div>
+              </div>
+              <div className={styles.myQuestionHeaderRight}>
+                <Button>더보기</Button>
+              </div>
+            </div>
+            <div className={styles.myQuestionMain}>
+              {[1, 2, 3, 4, 5].map((id) => (
+                <SimplifiedPreview key={id} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
