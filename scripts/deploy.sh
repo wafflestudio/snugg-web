@@ -16,6 +16,7 @@ git restore .
 git checkout "$curr_br"
 git pull
 pm2 stop snugg-web
+yarn install
 EOF
 
 # upload build files
