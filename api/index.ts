@@ -3,8 +3,6 @@ import axios from "axios";
 export const API_ENDPOINT =
   "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
 
-export const IMAGE_ENDPOINT = "https://snugg-s3.s3.amazonaws.com/";
-
 const isProduction = process.env.NODE_ENV === "production";
 const isServer = typeof window === "undefined";
 
@@ -123,10 +121,6 @@ export type ListAnswerParams = PaginationParams & {
 
 export type PostId = number;
 
-const withToken = (token: string) => ({
-  headers: { Authorization: `Bearer ${token}` },
-});
-
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -136,8 +130,8 @@ const api = {
     await axios.post<UserTokenResponse>("/auth/signup/", params),
   getQuestion: async (params: QuestionGetParams) =>
     await axios.get<QuestionPost>(`/qna/posts/${params.id}`),
-  deleteQuestion: async (params: QuestionDeleteParams, token: string) =>
-    await axios.delete(`/qna/posts/${params.id}`, withToken(token)),
+  deleteQuestion: async (params: QuestionDeleteParams) =>
+    await axios.delete(`/qna/posts/${params.id}`),
   createQuestion: async (params: PostParams, token: string) =>
     await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
@@ -145,7 +139,11 @@ const api = {
       },
     }),
   updateQuestion: async (id: PostId, params: PostParams, token: string) =>
-    await axios.put<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
+    await axios.put<QuestionPost>(`/qna/posts/${id}`, params, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
   partialUpdateQuestion: async (id: PostId, params: PostParams) =>
     await axios.patch<QuestionPost>(`/qna/posts/${id}`, params),
   listQuestions: async (params: ListQnaParams) =>
@@ -167,13 +165,9 @@ const api = {
   partialUpdateAnswer: async (id: number, post: AnswerPost) =>
     await axios.patch(`/qna/answers/${id}`, post),
   deleteAnswer: async (id: number, token: string) =>
-    await axios.delete(`/qna/answers/${id}`, withToken(token)),
-  uploadImages: async (url: string, key: string, blob: Blob) => {
-    const formData = new FormData();
-    formData.set("key", key);
-    formData.set("file", blob);
-    return await axios.post(url, formData, { baseURL: "" });
-  },
+    await axios.delete(`/qna/answers/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
 };
 
 export default api;

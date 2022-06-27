@@ -1,6 +1,5 @@
 import { KeyboardEventHandler } from "react";
 import { createTheme } from "@mui/material/styles";
-import { JSONContent } from "@tiptap/react";
 
 export const queryToString = (query: undefined | string | string[]) =>
   Array.isArray(query) ? query[0] : query ?? null;
@@ -39,55 +38,3 @@ export const dummyLectures = () => {
 };
 
 export const nanToNull = (x: number) => (isNaN(x) ? null : x);
-
-interface ImageReplaceResult {
-  blobs: { blob: Blob; key: string }[];
-  newContent: JSONContent;
-}
-
-/*
- replace all the `src` attribute of image tags that are data-urls
- and return list of new blobs generated from data-urls with new jsonContent
-*/
-export const replaceImgSrc = async (
-  url: string,
-  key: string,
-  jsonContent: JSONContent
-): Promise<ImageReplaceResult> => {
-  if (jsonContent.type === "image") {
-    const dataUrl: string = jsonContent.attrs?.src;
-    if (!dataUrl.startsWith("data:"))
-      return { blobs: [], newContent: jsonContent };
-    const res = await fetch(dataUrl);
-    const blob = await res.blob();
-    const filename: string = jsonContent.attrs?.alt;
-    return {
-      blobs: [
-        {
-          blob,
-          key: key + filename,
-        },
-      ],
-      newContent: {
-        ...jsonContent,
-        attrs: {
-          ...jsonContent.attrs,
-          src: url + key + filename,
-        },
-      },
-    };
-  } else {
-    if (jsonContent.content === undefined)
-      return { blobs: [], newContent: jsonContent };
-    const replaceResults = await Promise.all(
-      jsonContent.content.map((e) => replaceImgSrc(url, key, e))
-    );
-    return {
-      blobs: replaceResults.flatMap(({ blobs }) => blobs),
-      newContent: {
-        ...jsonContent,
-        content: replaceResults.flatMap(({ newContent }) => newContent),
-      },
-    };
-  }
-};

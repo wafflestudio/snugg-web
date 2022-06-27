@@ -35,14 +35,7 @@ const QuestionViewPage = (Props: Props) => {
 
   const onDeleteQuestion = async () => {
     try {
-      if (me === null) {
-        console.log("로그인하세요");
-        return;
-      }
-      const response = await api.deleteQuestion(
-        { id: Props.questionId },
-        me.token.access
-      );
+      const response = await api.deleteQuestion({ id: Props.questionId });
       console.log(response);
       router.push("/question");
     } catch (error) {
