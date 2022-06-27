@@ -10,20 +10,19 @@ yarn build
 # update server's branch & stop server
 git push
 curr_br=$(git rev-parse --abbrev-ref HEAD)
-ssh -i "$KEY_FILE" "$USER@$HOST" /bin/bash <<'EOF'
-cd snugg-web
-git restore .
-git checkout "$curr_br"
-git pull
-pm2 stop snugg-web
-yarn install
-EOF
+(
+echo "cd snugg-web"
+echo "git restore ."
+echo "git checkout ${curr_br}"
+echo "git pull"
+echo "pm2 stop snugg-web"
+echo "yarn install"
+echo "exit"
+) | ssh -i "$KEY_FILE" "$USER@$HOST"
 
 # upload build files
 rm -r ../.next/cache
 scp -i "$KEY_FILE" -r ../.next "$USER@$HOST":~/snugg-web/
 
 # start server
-ssh "$USER@$HOST" -i "$KEY_FILE" <<'EOF'
-pm2 start snugg-web
-EOF
+ssh "$USER@$HOST" -i "$KEY_FILE" "pm2 start snugg-web"
