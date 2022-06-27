@@ -11,9 +11,9 @@ import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import { QuestionPost } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
-import { useEffect, useState } from "react";
-import { Editor, EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { useState } from "react";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { editorExtensions } from "../QuestionEditor";
 
 interface Props {
   questionData: QuestionPost | null;
@@ -40,7 +40,7 @@ const QuestionBox = (Props: Props) => {
 
   const questionView = useEditor({
     editable: false,
-    extensions: [StarterKit],
+    extensions: editorExtensions,
     content: success ? jsonContent : rawContent,
   });
 
