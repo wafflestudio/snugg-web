@@ -5,11 +5,11 @@ export const API_ENDPOINT =
 
 export const IMAGE_ENDPOINT = "https://snugg-s3.s3.amazonaws.com/";
 
-const isProduction = process.env.NODE_ENV === "production";
+// const isProduction = process.env.NODE_ENV === "production";
 const isServer = typeof window === "undefined";
 
 // 서버에서 api를 요청하는 경우 백엔드로 바로 요청
-axios.defaults.baseURL = isProduction || isServer ? API_ENDPOINT : "/api/";
+axios.defaults.baseURL = isServer ? API_ENDPOINT : "/api/";
 
 export interface User {
   pk: number;
