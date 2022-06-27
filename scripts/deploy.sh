@@ -19,6 +19,7 @@ pm2 stop snugg-web
 EOF
 
 # upload build files
+rm -r ../.next/cache
 scp -i "$KEY_FILE" -r ../.next "$USER@$HOST":~/snugg-web/
 
 # start server
