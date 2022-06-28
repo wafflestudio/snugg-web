@@ -59,7 +59,7 @@ function PasswordModal(props: passwordModalProps) {
               type="password"
               value={newPW}
               onChange={(
-                e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+                e
               ) => {
                 setNewPW(e.target.value);
               }}
