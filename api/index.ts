@@ -127,6 +127,10 @@ const withToken = (token: string) => ({
   headers: { Authorization: `Bearer ${token}` },
 });
 
+export type GetAnswersForQuestionParams = {
+  questionId: string;
+};
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -154,6 +158,10 @@ const api = {
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
       params,
     }),
+  getAnswersForQuestion: async (params: GetAnswersForQuestionParams) =>
+    await axios.get<PaginatedResponse<AnswerPostInfo>>(
+      `/qna/answers/?post=${params.questionId}`
+    ),
   createAnswer: async (params: AnswerPost, token: string) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params, {
       headers: {

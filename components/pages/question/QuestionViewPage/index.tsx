@@ -1,7 +1,11 @@
 import styles from "./styles.module.scss";
 import QuestionBox from "../../../reused/question/QuestionBox";
 import AnswerBox from "../../../reused/question/AnswerBox";
-import { AnswerPostInfo, QuestionPost } from "../../../../api";
+import {
+  AnswerPostInfo,
+  PaginatedResponse,
+  QuestionPost,
+} from "../../../../api";
 import api from "../../../../api";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
@@ -15,6 +19,7 @@ import { Button } from "@mui/material";
 interface Props {
   questionId: number;
   questionData: QuestionPost;
+  answerListData: PaginatedResponse<AnswerPostInfo>;
 }
 
 const QuestionViewPage = (Props: Props) => {
@@ -93,7 +98,16 @@ const QuestionViewPage = (Props: Props) => {
         questionData={Props.questionData}
       />
       <div className={styles.answerCount}>N개의 답변</div>
-      <AnswerBox AnswerData={AnswerPost} onDeleteAnswer={onDeleteAnswer} />
+      {Props.answerListData.results.map((AnswerPost) => (
+        <AnswerBox
+          AnswerData={AnswerPost}
+          onDeleteAnswer={onDeleteAnswer}
+          key={AnswerPost.pk}
+        />
+      ))}
+
+      {/*<AnswerBox AnswerData={AnswerPost} onDeleteAnswer={onDeleteAnswer} />
+       */}
       <div className={styles.answerWriter}>
         <div className={styles.answerWriterTitle}>답변 작성하기</div>
         <AnswerEditor setContent={setContent} />
