@@ -4,6 +4,8 @@ node_modules
 *.log
 .env
 *.pem
+.DS_Store
+amplify/team-provider-info.json
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
