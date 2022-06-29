@@ -75,7 +75,7 @@ const QuestionBox = (Props: Props) => {
           </div>
           <div className={styles.questionTime}>
             <Moment format={"YYYY.MM.DD"}>
-              {Props.questionData?.writer.created_at}
+              {Props.questionData?.created_at}
             </Moment>
           </div>
         </div>
