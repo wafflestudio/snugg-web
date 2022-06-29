@@ -9,6 +9,10 @@ import LectureExploreLayout from "../components/reused/Layout/LectureExploreLayo
 import { theme } from "../utility";
 import { ThemeProvider } from "@mui/system";
 
+import Amplify from "aws-amplify";
+import awsmobile from "../aws-exports";
+Amplify.configure({ ...awsmobile, ssr: true });
+
 function MyApp({ Component, pageProps }: AppProps) {
   switch (Component.displayName) {
     case "ProfileComponent":
