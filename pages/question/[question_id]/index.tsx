@@ -19,6 +19,7 @@ const QuestionViewPageContainer: NextPage<Props> = (Props: Props) => {
   return (
     <QuestionViewPage
       questionData={Props.questionData}
+      answerNum={Props.answerListData.results.length}
       questionId={Props.questionId}
       answerListData={Props.answerListData}
     />

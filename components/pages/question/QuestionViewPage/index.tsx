@@ -20,6 +20,7 @@ interface Props {
   questionId: number;
   questionData: QuestionPost;
   answerListData: PaginatedResponse<AnswerPostInfo>;
+  answerNum: number;
 }
 
 const QuestionViewPage = (Props: Props) => {
@@ -97,7 +98,7 @@ const QuestionViewPage = (Props: Props) => {
         onDeleteQuestion={onDeleteQuestion}
         questionData={Props.questionData}
       />
-      <div className={styles.answerCount}>N개의 답변</div>
+      <div className={styles.answerCount}>{Props.answerNum}개의 답변</div>
       {Props.answerListData.results.map((AnswerPost) => (
         <AnswerBox
           AnswerData={AnswerPost}
