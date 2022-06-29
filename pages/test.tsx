@@ -1,15 +1,31 @@
 import { NextPage } from "next";
-import AuthModal from "../components/reused/profile/AuthModal";
+import EditMajorModal from "../components/reused/profile/EditMajorModal";
+import { SchoolMajorInfo } from "../components/reused/profile/AuthModal";
 
 const TestPageContainer: NextPage = () => {
-  const ADMISSION_YEARS = ((begin: number, end: number) => {
-    const result = [];
-    for (let i = end; i >= begin; --i) result.push(i);
-    return result;
-  })(2000, 2022);
-  const MAJORS = ["컴퓨터공학부", "통계학과", "수리과학부", "경영학부"];
-  const DEGREES = ["학부", "졸업", "대학원", "석·박사"];
-  const SCHOOLS = ["서울대학교", "고려대학교", "연세대학교"];
+  const majors: SchoolMajorInfo[] = [
+    {
+      school: "서울대학교",
+      major: "건설환경공학부",
+      degree: "학사",
+      admissionYear: 2017,
+      email: "foo@snu.ac.kr"
+    },
+    {
+      school: "서울대학교",
+      major: "컴퓨터공학부",
+      degree: "석사",
+      admissionYear: 2022,
+      email: "foo@snu.ac.kr"
+    },
+    {
+      school: "MIT",
+      major: "EECS",
+      degree: "박사",
+      admissionYear: 2024,
+      email: "foo@mit.edu"
+    },
+  ]
   return <div style={{
     left: 0,
     right: 0,
@@ -20,9 +36,7 @@ const TestPageContainer: NextPage = () => {
     alignItems: "center",
     justifyContent: "center"
   }}>
-    <AuthModal admissionYears={ADMISSION_YEARS} majors={MAJORS} degrees={DEGREES} schools={SCHOOLS}
-               onSchoolEmailVerify={() => {
-               }}  onSubmit={(x) => alert(JSON.stringify(x))}/>
+    <EditMajorModal majors={majors}/>
   </div>;
 };
 

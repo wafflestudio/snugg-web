@@ -13,7 +13,7 @@ import {
 import { Search } from "@mui/icons-material";
 import Hangul from "hangul-js";
 
-interface SchoolAuthInfo {
+export interface SchoolMajorInfo {
   school: string;
   email: string;
   admissionYear: number;
@@ -27,8 +27,8 @@ interface Props {
   degrees: string[];
   schools: string[];
   onSchoolEmailVerify: () => void;
-  onSubmit: (authInfo: SchoolAuthInfo) => void;
-  initialData?: SchoolAuthInfo;
+  onSubmit: (authInfo: SchoolMajorInfo) => void;
+  initialData?: SchoolMajorInfo;
 }
 
 const AuthModal: FunctionComponent<Props> = ({
