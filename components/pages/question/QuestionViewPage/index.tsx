@@ -68,6 +68,7 @@ const QuestionViewPage = (Props: Props) => {
       .then((action) => {
         if (createAnswer.fulfilled.match(action)) {
           alert("답변 등록 완료");
+          router.push(`/question/${Props.questionId}`);
         } else if (createAnswer.rejected.match(action)) {
           alert("답변 등록 실패");
         }
