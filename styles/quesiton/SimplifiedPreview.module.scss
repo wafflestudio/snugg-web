@@ -19,45 +19,36 @@
   }
 }
 
-.preview {
+.questionPreview {
   width: 400px;
-}
-.previewHeader1 {
+  height: 40px;
   display: flex;
+  background-color: $light-grey;
+  border-radius: 5px;
+  justify-content: center;
   align-items: center;
-  height: 55px;
-}
-.previewHeader1Text {
-  font-size: 20px;
-  @include NanumGothicExtraBold;
-  line-height: 17px;
-  letter-spacing: 0em;
-  text-align: center;
-  margin-right: 10px;
-}
-.previewHeaderTag1 {
-  @include tag;
-  background-color: $tag1;
-}
-.previewHeaderTag2 {
-  @include tag;
-  background-color: $tag2;
-}
-.previewHeaderTag3 {
-  @include tag;
-  background-color: $tag3;
-}
-.previewHeader2 {
-  display: flex;
-  align-items: center;
-  height: 50px;
-  font-size: 18px;
-  @include NanumGothicExtraBold;
-  line-height: 23px;
-  letter-spacing: 0em;
-  text-align: left;
-  color: $main-color;
-}
-.previewBody {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+
+  .previewContent1 {
+    width: 25px;
+    margin-right: 10px;
+  }
+
+  .previewContent2 {
+    color: $main-color;
+    @include NanumGothicBold;
+    font-size: 15px;
+    margin-right: 10px;
+  }
+
+  .previewContent3 {
+    @include tag;
+    background-color: $tag1;
+    margin-right: 10px;
+  }
+
+  .previewContent4 {
+    @include tag;
+    background-color: $tag2;
+  }
 }

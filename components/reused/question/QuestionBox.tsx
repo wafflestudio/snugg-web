@@ -12,6 +12,8 @@ import { QuestionPost } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useState } from "react";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { editorExtensions } from "../QuestionEditor";
 
 interface Props {
   questionData: QuestionPost | null;
@@ -21,6 +23,26 @@ interface Props {
 const QuestionBox = (Props: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
+
+  const rawContent = Props.questionData?.content;
+  let jsonContent: any;
+  let success = false;
+  try {
+    if (rawContent !== undefined) {
+      jsonContent = JSON.parse(rawContent);
+      success = true;
+    }
+  } catch (err) {
+    success = false;
+  }
+  console.log("raw content", rawContent);
+  console.log("json content", jsonContent);
+
+  const questionView = useEditor({
+    editable: false,
+    extensions: editorExtensions,
+    content: success ? jsonContent : rawContent,
+  });
 
   return (
     <div className={styles.questionBox}>
@@ -44,15 +66,7 @@ const QuestionBox = (Props: Props) => {
         ))}
         <MoreHorizIcon className={styles.moreTags} />
       </div>
-
-      {/* dangerouslySetInnerHTML */}
-
-      <div className={styles.questionText}>
-        <LoremIpsum p={2} />
-        <div>{Props.questionData?.title}</div>
-      </div>
-
-      <div className={styles.questionText}>{Props.questionData?.content}</div>
+      <EditorContent editor={questionView} className={styles.questionText} />
       <div className={styles.questionBottom}>
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
@@ -61,12 +75,11 @@ const QuestionBox = (Props: Props) => {
           </div>
           <div className={styles.questionTime}>
             <Moment format={"YYYY.MM.DD"}>
-              {Props.questionData?.writer.created_at}
+              {Props.questionData?.created_at}
             </Moment>
           </div>
         </div>
         <div className={styles.questionButtons}>
-
           <NextLink href={`/question/${Props.questionData?.pk}/edit`} passHref>
             <Button className={styles.questionButton}>
               <EditIcon className={styles.questionButtonIcon} />
@@ -74,7 +87,6 @@ const QuestionBox = (Props: Props) => {
             </Button>
           </NextLink>
           <Button
-
             onClick={Props.onDeleteQuestion}
             className={styles.questionButton}
           >

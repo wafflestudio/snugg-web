@@ -1,12 +1,15 @@
 import axios from "axios";
 
-export const API_ENDPOINT = "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
+export const API_ENDPOINT =
+  "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
 
-const isProduction = process.env.NODE_ENV === "production";
+export const IMAGE_ENDPOINT = "https://snugg-s3.s3.amazonaws.com/";
+
+// const isProduction = process.env.NODE_ENV === "production";
 const isServer = typeof window === "undefined";
 
 // 서버에서 api를 요청하는 경우 백엔드로 바로 요청
-axios.defaults.baseURL = isProduction || isServer ? API_ENDPOINT : "/api/";
+axios.defaults.baseURL = isServer ? API_ENDPOINT : "/api/";
 
 export interface User {
   pk: number;
@@ -27,6 +30,15 @@ export interface QuestionPost {
   updated_at?: string;
   accepted_answer?: number;
   tags: string[];
+  presigned: {
+    url: string;
+    fields: {
+      key: string;
+      AWSAccessKeyId: string;
+      policy: string;
+      signature: string;
+    };
+  };
 }
 
 export interface UserTokenResponse {
@@ -94,12 +106,12 @@ export interface PostParams {
 }
 
 export interface AnswerPost {
-  pk: number;
   post: number;
   content: string;
 }
 
 export type AnswerPostInfo = AnswerPost & {
+  pk: number;
   writer: User;
   created_at: string;
   updated_at?: string;
@@ -111,6 +123,14 @@ export type ListAnswerParams = PaginationParams & {
 
 export type PostId = number;
 
+const withToken = (token: string) => ({
+  headers: { Authorization: `Bearer ${token}` },
+});
+
+export type GetAnswersForQuestionParams = {
+  questionId: string;
+};
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -120,8 +140,8 @@ const api = {
     await axios.post<UserTokenResponse>("/auth/signup/", params),
   getQuestion: async (params: QuestionGetParams) =>
     await axios.get<QuestionPost>(`/qna/posts/${params.id}`),
-  deleteQuestion: async (params: QuestionDeleteParams) =>
-    await axios.delete(`/qna/posts/${params.id}`),
+  deleteQuestion: async (params: QuestionDeleteParams, token: string) =>
+    await axios.delete(`/qna/posts/${params.id}`, withToken(token)),
   createQuestion: async (params: PostParams, token: string) =>
     await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
@@ -129,11 +149,7 @@ const api = {
       },
     }),
   updateQuestion: async (id: PostId, params: PostParams, token: string) =>
-    await axios.put<QuestionPost>(`/qna/posts/${id}`, params, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+    await axios.put<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
   partialUpdateQuestion: async (id: PostId, params: PostParams) =>
     await axios.patch<QuestionPost>(`/qna/posts/${id}`, params),
   listQuestions: async (params: ListQnaParams) =>
@@ -142,6 +158,10 @@ const api = {
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
       params,
     }),
+  getAnswersForQuestion: async (params: GetAnswersForQuestionParams) =>
+    await axios.get<PaginatedResponse<AnswerPostInfo>>(
+      `/qna/answers/?post=${params.questionId}`
+    ),
   createAnswer: async (params: AnswerPost, token: string) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params, {
       headers: {
@@ -155,9 +175,13 @@ const api = {
   partialUpdateAnswer: async (id: number, post: AnswerPost) =>
     await axios.patch(`/qna/answers/${id}`, post),
   deleteAnswer: async (id: number, token: string) =>
-    await axios.delete(`/qna/answers/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
+    await axios.delete(`/qna/answers/${id}`, withToken(token)),
+  uploadImages: async (url: string, key: string, blob: Blob) => {
+    const formData = new FormData();
+    formData.set("key", key);
+    formData.set("file", blob);
+    return await axios.post(url, formData, { baseURL: "" });
+  },
 };
 
 export default api;

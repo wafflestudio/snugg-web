@@ -1,7 +1,19 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import {
+  EditorContent,
+  Extensions,
+  JSONContent,
+  PureEditorContent,
+  useEditor,
+} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
-import { FC } from "react";
+import {
+  ChangeEventHandler,
+  FC,
+  MouseEventHandler,
+  useEffect,
+  useRef,
+} from "react";
 
 import styles from "../../styles/QuestionEditor.module.scss";
 
@@ -14,27 +26,62 @@ import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
 import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
 import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ImageIcon from "@mui/icons-material/Image";
 import Highlight from "@tiptap/extension-highlight";
+import Image from "@tiptap/extension-image";
+
+import { v4 as uuid } from "uuid";
 
 interface Props {
-  setContent: React.Dispatch<React.SetStateAction<string>>;
-  content: string;
+  setContent: (newValue: JSONContent) => void;
+  content: JSONContent;
 }
+
+export const editorExtensions: Extensions = [
+  StarterKit,
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+  }),
+  Highlight,
+  Image,
+];
 
 const QuestionEditor: FC<Props> = ({ setContent, content }) => {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-      Highlight,
-    ],
-    content: content,
+    extensions: editorExtensions,
     onUpdate({ editor }) {
-      setContent(editor.getHTML());
+      setContent(editor.getJSON());
     },
   });
+  useEffect(() => {
+    editor?.chain().setContent(content).run();
+  }, [content, editor]);
+
+  const imageInput = useRef<HTMLInputElement>(null);
+  const editorContent = useRef<PureEditorContent>(null);
+
+  const addImage: MouseEventHandler = (e) => {
+    e.preventDefault();
+    imageInput.current?.click();
+  };
+
+  const convertImage: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const imageReader = new FileReader();
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file === null) return;
+    imageReader.readAsDataURL(file);
+    const ext = file.name.split(".").pop();
+    const replacedName = uuid() + "." + ext;
+    imageReader.onload = () => {
+      if (typeof imageReader.result == "string") {
+        editor
+          ?.chain()
+          .focus()
+          .setImage({ src: imageReader.result, alt: replacedName })
+          .run();
+      }
+    };
+  };
 
   if (!editor) {
     return null;
@@ -77,8 +124,22 @@ const QuestionEditor: FC<Props> = ({ setContent, content }) => {
         <button onClick={() => editor.chain().focus().toggleBulletList().run()}>
           <FormatListBulletedIcon />
         </button>
+        <button onClick={addImage}>
+          <ImageIcon />
+        </button>
+        <input
+          ref={imageInput}
+          className={styles.imageInput}
+          type="file"
+          accept="image/jpg, image/png, image/jpeg"
+          onChange={convertImage}
+        />
       </div>
-      <EditorContent editor={editor} className={styles.writer} />
+      <EditorContent
+        editor={editor}
+        className={styles.writer}
+        ref={editorContent}
+      />
     </div>
   );
 };

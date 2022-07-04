@@ -1,7 +1,6 @@
 import { FunctionComponent } from "react";
 import styles from "./styles.module.scss";
 import { Button } from "@mui/material";
-import NextLink from "next/link";
 
 interface Props {}
 
@@ -13,11 +12,9 @@ export const AgoraUnAuthPage: FunctionComponent<Props> = () => {
         <br />
         아래 버튼을 눌러 인증을 완료해주세요.
       </div>
-      <NextLink href={"auth"} passHref>
-        <Button className={styles.button} variant="contained">
-          인증하기
-        </Button>
-      </NextLink>
+      <Button className={styles.button} variant="contained">
+        인증하기
+      </Button>
     </div>
   );
 };
