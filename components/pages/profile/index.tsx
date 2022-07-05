@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styles from "./styles.module.scss";
 
 import testImg from "../../../Image/magnifier.svg";
@@ -12,6 +12,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import SimplifiedPreview from "../../reused/question/SimplifiedPreview";
+import PasswordModal from "./PasswordModal";
+import EditMajorModal from "../../reused/profile/EditMajorModal";
 
 interface props {
   id: number;
@@ -19,6 +21,18 @@ interface props {
 
 const ProfilePage: FC<props> = () => {
   const introductionText = "안녕하세요 \n 가나다라마바사아자차카타파하";
+  const majorSample = [
+    {
+      school: "서울대학교",
+      email: "snugg@snu.ac.kr",
+      admissionYear: 2019,
+      major: "컴퓨터공학부",
+      degree: "학부생",
+    },
+  ];
+
+  const [pwOpen, setPwOpen] = useState(false);
+  const [majorOpen, setMajorOpen] = useState(false);
 
   return (
     <div className={styles.profile}>
@@ -68,11 +82,24 @@ const ProfilePage: FC<props> = () => {
             <div>입학년도: 2019</div>
           </div>
           <div className={styles.schoolInfoRight}>
-            <ListIcon className={styles.listIcon} />
+            <Button
+              className={styles.editMajorButton}
+              onClick={() => setMajorOpen(true)}
+            >
+              <ListIcon className={styles.listIcon} />
+            </Button>
+            <EditMajorModal
+              majors={majorSample}
+              open={majorOpen}
+              setOpen={setMajorOpen}
+            />
           </div>
         </div>
         <div className={styles.accountManager}>
-          <Button variant="contained">비밀번호 변경</Button>
+          <Button variant="contained" onClick={() => setPwOpen(true)}>
+            비밀번호 변경
+          </Button>
+          <PasswordModal open={pwOpen} setOpen={setPwOpen} />
           <Button variant="contained">회원탈퇴</Button>
         </div>
       </div>

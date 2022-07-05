@@ -124,7 +124,7 @@
       padding: 5px;
       display: flex;
       justify-content: space-between;
-      padding: 0px 20px;
+      padding: 0px 0px 0px 20px;
 
       .schoolInfoLeft {
         @include NanumGothicBold;
@@ -139,9 +139,13 @@
         color: $main-color;
         margin-top: 5px;
 
-        .listIcon {
-          width: 30px;
-          height: 30px;
+        .editMajorButton {
+          color: $main-color;
+
+          .listIcon {
+            width: 30px;
+            height: 30px;
+          }
         }
       }
     }
