@@ -14,6 +14,7 @@ import { Button } from "@mui/material";
 import SimplifiedPreview from "../../reused/question/SimplifiedPreview";
 import PasswordModal from "./PasswordModal";
 import EditMajorModal from "../../reused/profile/EditMajorModal";
+import PointModal from "../../reused/profile/PointModal";
 
 interface props {
   id: number;
@@ -33,6 +34,7 @@ const ProfilePage: FC<props> = () => {
 
   const [pwOpen, setPwOpen] = useState(false);
   const [majorOpen, setMajorOpen] = useState(false);
+  const [pointOpen, setPointOpen] = useState(false);
 
   return (
     <div className={styles.profile}>
@@ -57,8 +59,9 @@ const ProfilePage: FC<props> = () => {
                 <div className={styles.username}>USERNAME</div>
                 <div className={styles.point}>
                   <DiamondIcon className={styles.pointIcon} />
-                  <div>30p</div>
+                  <div onClick={() => setPointOpen(true)}>30p</div>
                 </div>
+                <PointModal open={pointOpen} setOpen={setPointOpen} />
               </div>
             </div>
             <div className={styles.basicProfileDown}>
