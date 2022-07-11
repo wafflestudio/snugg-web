@@ -14,6 +14,7 @@ import CommentBox from "./CommentBox";
 import { useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
+import { useAppSelector } from "../../../store";
 
 interface Props {
   questionData: QuestionPost | null;
@@ -23,6 +24,7 @@ interface Props {
 const QuestionBox = (Props: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
+  const me = useAppSelector((state) => state.users.data);
 
   const rawContent = Props.questionData?.content;
   let jsonContent: any;
@@ -81,12 +83,16 @@ const QuestionBox = (Props: Props) => {
         </div>
         <div className={styles.questionButtons}>
           <NextLink href={`/question/${Props.questionData?.pk}/edit`} passHref>
-            <Button className={styles.questionButton}>
+            <Button
+              disabled={me?.user.pk !== Props.questionData?.writer.pk}
+              className={styles.questionButton}
+            >
               <EditIcon className={styles.questionButtonIcon} />
               <div>수정하기</div>
             </Button>
           </NextLink>
           <Button
+            disabled={me?.user.pk !== Props.questionData?.writer.pk}
             onClick={Props.onDeleteQuestion}
             className={styles.questionButton}
           >

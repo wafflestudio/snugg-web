@@ -12,6 +12,7 @@ import CommentBox from "./CommentBox";
 import { FC, useState } from "react";
 import { AnswerPostInfo } from "../../../api";
 import Moment from "react-moment";
+import { useAppSelector } from "../../../store";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
@@ -20,7 +21,7 @@ interface Props {
 
 const AnswerBox: FC<Props> = ({ AnswerData, onDeleteAnswer }: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
-
+  const me = useAppSelector((state) => state.users.data);
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
@@ -40,11 +41,15 @@ const AnswerBox: FC<Props> = ({ AnswerData, onDeleteAnswer }: Props) => {
           </div>
         </div>
         <div className={styles.questionButtons}>
-          <div className={styles.questionButton}>
+          <Button
+            className={styles.questionButton}
+            disabled={me?.user.pk !== AnswerData.writer.pk}
+          >
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
-          </div>
-          <div
+          </Button>
+          <Button
+            disabled={me?.user.pk !== AnswerData.writer.pk}
             onClick={() => {
               onDeleteAnswer(AnswerData.pk);
             }}
@@ -52,7 +57,7 @@ const AnswerBox: FC<Props> = ({ AnswerData, onDeleteAnswer }: Props) => {
           >
             <DeleteIcon className={styles.questionButtonIcon} />
             <div>삭제하기</div>
-          </div>
+          </Button>
           <Button
             className={styles.questionButton}
             onClick={() => setCommentOpen(!commentOpen)}
