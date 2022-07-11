@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api, { PostParams, QuestionPost, PostId } from "../api";
+import api, { QuestionPost, QuestionPostInfo, PostId } from "../api";
 
 interface PostState {
-  data: QuestionPost | null;
+  data: QuestionPostInfo | null;
 }
 
 interface PostTokenParams {
-  params: PostParams;
+  params: QuestionPost;
   token: string;
 }
 
@@ -27,7 +27,7 @@ export const updatePost = createAsyncThunk(
     token,
   }: {
     id: PostId;
-    params: PostParams;
+    params: QuestionPost;
     token: string;
   }) => {
     const res = await api.updateQuestion(id, params, token);
@@ -37,7 +37,7 @@ export const updatePost = createAsyncThunk(
 
 export const partialUpdatePost = createAsyncThunk(
   "partialUpdatePost",
-  async ({ id, params }: { id: PostId; params: PostParams }) => {
+  async ({ id, params }: { id: PostId; params: QuestionPost }) => {
     const res = await api.partialUpdateQuestion(id, params);
     return res.data;
   }

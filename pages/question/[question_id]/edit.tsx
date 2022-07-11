@@ -2,13 +2,13 @@ import axios from "axios";
 import { GetServerSideProps, NextPage } from "next";
 
 import React from "react";
-import { QuestionPost } from "../../../api";
+import { QuestionPostInfo } from "../../../api";
 import QuestionEditPage from "../../../components/pages/question/QuestionEditPage";
 import { nanToNull, queryToString } from "../../../utility";
 
 interface Props {
   questionId: string;
-  questionData: QuestionPost;
+  questionData: QuestionPostInfo;
 }
 
 const QuestionEditPageContainer: NextPage<Props> = (Props: Props) => {

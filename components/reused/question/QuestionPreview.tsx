@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
-import { QuestionPost } from "../../../api";
+import { QuestionPostInfo } from "../../../api";
 import NextLink from "next/link";
-import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
 interface Props {
-  post: QuestionPost;
+  post: QuestionPostInfo;
 }
 
 const summarize = (content: string) => content.substring(0, 300);
@@ -16,7 +16,7 @@ const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
   const summary = useMemo(() => summarize(post.content), [post.content]);
 
   let jsonContent: any;
-  let success = false;
+  let success: boolean;
   try {
     jsonContent = JSON.parse(post.content);
     success = true;

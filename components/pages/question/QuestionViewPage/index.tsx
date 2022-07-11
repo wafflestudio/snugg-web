@@ -4,7 +4,7 @@ import AnswerBox from "../../../reused/question/AnswerBox";
 import {
   AnswerPostInfo,
   PaginatedResponse,
-  QuestionPost,
+  QuestionPostInfo,
 } from "../../../../api";
 import api from "../../../../api";
 import { AxiosError } from "axios";
@@ -18,7 +18,7 @@ import { Button } from "@mui/material";
 
 interface Props {
   questionId: number;
-  questionData: QuestionPost;
+  questionData: QuestionPostInfo;
   answerListData: PaginatedResponse<AnswerPostInfo>;
   answerNum: number;
 }
@@ -26,19 +26,6 @@ interface Props {
 const QuestionViewPage = (Props: Props) => {
   const router = useRouter();
   const me = useAppSelector((state) => state.users.data);
-  const AnswerPost: AnswerPostInfo = {
-    created_at: "",
-    writer: {
-      pk: 2,
-      email: "asdf@asfd.com",
-      username: "asdf",
-      created_at: "2022/01/01",
-    },
-    pk: 1,
-    post: 1,
-    content: "Ss",
-  };
-
   const onDeleteQuestion = async () => {
     try {
       if (me === null) {

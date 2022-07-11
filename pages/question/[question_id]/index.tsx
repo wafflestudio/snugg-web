@@ -3,15 +3,13 @@ import { queryToString } from "../../../utility";
 import api, {
   AnswerPostInfo,
   PaginatedResponse,
-  QuestionPost,
+  QuestionPostInfo,
 } from "../../../api";
-import axios from "axios";
 import QuestionViewPage from "../../../components/pages/question/QuestionViewPage";
-import { useEffect } from "react";
 
 interface Props {
   questionId: number;
-  questionData: QuestionPost;
+  questionData: QuestionPostInfo;
   answerListData: PaginatedResponse<AnswerPostInfo>;
 }
 

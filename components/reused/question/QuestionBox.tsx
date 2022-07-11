@@ -8,7 +8,7 @@ import { Button, Divider, Input } from "@mui/material";
 import NextLink from "next/link";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
-import { QuestionPost } from "../../../api";
+import { QuestionPostInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useState } from "react";
@@ -17,7 +17,7 @@ import { editorExtensions } from "../QuestionEditor";
 import { useAppSelector } from "../../../store";
 
 interface Props {
-  questionData: QuestionPost | null;
+  questionData: QuestionPostInfo | null;
   onDeleteQuestion: () => {};
 }
 
