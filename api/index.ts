@@ -133,7 +133,7 @@ export interface ListAgoraPostParams extends PaginationParams {
 }
 
 export interface AgoraPost {
-  lecture: string;
+  lecture: number;
   title: string;
   content: string;
 }

@@ -103,7 +103,7 @@ const QuestionViewPage = (Props: Props) => {
         <Button
           className={styles.answerButton}
           onClick={(e) => {
-            e.preventDefault;
+            e.preventDefault();
             if (token !== undefined) {
               handleCreateAnswer(Props.questionData?.pk, content, token);
             } else {

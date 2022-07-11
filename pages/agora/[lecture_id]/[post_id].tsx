@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   return {
     props: {
-      className: queryToString(context.params?.class_name),
+      className: queryToString(context.params?.lecture_id),
       postId: Number(queryToString(context.params?.post_id)),
     },
   };
