@@ -5,10 +5,11 @@ import { JSONContent } from "@tiptap/react";
 import api, { IMAGE_ENDPOINT } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { replaceImgSrc } from "../../../../utility";
+import { useRouter } from "next/router";
 
 const QuestionAskPage = () => {
   const token = useAppSelector((state) => state.users.data?.token.access);
-
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const handleCreatePost = (
     field: string,
@@ -51,6 +52,8 @@ const QuestionAskPage = () => {
         })
       );
       await Promise.all(imagePromises.concat([updatePromise]));
+
+      router.push("/question");
       alert("질문 등록 완료");
     })();
   };

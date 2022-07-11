@@ -5,6 +5,7 @@ import api, { IMAGE_ENDPOINT, PostId, QuestionPost } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { JSONContent } from "@tiptap/react";
 import { replaceImgSrc } from "../../../../utility";
+import { useRouter } from "next/router";
 
 interface Props {
   postId: number | null;
@@ -13,7 +14,7 @@ interface Props {
 
 const QuestionEditPage = (props: Props) => {
   const token = useAppSelector((state) => state.users.data?.token.access);
-
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const handleUpdatePost = (
     id: PostId,
@@ -58,6 +59,7 @@ const QuestionEditPage = (props: Props) => {
         })
       );
       await Promise.all(imagePromises.concat([updatePromise]));
+      router.push(`/question/${props.postId}`);
       alert("질문 등록 완료");
     })();
   };
