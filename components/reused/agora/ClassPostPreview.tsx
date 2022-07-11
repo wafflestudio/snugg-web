@@ -12,7 +12,7 @@ const ClassPostPreview = ({ post }: Props) => {
     <div className={styles.container}>
       <div className={styles.postInfo}>
         <div className={styles.postNum}>{post.pk}</div>
-        <Link href={`/agora/${post.lecture}/${post.pk}`}>
+        <Link href={`/agora/${post.lecture.pk}/${post.pk}`}>
           <a className={styles.postTitle}>{post.title}</a>
         </Link>
         <Link href={`/profile/${post.writer.pk}`}>

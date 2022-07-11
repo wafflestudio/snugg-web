@@ -1,17 +1,16 @@
 import { GetServerSideProps, NextPage } from "next";
-import { queryToString } from "../../../utility";
+import { nanToNull} from "../../../utility";
 import { AgoraPostPage } from "../../../components/pages/agora/AgoraPostPage";
+import api, { AgoraPostInfo } from "../../../api";
 
 interface Props {
-  className: string | null;
-  postId: number;
+  post: AgoraPostInfo;
 }
 
-const AgoraPostPageContainer: NextPage<Props> = ({ className, postId }) => {
+const AgoraPostPageContainer: NextPage<Props> = ({ post }) => {
   return (
     <AgoraPostPage
-      postId={postId}
-      className={className}
+      post={post}
       onSubmitComment={(comment: string) => {
         alert(`comment: ${comment}`);
       }}
@@ -21,13 +20,17 @@ const AgoraPostPageContainer: NextPage<Props> = ({ className, postId }) => {
 
 export default AgoraPostPageContainer;
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
+export const getServerSideProps: GetServerSideProps<Props,
+  { lecture_id: string, post_id: string }> = async (
   context
 ) => {
+  const lectureId = nanToNull(Number(context.params?.lecture_id));
+  const postId = nanToNull(Number(context.params?.post_id));
+  if (lectureId === null || postId === null) return { notFound: true };
+  const post = (await api.getAgoraPost(postId)).data;
   return {
     props: {
-      className: queryToString(context.params?.lecture_id),
-      postId: Number(queryToString(context.params?.post_id)),
-    },
+      post
+    }
   };
 };

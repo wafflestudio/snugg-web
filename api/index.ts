@@ -132,8 +132,19 @@ export interface ListAgoraPostParams extends PaginationParams {
   writer?: number;
 }
 
+export interface Lecture {
+  college: string;
+  instructor: string;
+  lecture_id: string;
+  major: string;
+  name: string;
+  pk: number;
+  semesters: string[];
+  university: string;
+}
+
 export interface AgoraPost {
-  lecture: number;
+  lecture: Lecture;
   title: string;
   content: string;
 }
