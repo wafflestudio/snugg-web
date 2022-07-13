@@ -132,18 +132,18 @@ export type GetAnswersForQuestionParams = {
 };
 
 export type ListAgoraLectureParams = {
-  college: string;
-  major: string;
-  ordering: string;
-  page: number;
-  page_size: number;
-  search: string;
-  season: number;
-  university: string;
-  year: number;
+  college?: string;
+  major?: string;
+  ordering?: string;
+  page?: number;
+  page_size?: number;
+  search?: string;
+  season?: number;
+  university?: string;
+  year?: number;
 };
 
-export type AgroaLectureInfo = {
+export type AgoraLectureInfo = {
   pk: number;
   name: string;
   lecture_id: string;
@@ -158,7 +158,7 @@ export type ListAgoraLectureInfo = {
   count: number;
   next: string;
   previous: string;
-  results: AgroaLectureInfo[];
+  results: AgoraLectureInfo[];
 };
 
 const api = {
@@ -215,7 +215,7 @@ const api = {
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
-    await axios.get<AgroaLectureInfo>(`agora/lectures/${id}`),
+    await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
 };
 
 export default api;
