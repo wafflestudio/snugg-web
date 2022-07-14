@@ -131,6 +131,36 @@ export type GetAnswersForQuestionParams = {
   questionId: string;
 };
 
+export type ListAgoraLectureParams = {
+  college?: string;
+  major?: string;
+  ordering?: string;
+  page?: number;
+  page_size?: number;
+  search?: string;
+  season?: number;
+  university?: string;
+  year?: number;
+};
+
+export type AgoraLectureInfo = {
+  pk: number;
+  name: string;
+  lecture_id: string;
+  instructor: string;
+  university: string;
+  college: string;
+  major: string;
+  semesters: string[];
+};
+
+export type ListAgoraLectureInfo = {
+  count: number;
+  next: string;
+  previous: string;
+  results: AgoraLectureInfo[];
+};
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -182,6 +212,10 @@ const api = {
     formData.set("file", blob);
     return await axios.post(url, formData, { baseURL: "" });
   },
+  listAgoraLecture: async (params: ListAgoraLectureParams) =>
+    await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
+  getAgoraLecture: async (id: number) =>
+    await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
 };
 
 export default api;

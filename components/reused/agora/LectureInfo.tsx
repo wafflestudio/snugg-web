@@ -36,7 +36,7 @@ const LectureInfo = ({
           </div>
           <div className={styles.topRight}>
             <span className={styles.regularText}>{courseCode}</span>
-            <Person sx={{ color: "#C4C4C4" }} />
+            <Person className={styles.person} sx={{ color: "#C4C4C4" }} />
             <span className={styles.greyText}>{studentNumber}</span>
           </div>
         </div>
