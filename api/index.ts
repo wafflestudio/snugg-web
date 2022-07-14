@@ -21,14 +21,15 @@ export interface User {
 }
 
 export interface QuestionPost {
+  pk: number;
   field: string;
+  writer: User;
   title: string;
   content: string;
+  created_at: string;
+  updated_at?: string;
   accepted_answer?: number;
   tags: string[];
-}
-
-export interface PresignedUrlInfo {
   presigned: {
     url: string;
     fields: {
@@ -37,17 +38,8 @@ export interface PresignedUrlInfo {
       policy: string;
       signature: string;
     };
-  }
+  };
 }
-
-interface PostInfo {
-  pk: number;
-  writer: User;
-  created_at: string;
-  updated_at?: string;
-}
-
-export interface QuestionPostInfo extends QuestionPost, PresignedUrlInfo, PostInfo {}
 
 export interface UserTokenResponse {
   user: User;
@@ -67,7 +59,7 @@ export interface PaginatedResponse<T> {
   results: T[];
 }
 
-export type ListQnaResponse = PaginatedResponse<QuestionPostInfo>;
+export type ListQnaResponse = PaginatedResponse<QuestionPost>;
 
 export interface SignInParams {
   email: string;
@@ -105,24 +97,35 @@ export interface QuestionDeleteParams {
   id: number;
 }
 
+export interface PostParams {
+  field: string;
+  title: string;
+  content: string;
+  accepted_answer?: number;
+  tags: string[];
+}
+
 export interface AnswerPost {
   post: number;
   content: string;
 }
 
-export interface AnswerPostInfo extends AnswerPost, PostInfo {}
+export type AnswerPostInfo = AnswerPost & {
+  pk: number;
+  writer: User;
+  created_at: string;
+  updated_at?: string;
+};
 
-export interface ListAnswerParams extends PaginationParams {
+export type ListAnswerParams = PaginationParams & {
   writer?: User;
-}
-
-export type PostId = number;
+};
 
 const withToken = (token: string) => ({
-  headers: { Authorization: `Bearer ${token}` },
+  headers: { Authorization: `Bearer ${token}` }
 });
 
-export interface GetAnswersForQuestionParams {
+export type GetAnswersForQuestionParams = {
   questionId: string;
 }
 
@@ -151,6 +154,36 @@ export interface AgoraPost {
 
 export interface AgoraPostInfo extends AgoraPost, PostInfo {}
 
+export type ListAgoraLectureParams = {
+  college?: string;
+  major?: string;
+  ordering?: string;
+  page?: number;
+  page_size?: number;
+  search?: string;
+  season?: number;
+  university?: string;
+  year?: number;
+};
+
+export type AgoraLectureInfo = {
+  pk: number;
+  name: string;
+  lecture_id: string;
+  instructor: string;
+  university: string;
+  college: string;
+  major: string;
+  semesters: string[];
+};
+
+export type ListAgoraLectureInfo = {
+  count: number;
+  next: string;
+  previous: string;
+  results: AgoraLectureInfo[];
+};
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -159,24 +192,26 @@ const api = {
   signUp: async (params: SignUpParams) =>
     await axios.post<UserTokenResponse>("/auth/signup/", params),
   getQuestion: async (params: QuestionGetParams) =>
-    await axios.get<QuestionPostInfo>(`/qna/posts/${params.id}`),
+    await axios.get<QuestionPost>(`/qna/posts/${params.id}`),
   deleteQuestion: async (params: QuestionDeleteParams, token: string) =>
     await axios.delete(`/qna/posts/${params.id}`, withToken(token)),
-  createQuestion: async (params: QuestionPost, token: string) =>
-    await axios.post<QuestionPostInfo>("/qna/posts", params, {
+  createQuestion: async (params: PostParams, token: string) =>
+    await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }),
-  updateQuestion: async (id: PostId, params: QuestionPost, token: string) =>
-    await axios.put<QuestionPostInfo>(`/qna/posts/${id}`, params, withToken(token)),
-  partialUpdateQuestion: async (id: PostId, params: QuestionPost) =>
-    await axios.patch<QuestionPostInfo>(`/qna/posts/${id}`, params),
+  updateQuestion: async (id: number, params: PostParams, token: string) =>
+    await axios.put<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
+  partialUpdateQuestion: async (id: number, params: Partial<PostParams>, token: string) =>
+    await axios.patch<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
+  acceptAnswer: async (questionId: number, answerId: number, token: string) =>
+    await api.partialUpdateQuestion(questionId, { accepted_answer: answerId }, token),
   listQuestions: async (params: ListQnaParams) =>
     await axios.get<ListQnaResponse>("/qna/posts", { params }),
   listAnswers: async (params: ListAnswerParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
-      params,
+      params
     }),
   getAnswersForQuestion: async (params: GetAnswersForQuestionParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>(
@@ -185,8 +220,8 @@ const api = {
   createAnswer: async (params: AnswerPost, token: string) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }),
   getAnswer: async (id: number) =>
     await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
@@ -214,6 +249,10 @@ const api = {
     await axios.patch<AgoraPostInfo>(`/agora/posts/${id}`, params),
   deleteAgoraPost: async (id: PostId) =>
     await axios.delete<{}>(`/agora/posts/${id}`),
+  listAgoraLecture: async (params: ListAgoraLectureParams) =>
+    await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
+  getAgoraLecture: async (id: number) =>
+    await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
 };
 
 export default api;

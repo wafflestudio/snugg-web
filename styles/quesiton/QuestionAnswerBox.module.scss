@@ -1,6 +1,7 @@
 @import "styles/Font";
 @import "styles/Color";
 @import "QuestionPreview.module";
+@import "styles/Buttons";
 
 .questionBox {
   width: 1075px;
@@ -8,7 +9,7 @@
   border: 1px solid $main-color;
   border-radius: 5px;
   padding: 20px;
-  margin: 0px auto 20px auto;
+  margin: 0 auto 20px auto;
 
   .questionTitle {
     display: flex;
@@ -26,6 +27,10 @@
       font-size: 20px;
       @include NanumGothicBold;
       line-height: 40px;
+    }
+
+    .button {
+      @include normal-button;
     }
   }
 
@@ -128,7 +133,7 @@
         border-radius: 5px;
         font-size: 15px;
         @include NanumGothicRegular;
-        padding: 0px 10px;
+        padding: 0 10px;
       }
 
       button {

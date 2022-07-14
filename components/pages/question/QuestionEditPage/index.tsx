@@ -1,7 +1,7 @@
 import React from "react";
 import { updatePost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import api, { IMAGE_ENDPOINT, PostId, QuestionPostInfo } from "../../../../api";
+import api, { IMAGE_ENDPOINT, PostId, QuestionPost } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { JSONContent } from "@tiptap/react";
 import { replaceImgSrc } from "../../../../utility";
@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 interface Props {
   postId: number | null;
-  questionData: QuestionPostInfo;
+  questionData: QuestionPost;
 }
 
 const QuestionEditPage = (props: Props) => {
@@ -17,7 +17,7 @@ const QuestionEditPage = (props: Props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const handleUpdatePost = (
-    id: PostId,
+    id: number,
     field: string,
     title: string,
     jsonContent: JSONContent,
@@ -32,9 +32,9 @@ const QuestionEditPage = (props: Props) => {
             field,
             title,
             content: "placeholder",
-            tags,
+            tags
           },
-          token,
+          token
         })
       );
       if (!updatePost.fulfilled.match(updateAction)) {
@@ -55,7 +55,7 @@ const QuestionEditPage = (props: Props) => {
         updatePost({
           id: payload.pk,
           params: { field, title, content, tags },
-          token,
+          token
         })
       );
       await Promise.all(imagePromises.concat([updatePromise]));

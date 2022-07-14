@@ -10,7 +10,7 @@ import api from "../../../../api";
 import { AxiosError } from "axios";
 import { useRouter } from "next/router";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import AnswerEditor from "../../../reused/AnswerEditor";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { createAnswer } from "../../../../store/answerPosts";
@@ -23,7 +23,7 @@ interface Props {
   answerNum: number;
 }
 
-const QuestionViewPage = (Props: Props) => {
+const QuestionViewPage: FC<Props> = ({ answerListData: { results }, answerNum, questionData, questionId }) => {
   const router = useRouter();
   const me = useAppSelector((state) => state.users.data);
   const onDeleteQuestion = async () => {
@@ -33,7 +33,7 @@ const QuestionViewPage = (Props: Props) => {
         return;
       }
       const response = await api.deleteQuestion(
-        { id: Props.questionId },
+        { id: questionId },
         me.token.access
       );
       console.log(response);
@@ -55,7 +55,7 @@ const QuestionViewPage = (Props: Props) => {
       .then((action) => {
         if (createAnswer.fulfilled.match(action)) {
           alert("답변 등록 완료");
-          router.push(`/question/${Props.questionId}`);
+          router.push(`/question/${questionId}`);
         } else if (createAnswer.rejected.match(action)) {
           alert("답변 등록 실패");
         }
@@ -72,7 +72,7 @@ const QuestionViewPage = (Props: Props) => {
         me?.token.access ?? "" + " " + me?.token.refresh ?? ""
       );
       console.log(response);
-      router.push("/question/" + Props.questionId); // router.push는 새로고침이 강제됨.
+      router.push("/question/" + questionId); // router.push는 새로고침이 강제됨.
     } catch (error) {
       const err = error as AxiosError;
       console.log(err);
@@ -84,19 +84,19 @@ const QuestionViewPage = (Props: Props) => {
     <div className={styles.mainContainer}>
       <QuestionBox
         onDeleteQuestion={onDeleteQuestion}
-        questionData={Props.questionData}
+        questionData={questionData}
       />
-      <div className={styles.answerCount}>{Props.answerNum}개의 답변</div>
-      {Props.answerListData.results.map((AnswerPost) => (
+      <div className={styles.answerCount}>{answerNum}개의 답변</div>
+      {results.map((item) => (
         <AnswerBox
-          AnswerData={AnswerPost}
+          answerData={item}
           onDeleteAnswer={onDeleteAnswer}
-          key={AnswerPost.pk}
+          accepted={item.pk === questionData.accepted_answer}
+          acceptable={questionData.writer.pk === me?.user.pk && questionData.accepted_answer === null}
+          key={item.pk}
         />
       ))}
 
-      {/*<AnswerBox AnswerData={AnswerPost} onDeleteAnswer={onDeleteAnswer} />
-       */}
       <div className={styles.answerWriter}>
         <div className={styles.answerWriterTitle}>답변 작성하기</div>
         <AnswerEditor setContent={setContent} />
@@ -105,7 +105,7 @@ const QuestionViewPage = (Props: Props) => {
           onClick={(e) => {
             e.preventDefault();
             if (token !== undefined) {
-              handleCreateAnswer(Props.questionData?.pk, content, token);
+              handleCreateAnswer(questionData?.pk, content, token);
             } else {
               alert("로그인하세요.");
             }

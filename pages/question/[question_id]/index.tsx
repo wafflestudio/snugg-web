@@ -29,11 +29,6 @@ export default QuestionViewPageContainer;
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  /*const questionResponse = await axios.get(
-    `http://54.180.123.137/qna/posts/${queryToString(
-      context.params?.question_id
-    )}`
-  );*/
   const questionResponse = await api.getQuestion({
     id: Number(context.params?.question_id),
   });
@@ -41,10 +36,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const answerListResponse = await api.getAnswersForQuestion({
     questionId: queryToString(context.params?.question_id) ?? "",
   });
-  /*
-  console.log(questionResponse.data);
-  console.log(answerListResponse.data);*/
-  //하드코딩 안하니까 에러뜸..
   return {
     props: {
       questionData: questionResponse.data,
