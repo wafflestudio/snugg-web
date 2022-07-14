@@ -135,24 +135,18 @@ export interface ListAgoraPostParams extends PaginationParams {
   writer?: number;
 }
 
-export interface Lecture {
-  college: string;
-  instructor: string;
-  lecture_id: string;
-  major: string;
-  name: string;
-  pk: number;
-  semesters: string[];
-  university: string;
-}
-
 export interface AgoraPost {
-  lecture: Lecture;
+  lecture: AgoraLectureInfo;
   title: string;
   content: string;
 }
 
-export interface AgoraPostInfo extends AgoraPost, PostInfo {}
+export interface AgoraPostInfo extends AgoraPost {
+  pk: number;
+  writer: User;
+  created_at: string;
+  updated_at?: string;
+}
 
 export type ListAgoraLectureParams = {
   college?: string;
@@ -241,13 +235,13 @@ const api = {
     await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, { params }),
   createAgoraPost: async (params: AgoraPost) =>
     await axios.post<AgoraPostInfo>(`/agora/posts/`, params),
-  getAgoraPost: async (id: PostId) =>
+  getAgoraPost: async (id: number) =>
     await axios.get<AgoraPostInfo>(`/agora/posts/${id}`),
-  updateAgoraPost: async (id: PostId, params: AgoraPost) =>
+  updateAgoraPost: async (id: number, params: AgoraPost) =>
     await axios.put<AgoraPostInfo>(`/agora/posts/${id}`, params),
-  partialUpdateAgoraPost: async (id: PostId, params: Partial<AgoraPost>) =>
+  partialUpdateAgoraPost: async (id: number, params: Partial<AgoraPost>) =>
     await axios.patch<AgoraPostInfo>(`/agora/posts/${id}`, params),
-  deleteAgoraPost: async (id: PostId) =>
+  deleteAgoraPost: async (id: number) =>
     await axios.delete<{}>(`/agora/posts/${id}`),
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
