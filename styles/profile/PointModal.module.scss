@@ -1,0 +1,74 @@
+@import "styles/Font";
+@import "styles/Color";
+
+@mixin alignCenter {
+  display: flex;
+  justify-content: center;
+}
+
+.insideBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll;
+}
+
+.insideBox::-webkit-scrollbar {
+  display: none;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  .text {
+    color: $main-color;
+    @include NanumGothicBold;
+    font-size: 25px;
+    margin-top: 10px;
+  }
+}
+
+.header {
+  width: 270px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  @include NanumGothicBold;
+  margin-top: 30px;
+}
+
+.divider {
+  width: 280px;
+  border: 1px solid $dark-grey;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.text {
+  @include NanumGothicBold;
+}
+
+.topLine {
+  width: 270px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  @include NanumGothicBold;
+}
+
+.bottomLine {
+  width: 270px;
+  text-align: right;
+  font-size: 15px;
+  @include NanumGothicBold;
+  color: $dark-grey;
+  margin-top: 5px;
+}
+
+.pointHistory {
+  margin-bottom: 15px;
+}
