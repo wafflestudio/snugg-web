@@ -2,24 +2,24 @@ import { GetServerSideProps, NextPage } from "next";
 import { nanToNull } from "../../../utility";
 import { AgoraListPage } from "../../../components/pages/agora/AgoraListPage";
 import { useRouter } from "next/router";
-import api, { AgoraPostInfo } from "../../../api";
+import api, { AgoraLectureInfo, AgoraPostInfo } from "../../../api";
 
 interface Props {
-  lectureId: number;
   posts: AgoraPostInfo[];
+  lecture: AgoraLectureInfo;
 }
 
-const AgoraListPageContainer: NextPage<Props> = ({ lectureId, posts }) => {
+const AgoraListPageContainer: NextPage<Props> = ({ posts, lecture }) => {
   const router = useRouter();
   const onSearch = (condition: string, query: string) => {
     router
       .push(
-        `/agora/${lectureId}?` +
+        `/agora/${lecture.pk}?` +
         new URLSearchParams({ type: condition, query }).toString()
       )
       .then();
   };
-  return <AgoraListPage onSearch={onSearch} posts={posts} />;
+  return <AgoraListPage onSearch={onSearch} posts={posts} lecture={lecture} />;
 };
 
 export default AgoraListPageContainer;
@@ -32,9 +32,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
     return { notFound: true };
   }
   const posts = (await api.listAgoraPost({ lecture: lectureId })).data.results;
+  const lecture = (await api.getAgoraLecture(lectureId)).data;
   return {
     props: {
-      lectureId, posts
+      lectureId, posts, lecture
     }
   };
 };
