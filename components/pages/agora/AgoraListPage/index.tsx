@@ -2,27 +2,23 @@ import { FC, useState } from "react";
 import styles from "./styles.module.scss";
 import ClassPostPreview from "../../../reused/agora/ClassPostPreview";
 import { MenuItem, Pagination, Select } from "@mui/material";
+import { AgoraLectureInfo, AgoraPostInfo } from "../../../../api";
 
 export interface Props {
-  className: string;
   onSearch: (condition: string, query: string) => void;
+  posts: AgoraPostInfo[];
+  lecture: AgoraLectureInfo;
 }
 
-export const AgoraListPage: FC<Props> = ({ className, onSearch }) => {
+export const AgoraListPage: FC<Props> = ({ onSearch, posts, lecture }) => {
   const [searchCondition, setSearchCondition] = useState("content");
   const [searchQuery, setSearchQuery] = useState("");
   return (
     <div className={styles.container}>
-      <div className={styles.className}>강의 제목</div>
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
-        return (
-          <ClassPostPreview
-            key={item}
-            className={className}
-            author={"작성자"}
-          />
-        );
-      })}
+      <div className={styles.className}>{lecture.name}</div>
+      {
+        posts.map((item) => <ClassPostPreview post={item} key={item.pk} />)
+      }
       <div className={styles.bottom1}>
         <Pagination
           className={styles.pagination}

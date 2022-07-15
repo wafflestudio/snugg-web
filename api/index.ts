@@ -127,7 +127,26 @@ const withToken = (token: string) => ({
 
 export type GetAnswersForQuestionParams = {
   questionId: string;
-};
+}
+
+export interface ListAgoraPostParams extends PaginationParams {
+  lecture: number;
+  search?: string;
+  writer?: number;
+}
+
+export interface AgoraPost {
+  lecture: AgoraLectureInfo;
+  title: string;
+  content: string;
+}
+
+export interface AgoraPostInfo extends AgoraPost {
+  pk: number;
+  writer: User;
+  created_at: string;
+  updated_at?: string;
+}
 
 export type ListAgoraLectureParams = {
   college?: string;
@@ -212,6 +231,18 @@ const api = {
     formData.set("file", blob);
     return await axios.post(url, formData, { baseURL: "" });
   },
+  listAgoraPost: async (params: ListAgoraPostParams) =>
+    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, { params }),
+  createAgoraPost: async (params: AgoraPost) =>
+    await axios.post<AgoraPostInfo>(`/agora/posts/`, params),
+  getAgoraPost: async (id: number) =>
+    await axios.get<AgoraPostInfo>(`/agora/posts/${id}`),
+  updateAgoraPost: async (id: number, params: AgoraPost) =>
+    await axios.put<AgoraPostInfo>(`/agora/posts/${id}`, params),
+  partialUpdateAgoraPost: async (id: number, params: Partial<AgoraPost>) =>
+    await axios.patch<AgoraPostInfo>(`/agora/posts/${id}`, params),
+  deleteAgoraPost: async (id: number) =>
+    await axios.delete<{}>(`/agora/posts/${id}`),
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>

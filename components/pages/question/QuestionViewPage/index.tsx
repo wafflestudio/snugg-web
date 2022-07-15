@@ -4,7 +4,7 @@ import AnswerBox from "../../../reused/question/AnswerBox";
 import {
   AnswerPostInfo,
   PaginatedResponse,
-  QuestionPost,
+  QuestionPostInfo,
 } from "../../../../api";
 import api from "../../../../api";
 import { AxiosError } from "axios";
@@ -18,7 +18,7 @@ import { Button } from "@mui/material";
 
 interface Props {
   questionId: number;
-  questionData: QuestionPost;
+  questionData: QuestionPostInfo;
   answerListData: PaginatedResponse<AnswerPostInfo>;
   answerNum: number;
 }

@@ -1,24 +1,26 @@
 import styles from "../../../styles/agora/ClassPostPreview.module.scss";
 import Link from "next/link";
+import { AgoraPostInfo } from "../../../api";
+import Moment from "react-moment";
 
 interface Props {
-  className: string;
-  author: string;
+  post: AgoraPostInfo;
 }
 
-const ClassPostPreview = ({ className, author }: Props) => {
-  const postId = 123;
+const ClassPostPreview = ({ post }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.postInfo}>
-        <div className={styles.postNum}>{postId}</div>
-        <Link href={`/agora/${className}/${postId}`}>
-          <a className={styles.postTitle}>게시글 제목을 입력하세요.</a>
+        <div className={styles.postNum}>{post.pk}</div>
+        <Link href={`/agora/${post.lecture.pk}/${post.pk}`}>
+          <a className={styles.postTitle}>{post.title}</a>
         </Link>
-        <Link href={`/profile/${author}`}>
-          <a className={styles.postWriter}>{author}</a>
+        <Link href={`/profile/${post.writer.pk}`}>
+          <a className={styles.postWriter}>{post.writer.username}</a>
         </Link>
-        <div className={styles.postTime}>2022.03.29</div>
+        <div className={styles.postTime}><Moment format={"YYYY.MM.DD"}>
+          {post.created_at}
+        </Moment></div>
       </div>
     </div>
   );

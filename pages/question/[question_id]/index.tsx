@@ -3,13 +3,13 @@ import { queryToString } from "../../../utility";
 import api, {
   AnswerPostInfo,
   PaginatedResponse,
-  QuestionPost,
+  QuestionPostInfo,
 } from "../../../api";
 import QuestionViewPage from "../../../components/pages/question/QuestionViewPage";
 
 interface Props {
   questionId: number;
-  questionData: QuestionPost;
+  questionData: QuestionPostInfo;
   answerListData: PaginatedResponse<AnswerPostInfo>;
 }
 
