@@ -19,15 +19,16 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
       <div className={styles.mainText}>
         <div className={styles.postTitle}>{post.title}</div>
         <div className={styles.mainTextHeader}>
-          <AuthorSummary userName={post.writer.username} createdAt={post.created_at} />
+          <AuthorSummary
+            userName={post.writer.username}
+            createdAt={post.created_at}
+          />
           <div className={styles.postComment}>
             <ChatBubbleIcon className={styles.chatBubbleIcon} />
             <div>5</div>
           </div>
         </div>
-        <div className={styles.postContent}>
-          {post.content}
-        </div>
+        <div className={styles.postContent}>{post.content}</div>
       </div>
       <Divider className={styles.divider} />
       <form

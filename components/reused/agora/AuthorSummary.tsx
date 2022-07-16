@@ -17,9 +17,7 @@ export const AuthorSummary: FC<Props> = ({ userName, createdAt }) => {
         <a className={styles.user}>{userName}</a>
       </Link>
       <div className={styles.createdAt}>
-        <Moment format={"YYYY.MM.DD"}>
-          {createdAt}
-        </Moment>
+        <Moment format={"YYYY.MM.DD"}>{createdAt}</Moment>
       </div>
     </div>
   );

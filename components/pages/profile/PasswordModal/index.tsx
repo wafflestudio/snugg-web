@@ -58,9 +58,7 @@ function PasswordModal(props: passwordModalProps) {
               id="outlined-password-input"
               type="password"
               value={newPW}
-              onChange={(
-                e
-              ) => {
+              onChange={(e) => {
                 setNewPW(e.target.value);
               }}
             />

@@ -32,9 +32,9 @@ const QuestionEditPage = (props: Props) => {
             field,
             title,
             content: "placeholder",
-            tags
+            tags,
           },
-          token
+          token,
         })
       );
       if (!updatePost.fulfilled.match(updateAction)) {
@@ -55,7 +55,7 @@ const QuestionEditPage = (props: Props) => {
         updatePost({
           id: payload.pk,
           params: { field, title, content, tags },
-          token
+          token,
         })
       );
       await Promise.all(imagePromises.concat([updatePromise]));

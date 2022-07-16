@@ -21,7 +21,12 @@ interface Props {
   acceptable: boolean;
 }
 
-const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable }: Props) => {
+const AnswerBox: FC<Props> = ({
+  answerData,
+  onDeleteAnswer,
+  accepted,
+  acceptable,
+}: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const me = useAppSelector((state) => state.users.data);
 
@@ -48,13 +53,18 @@ const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
-        {accepted ? <>
+        {accepted ? (
+          <>
             <CheckIcon className={styles.questionMarkIcon} />
             <div>채택 완료</div>
-          </> :
-          acceptable &&
-          <Button className={styles.button} onClick={() => onAcceptAnswer()}>채택하기</Button>
-        }
+          </>
+        ) : (
+          acceptable && (
+            <Button className={styles.button} onClick={() => onAcceptAnswer()}>
+              채택하기
+            </Button>
+          )
+        )}
       </div>
       <div className={styles.questionText}>{answerData.content}</div>
       <div className={styles.questionBottom}>
