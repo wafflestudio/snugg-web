@@ -1,6 +1,5 @@
 import styles from "./styles.module.scss";
 import QuestionPreview from "../../../reused/question/QuestionPreview";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { FC } from "react";
 import { QuestionPostInfo } from "../../../../api";
 
@@ -14,11 +13,14 @@ const QuestionSearchPage: FC<Props> = ({ posts, query }) => {
     <div className={styles.mainContainer}>
       <div className={styles.title}>{posts.length}개의 검색결과</div>
       <div className={styles.details}>
-        {/* 구체화 예정 */}
         <div className={styles.condition}>
           <div className={styles.conditionTitle}>검색 조건:</div>
-          <div>검색어 [{query}] 태그 [000] 작성자 [000]</div>
+          {/* TODO: 태그 및 작성자 추가*/}
+          <div>검색어 [{query}]</div>
         </div>
+        {
+          /*
+          // TODO: 정렬 순서 추가
         <ToggleButtonGroup>
           <ToggleButton
             value="관련도순"
@@ -33,10 +35,8 @@ const QuestionSearchPage: FC<Props> = ({ posts, query }) => {
             최신순
           </ToggleButton>
         </ToggleButtonGroup>
-        {/* <div className={styles.buttons}>
-                <button className={`${styles.button} ${styles.click}`}>관련도순</button>
-                <button className={`${styles.button} ${styles.unclick}`}>최신순</button>
-            </div> */}
+           */
+        }
       </div>
       {posts.map((post) => (
         <QuestionPreview post={post} key={post.pk} />
