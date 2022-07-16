@@ -6,11 +6,14 @@ import { combineReducers, Reducer } from "redux";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { apiStore } from "./api";
+
 const rootReducer = combineReducers({
   users,
   qnaPosts,
   posts,
   answerPosts,
+  api: apiStore.reducer,
 });
 
 type AppState = ReturnType<typeof rootReducer>;

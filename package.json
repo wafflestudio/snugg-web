@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
-    "deploy": "cd scripts && sh deploy.sh"
+    "deploy": "cd scripts && sh deploy.sh",
+    "gen-apidoc": "npx @rtk-query/codegen-openapi openapi.config.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@mui/codemod": "^5.6.0",
     "@next/bundle-analyzer": "^12.2.2",
+    "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
     "@types/node": "17.0.21",
     "@types/react": "17.0.39",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
@@ -55,6 +57,7 @@
     "eslint-config-next": "12.1.0",
     "prettier": "^2.5.1",
     "swc-plugin-transform-import": "^1.2.0",
+    "ts-node": "^10.9.1",
     "typescript": "4.5.5"
   }
 }
