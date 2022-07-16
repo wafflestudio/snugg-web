@@ -5,36 +5,28 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { Divider, OutlinedInput } from "@mui/material";
 import ClassPostComment from "../../../reused/agora/ClassPostComment";
 import { AuthorSummary } from "../../../reused/agora/AuthorSummary";
+import { AgoraPostInfo } from "../../../../api";
 
 interface Props {
-  className: string | null;
-  postId: number;
+  post: AgoraPostInfo;
   onSubmitComment: (comment: string) => void;
 }
 
-export const AgoraPostPage: FC<Props> = ({ onSubmitComment }) => {
+export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
   const [comment, setComment] = useState("");
   return (
     <div className={styles.container}>
       <div className={styles.mainText}>
-        <div className={styles.postTitle}>제목을 입력하세요.</div>
+        <div className={styles.postTitle}>{post.title}</div>
         <div className={styles.mainTextHeader}>
-          <AuthorSummary userName="username" createdAt="2022.02.28" />
+          <AuthorSummary userName={post.writer.username} createdAt={post.created_at} />
           <div className={styles.postComment}>
             <ChatBubbleIcon className={styles.chatBubbleIcon} />
             <div>5</div>
           </div>
         </div>
         <div className={styles.postContent}>
-          <p>
-            Lorem ipsum odor amet, consectetuer adipiscing elit. Dictum
-            adipiscing mauris ligula vitae efficitur? Mi egestas pharetra
-            efficitur diam gravida gravida placerat, dui adipiscing. Pharetra
-            elementum ornare fusce hac nibh felis. Sociosqu mauris ultrices
-            ultrices nulla vestibulum etiam magna. Dignissim hac velit integer
-            turpis mauris. Senectus hendrerit senectus maximus, in fermentum
-            nostra bibendum feugiat.
-          </p>
+          {post.content}
         </div>
       </div>
       <Divider className={styles.divider} />

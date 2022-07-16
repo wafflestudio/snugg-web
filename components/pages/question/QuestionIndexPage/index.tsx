@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import styles from "./styles.module.scss";
 import QuestionPreview from "../../../reused/question/QuestionPreview";
-import { QuestionPost } from "../../../../api";
+import { QuestionPostInfo } from "../../../../api";
 
 interface Props {
-  posts: QuestionPost[];
+  posts: QuestionPostInfo[];
 }
 const QuestionIndexPage: FunctionComponent<Props> = ({ posts }) => {
   return (

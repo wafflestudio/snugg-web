@@ -1,10 +1,11 @@
 import React from "react";
 import { updatePost } from "../../../../store/posts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
-import api, { IMAGE_ENDPOINT, PostId, QuestionPost } from "../../../../api";
+import api, { IMAGE_ENDPOINT, QuestionPost } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { JSONContent } from "@tiptap/react";
 import { replaceImgSrc } from "../../../../utility";
+import { useRouter } from "next/router";
 
 interface Props {
   postId: number | null;
@@ -13,10 +14,10 @@ interface Props {
 
 const QuestionEditPage = (props: Props) => {
   const token = useAppSelector((state) => state.users.data?.token.access);
-
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const handleUpdatePost = (
-    id: PostId,
+    id: number,
     field: string,
     title: string,
     jsonContent: JSONContent,
@@ -31,9 +32,9 @@ const QuestionEditPage = (props: Props) => {
             field,
             title,
             content: "placeholder",
-            tags,
+            tags
           },
-          token,
+          token
         })
       );
       if (!updatePost.fulfilled.match(updateAction)) {
@@ -54,10 +55,11 @@ const QuestionEditPage = (props: Props) => {
         updatePost({
           id: payload.pk,
           params: { field, title, content, tags },
-          token,
+          token
         })
       );
       await Promise.all(imagePromises.concat([updatePromise]));
+      router.push(`/question/${props.postId}`);
       alert("질문 등록 완료");
     })();
   };

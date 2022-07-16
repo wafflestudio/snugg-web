@@ -5,54 +5,87 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
-import LoremIpsum from "react-lorem-ipsum";
 
 import { Button, Divider, Input } from "@mui/material";
 import CommentBox from "./CommentBox";
 import { FC, useState } from "react";
-import { AnswerPostInfo } from "../../../api";
+import api, { AnswerPostInfo } from "../../../api";
 import Moment from "react-moment";
+import { useAppSelector } from "../../../store";
+import axios from "axios";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
-  AnswerData: AnswerPostInfo;
+  answerData: AnswerPostInfo;
+  accepted: boolean;
+  acceptable: boolean;
 }
 
-const AnswerBox: FC<Props> = ({ AnswerData, onDeleteAnswer }: Props) => {
+const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable }: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
+  const me = useAppSelector((state) => state.users.data);
+
+  const onAcceptAnswer = () => {
+    const token = me?.token?.access;
+    if (token === undefined) {
+      alert("먼저 로그인을 하십시오");
+      return;
+    }
+    (async () => {
+      try {
+        await api.acceptAnswer(answerData.post, answerData.pk, token);
+        alert("채택되었습니다");
+      } catch (e) {
+        if (axios.isAxiosError(e)) {
+          alert("채택할 수 없습니다: " + e.response);
+        } else {
+          throw e;
+        }
+      }
+    })();
+  };
 
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
-        <CheckIcon className={styles.questionMarkIcon} />
-        <div>채택 완료</div>
+        {accepted ? <>
+            <CheckIcon className={styles.questionMarkIcon} />
+            <div>채택 완료</div>
+          </> :
+          acceptable &&
+          <Button className={styles.button} onClick={() => onAcceptAnswer()}>채택하기</Button>
+        }
       </div>
-      <div className={styles.questionText}>{AnswerData.content}</div>
+      <div className={styles.questionText}>{answerData.content}</div>
       <div className={styles.questionBottom}>
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
           <div className={styles.questionUser}>
-            {AnswerData.writer.username} 님의 답변
+            {answerData.writer.username} 님의 답변
           </div>
           <div className={styles.answerCount}>답변 20 채택 10</div>
           <div className={styles.questionTime}>
-            <Moment format={"YYYY.MM.DD"}>{AnswerData.created_at}</Moment>
+            <Moment format={"YYYY.MM.DD"}>{answerData.created_at}</Moment>
           </div>
         </div>
         <div className={styles.questionButtons}>
-          <div className={styles.questionButton}>
+          <Button
+            className={styles.questionButton}
+            disabled={me?.user.pk !== answerData.writer.pk}
+          >
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
-          </div>
-          <div
+          </Button>
+          <Button
+            disabled={me?.user.pk !== answerData.writer.pk}
             onClick={() => {
-              onDeleteAnswer(AnswerData.pk);
+              onDeleteAnswer(answerData.pk);
             }}
             className={styles.questionButton}
           >
             <DeleteIcon className={styles.questionButtonIcon} />
             <div>삭제하기</div>
-          </div>
+          </Button>
           <Button
             className={styles.questionButton}
             onClick={() => setCommentOpen(!commentOpen)}

@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import QuestionEditor, { editorExtensions } from "../QuestionEditor";
 import HelpIcon from "@mui/icons-material/Help";
-import { PostParams } from "../../../api";
+import { QuestionPost } from "../../../api";
 import { generateJSON, JSONContent } from "@tiptap/react";
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
     content: JSONContent,
     tags: string[]
   ) => void;
-  initialValue?: PostParams;
+  initialValue?: QuestionPost;
 }
 
 const QuestionEditTemplate: FunctionComponent<Props> = ({

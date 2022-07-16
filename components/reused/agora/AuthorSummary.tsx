@@ -2,6 +2,7 @@ import { FC } from "react";
 import styles from "../../../styles/agora/AuthorSummary.module.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Link from "next/link";
+import Moment from "react-moment";
 
 interface Props {
   userName: string;
@@ -15,7 +16,11 @@ export const AuthorSummary: FC<Props> = ({ userName, createdAt }) => {
       <Link href={`/profile/${userName}`}>
         <a className={styles.user}>{userName}</a>
       </Link>
-      <div className={styles.createdAt}>{createdAt}</div>
+      <div className={styles.createdAt}>
+        <Moment format={"YYYY.MM.DD"}>
+          {createdAt}
+        </Moment>
+      </div>
     </div>
   );
 };

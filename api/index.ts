@@ -121,14 +121,61 @@ export type ListAnswerParams = PaginationParams & {
   writer?: User;
 };
 
-export type PostId = number;
-
 const withToken = (token: string) => ({
-  headers: { Authorization: `Bearer ${token}` },
+  headers: { Authorization: `Bearer ${token}` }
 });
 
 export type GetAnswersForQuestionParams = {
   questionId: string;
+}
+
+export interface ListAgoraPostParams extends PaginationParams {
+  lecture: number;
+  search?: string;
+  writer?: number;
+}
+
+export interface AgoraPost {
+  lecture: AgoraLectureInfo;
+  title: string;
+  content: string;
+}
+
+export interface AgoraPostInfo extends AgoraPost {
+  pk: number;
+  writer: User;
+  created_at: string;
+  updated_at?: string;
+}
+
+export type ListAgoraLectureParams = {
+  college?: string;
+  major?: string;
+  ordering?: string;
+  page?: number;
+  page_size?: number;
+  search?: string;
+  season?: number;
+  university?: string;
+  year?: number;
+};
+
+export type AgoraLectureInfo = {
+  pk: number;
+  name: string;
+  lecture_id: string;
+  instructor: string;
+  university: string;
+  college: string;
+  major: string;
+  semesters: string[];
+};
+
+export type ListAgoraLectureInfo = {
+  count: number;
+  next: string;
+  previous: string;
+  results: AgoraLectureInfo[];
 };
 
 const api = {
@@ -145,18 +192,20 @@ const api = {
   createQuestion: async (params: PostParams, token: string) =>
     await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }),
-  updateQuestion: async (id: PostId, params: PostParams, token: string) =>
+  updateQuestion: async (id: number, params: PostParams, token: string) =>
     await axios.put<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
-  partialUpdateQuestion: async (id: PostId, params: PostParams) =>
-    await axios.patch<QuestionPost>(`/qna/posts/${id}`, params),
+  partialUpdateQuestion: async (id: number, params: Partial<PostParams>, token: string) =>
+    await axios.patch<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
+  acceptAnswer: async (questionId: number, answerId: number, token: string) =>
+    await api.partialUpdateQuestion(questionId, { accepted_answer: answerId }, token),
   listQuestions: async (params: ListQnaParams) =>
     await axios.get<ListQnaResponse>("/qna/posts", { params }),
   listAnswers: async (params: ListAnswerParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
-      params,
+      params
     }),
   getAnswersForQuestion: async (params: GetAnswersForQuestionParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>(
@@ -165,8 +214,8 @@ const api = {
   createAnswer: async (params: AnswerPost, token: string) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }),
   getAnswer: async (id: number) =>
     await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
@@ -182,6 +231,22 @@ const api = {
     formData.set("file", blob);
     return await axios.post(url, formData, { baseURL: "" });
   },
+  listAgoraPost: async (params: ListAgoraPostParams) =>
+    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, { params }),
+  createAgoraPost: async (params: AgoraPost) =>
+    await axios.post<AgoraPostInfo>(`/agora/posts/`, params),
+  getAgoraPost: async (id: number) =>
+    await axios.get<AgoraPostInfo>(`/agora/posts/${id}`),
+  updateAgoraPost: async (id: number, params: AgoraPost) =>
+    await axios.put<AgoraPostInfo>(`/agora/posts/${id}`, params),
+  partialUpdateAgoraPost: async (id: number, params: Partial<AgoraPost>) =>
+    await axios.patch<AgoraPostInfo>(`/agora/posts/${id}`, params),
+  deleteAgoraPost: async (id: number) =>
+    await axios.delete<{}>(`/agora/posts/${id}`),
+  listAgoraLecture: async (params: ListAgoraLectureParams) =>
+    await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
+  getAgoraLecture: async (id: number) =>
+    await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
 };
 
 export default api;
