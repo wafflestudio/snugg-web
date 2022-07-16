@@ -1,33 +1,27 @@
 import { NextPage } from "next";
-import { useEffect } from "react";
 import { SignInPage } from "../components/pages/root/SignInPage";
 import { signIn } from "../store/users";
-import { useAppDispatch, useAppSelector } from "../store";
+import { useAppDispatch } from "../store";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
-interface Props {}
+interface Props {
+}
 
 const SignInPageContainer: NextPage<Props> = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const onFormSubmit = (email: string, password: string) => {
     dispatch(signIn({ email, password }))
-      .then((action) => {
+      .then(async (action) => {
         if (signIn.fulfilled.match(action)) {
-          alert(`sign in success! ${action.payload.user.username}`);
-          router.push("/question");
+          toast.success(`${action.payload.user.username}님, 환영합니다!`);
+          await router.push("/question");
         } else if (signIn.rejected.match(action)) {
-          alert(`sign in failure! ${JSON.stringify(action.error)}`);
+          toast.error("로그인에 실패했습니다: " + action.error.message);
         }
-      })
-      .catch((reason) => {
-        alert(`failure! ${reason}`);
       });
   };
-
-  const me = useAppSelector((state) => state.users.data);
-  useEffect(() => console.log("me", me), [me]);
-
   return <SignInPage onFormSubmit={onFormSubmit} />;
 };
 

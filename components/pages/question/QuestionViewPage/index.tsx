@@ -7,7 +7,7 @@ import {
   QuestionPostInfo,
 } from "../../../../api";
 import api from "../../../../api";
-import { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/router";
 
 import { FC, useState } from "react";
@@ -15,6 +15,7 @@ import AnswerEditor from "../../../reused/AnswerEditor";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { createAnswer } from "../../../../store/answerPosts";
 import { Button } from "@mui/material";
+import { toast } from "react-toastify";
 
 interface Props {
   questionId: number;
@@ -34,19 +35,18 @@ const QuestionViewPage: FC<Props> = ({
   const onDeleteQuestion = async () => {
     try {
       if (me === null) {
-        console.log("로그인하세요");
+        toast.warning("질문을 삭제하려면 로그인하세요");
         return;
       }
-      const response = await api.deleteQuestion(
+      await api.deleteQuestion(
         { id: questionId },
         me.token.access
       );
-      console.log(response);
-      router.push("/question");
+      await router.push("/question");
     } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
-      window.alert(err.response?.data.detail);
+      if (axios.isAxiosError(error)) {
+        toast.error("질문을 삭제할 수 없습니다: " + error.response?.data.detail);
+      }
     }
   };
 
@@ -59,29 +59,28 @@ const QuestionViewPage: FC<Props> = ({
     dispatch(createAnswer({ params, token }))
       .then((action) => {
         if (createAnswer.fulfilled.match(action)) {
-          alert("답변 등록 완료");
+          toast.success("답변을 등록하였습니다");
           router.push(`/question/${questionId}`);
         } else if (createAnswer.rejected.match(action)) {
-          alert("답변 등록 실패");
+          toast.error("답변을 등록할 수 없습니다: " + action.error.message);
         }
-      })
-      .catch((reason) => {
-        alert(`답변 등록 실패 ${reason}`);
       });
   };
 
   const onDeleteAnswer = async (id: number) => {
     try {
-      const response = await api.deleteAnswer(
+      await api.deleteAnswer(
         id,
         me?.token.access ?? "" + " " + me?.token.refresh ?? ""
       );
-      console.log(response);
-      router.push("/question/" + questionId); // router.push는 새로고침이 강제됨.
+      // TODO reload answers
+      await router.push("/question/" + questionId); // router.push는 새로고침이 강제됨.
     } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
-      window.alert(err.response?.data.detail);
+      if (axios.isAxiosError(error)) {
+        toast.error("질문을 삭제할 수 없습니다: " + error.response?.data.detail);
+      } else {
+        throw error;
+      }
     }
   };
 
@@ -115,7 +114,7 @@ const QuestionViewPage: FC<Props> = ({
             if (token !== undefined) {
               handleCreateAnswer(questionData?.pk, content, token);
             } else {
-              alert("로그인하세요.");
+              toast.warning("답변을 달려면 로그인하세요");
             }
           }}
         >

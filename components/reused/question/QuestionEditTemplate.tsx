@@ -36,7 +36,6 @@ const QuestionEditTemplate: FunctionComponent<Props> = ({
   const [content, setContent] = useState<JSONContent>({});
 
   useEffect(() => {
-    console.log("initial value changed");
     if (initialValue !== undefined) {
       setField(initialValue.field);
       setTags(initialValue.tags);

@@ -13,6 +13,7 @@ import api, { AnswerPostInfo } from "../../../api";
 import Moment from "react-moment";
 import { useAppSelector } from "../../../store";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 interface Props {
   onDeleteAnswer: (_id: number) => void;
@@ -33,16 +34,17 @@ const AnswerBox: FC<Props> = ({
   const onAcceptAnswer = () => {
     const token = me?.token?.access;
     if (token === undefined) {
-      alert("먼저 로그인을 하십시오");
+      toast.error("채택하려면 로그인 하십시오");
       return;
     }
     (async () => {
       try {
         await api.acceptAnswer(answerData.post, answerData.pk, token);
-        alert("채택되었습니다");
+        toast.success("채택되었습니다");
+        // TODO refresh answers
       } catch (e) {
         if (axios.isAxiosError(e)) {
-          alert("채택할 수 없습니다: " + e.response);
+          toast.success("채택할 수 없습니다: " + e.response?.statusText);
         } else {
           throw e;
         }
