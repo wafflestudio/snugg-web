@@ -41,6 +41,8 @@ export interface QuestionPost {
   };
 }
 
+export type QuestionPostInfo = QuestionPost;
+
 export interface UserTokenResponse {
   user: User;
   token: {
