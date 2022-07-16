@@ -9,7 +9,7 @@ import { useAppSelector } from "../../../store";
 import NextLink from "next/link";
 
 const UpperHeader = () => {
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState("");
 
   const router = useRouter(); //getServerSideProps는 Pages에서만 사용 가능함. 일반 컴포넌트에서 query string을 가져올 땐 useRouter를 사용한다.
   const me = useAppSelector((state) => state.users.data);

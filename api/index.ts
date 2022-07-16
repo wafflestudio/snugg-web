@@ -89,6 +89,8 @@ export type ListQnaParams = PaginationParams & {
   field?: string;
   tag?: string;
   writer?: number;
+  search?: string;
+  search_type?: string;
 };
 
 export interface QuestionGetParams {
