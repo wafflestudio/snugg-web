@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "../../../styles/header/UpperHeader.module.scss";
 import Magnifier from "../../../Image/magnifier.svg";
+import ProfileIcon from "@mui/icons-material/Person";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Input } from "@mui/material";
@@ -47,15 +48,15 @@ const UpperHeader = () => {
         </button>
       </form>
       {me === null ? (
-        <NextLink href={"/signin"}>
+        <NextLink href={"/signin"} passHref>
           <div className={styles.profileEclipse}>
-            <Image src={Magnifier} />
+            <ProfileIcon/>
           </div>
         </NextLink>
       ) : (
-        <NextLink href={`/profile/${me?.user.pk}`}>
+        <NextLink href={`/profile/${me?.user.pk}`} passHref>
           <div className={styles.profileEclipse}>
-            <Image src={Magnifier} />
+            <ProfileIcon/>
           </div>
         </NextLink>
       )}
