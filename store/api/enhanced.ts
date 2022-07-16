@@ -1,4 +1,5 @@
 import { injectedApi } from "./injected";
+import { apiUser } from "./apiUser";
 
 enum Tag {
   QnaPosts = "QnaPosts",
@@ -6,7 +7,7 @@ enum Tag {
   AnswerList = "AnswerList",
 }
 
-const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
+export const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
   endpoints: {
     qnaAnswersCreate: {
       invalidatesTags: (result) =>
@@ -36,9 +37,29 @@ const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
         })) ?? []),
       ],
     },
+    authSigninCreate: {
+      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+        const { data } = await queryFulfilled;
+        dispatch(apiUser.actions.setUser(data));
+      }
+    },
+    authSignoutCreate: {
+      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+        await queryFulfilled;
+        dispatch(apiUser.actions.setUser(undefined));
+      }
+    },
+    authRefreshCreate: {
+      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+        const { data } = await queryFulfilled;
+        dispatch(apiUser.actions.setRefreshToken(data));
+      }
+    },
+    authSignupCreate: {
+      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+        const { data } = await queryFulfilled;
+        dispatch(apiUser.actions.setUser(data));
+      }
+    }
   },
 });
-
-// for compatibility
-export const apiStore = enhancedApi;
-export const api = enhancedApi;
