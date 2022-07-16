@@ -82,7 +82,7 @@ const QuestionEditTemplate: FunctionComponent<Props> = ({
           className={styles.button}
           onClick={(e) => {
             e.preventDefault();
-            onSubmit(field, title, content!!, tags);
+            onSubmit(field, title, content, tags);
           }}
         >
           {submitLabel}

@@ -180,6 +180,8 @@ export type ListAgoraLectureInfo = {
   results: AgoraLectureInfo[];
 };
 
+type EmptyResponse = Record<string, never>;
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -258,7 +260,7 @@ const api = {
   partialUpdateAgoraPost: async (id: number, params: Partial<AgoraPost>) =>
     await axios.patch<AgoraPostInfo>(`/agora/posts/${id}`, params),
   deleteAgoraPost: async (id: number) =>
-    await axios.delete<{}>(`/agora/posts/${id}`),
+    await axios.delete<EmptyResponse>(`/agora/posts/${id}`),
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>

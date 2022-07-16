@@ -12,13 +12,13 @@ import { QuestionPostInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
 import { useAppSelector } from "../../../store";
 
 interface Props {
   questionData: QuestionPostInfo | null;
-  onDeleteQuestion: () => {};
+  onDeleteQuestion: () => void;
 }
 
 const QuestionBox = (Props: Props) => {
@@ -27,7 +27,7 @@ const QuestionBox = (Props: Props) => {
   const me = useAppSelector((state) => state.users.data);
 
   const rawContent = Props.questionData?.content;
-  let jsonContent: any;
+  let jsonContent: JSONContent | undefined;
   let success = false;
   try {
     if (rawContent !== undefined) {

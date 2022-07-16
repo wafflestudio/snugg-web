@@ -15,7 +15,7 @@ import { useAppSelector } from "../../../store";
 import axios from "axios";
 
 interface Props {
-  onDeleteAnswer: (id: number) => void;
+  onDeleteAnswer: (_id: number) => void;
   answerData: AnswerPostInfo;
   accepted: boolean;
   acceptable: boolean;

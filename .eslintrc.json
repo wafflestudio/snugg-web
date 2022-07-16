@@ -1,6 +1,10 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "eslint:recommended"
-  ]
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "ignorePatterns": ["amplify/**", "*.js"],
+  "rules": {
+    "@typescript-eslint/no-empty-interface": "warn"
+  }
 }
