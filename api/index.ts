@@ -10,20 +10,22 @@ const isServer = typeof window === "undefined";
 
 // 서버에서 api를 요청하는 경우 백엔드로 바로 요청
 axios.defaults.baseURL = isServer ? API_ENDPOINT : "/api/";
-axios.interceptors.request.use((config) => {
-  console.log(config.method, config.baseURL, config.url, config.data);
-  return config;
-});
-axios.interceptors.response.use((response) => {
-  console.log(response?.status, response?.data);
-  return response;
-}, (error) => {
-  if (axios.isAxiosError(error)) {
-    console.log("error");
-    console.log(error.message, error.code, error.response?.status, error.response?.data);
-  }
-  return Promise.reject(error);
-});
+if (isServer) {
+  axios.interceptors.request.use((config) => {
+    console.log(config.method, config.baseURL, config.url, config.data);
+    return config;
+  });
+  axios.interceptors.response.use((response) => {
+    console.log(response?.status, response?.data);
+    return response;
+  }, (error) => {
+    if (axios.isAxiosError(error)) {
+      console.log("error");
+      console.log(error.message, error.code, error.response?.status, error.response?.data);
+    }
+    return Promise.reject(error);
+  });
+}
 
 export interface User {
   pk: number;
