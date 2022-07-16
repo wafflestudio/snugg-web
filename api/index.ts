@@ -204,12 +204,6 @@ export type ListAgoraLectureInfo = {
 type EmptyResponse = Record<string, never>;
 
 const api = {
-  signIn: async (params: SignInParams) =>
-    await axios.post<UserTokenResponse>("/auth/signin/", params),
-  signOut: async (params: SignOutParams) =>
-    await axios.post<SuccessResponse>("/auth/signout/", params),
-  signUp: async (params: SignUpParams) =>
-    await axios.post<UserTokenResponse>("/auth/signup/", params),
   getQuestion: async (params: QuestionGetParams) =>
     await axios.get<QuestionPost>(`/qna/posts/${params.id}`),
   deleteQuestion: async (params: QuestionDeleteParams, token: string) =>
@@ -261,7 +255,7 @@ const api = {
   partialUpdateAnswer: async (id: number, post: AnswerPost) =>
     await axios.patch(`/qna/answers/${id}`, post),
   deleteAnswer: async (id: number, token: string) =>
-    await axios.delete(`/qna/answers/${id}`, withToken(token)),
+    await axios.delete<EmptyResponse>(`/qna/answers/${id}`, withToken(token)),
   uploadImages: async (url: string, key: string, blob: Blob) => {
     const formData = new FormData();
     formData.set("key", key);

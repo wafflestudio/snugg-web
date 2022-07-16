@@ -1,4 +1,3 @@
-import users from "./users";
 import qnaPosts from "./qnaPosts";
 import posts from "./posts";
 import answerPosts from "./answerPosts";
@@ -10,7 +9,6 @@ import { enhancedApi } from "./api/enhanced";
 import { apiUser } from "./api/apiUser";
 
 const rootReducer = combineReducers({
-  users,
   qnaPosts,
   posts,
   answerPosts,
@@ -41,3 +39,4 @@ export const wrapper = createWrapper(makeStore, {
 });
 
 export const selectUserInfo = (state: AppState) => state.apiUser.user?.user;
+export const selectAccessToken = (state: AppState) => state.apiUser.user?.token.access;

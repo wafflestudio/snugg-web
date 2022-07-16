@@ -1,6 +1,8 @@
 import { KeyboardEventHandler } from "react";
 import { createTheme } from "@mui/material/styles";
 import { JSONContent } from "@tiptap/react";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export const queryToString = (query: undefined | string | string[]) =>
   Array.isArray(query) ? query[0] : query ?? null;
@@ -89,5 +91,13 @@ export const replaceImgSrc = async (
         content: replaceResults.flatMap(({ newContent }) => newContent),
       },
     };
+  }
+};
+export const errorToString = (e: SerializedError | FetchBaseQueryError) => {
+  const status = "status";
+  if (!(status in e)) {
+    return e.message;
+  } else {
+    return JSON.stringify(e.data);
   }
 };
