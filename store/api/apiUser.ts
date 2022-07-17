@@ -3,7 +3,7 @@ import { RefreshToken, UserToken } from "./injected";
 
 export const apiUser = createSlice({
   initialState: {} as {
-    user?: UserToken
+    user?: UserToken;
   },
   name: "apiUser",
   reducers: {
@@ -14,6 +14,6 @@ export const apiUser = createSlice({
       if (state.user) {
         state.user.token.refresh = action.payload.refresh;
       }
-    }
+    },
   },
 });

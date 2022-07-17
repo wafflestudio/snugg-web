@@ -40,12 +40,14 @@ const selectLayout = (displayName?: string): FunctionComponent => {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const Layout = selectLayout(Component.displayName);
-  return <ThemeProvider theme={theme}>
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-    <ToastContainer/>
-  </ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+      <ToastContainer />
+    </ThemeProvider>
+  );
 }
 
 export default wrapper.withRedux(MyApp);

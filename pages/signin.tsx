@@ -8,12 +8,11 @@ import { errorToString } from "../utility";
 interface Props {}
 
 const SignInPageContainer: NextPage<Props> = () => {
-  const [signIn] =
-    enhancedApi.useAuthSigninCreateMutation();
+  const [signIn] = enhancedApi.useAuthSigninCreateMutation();
   const router = useRouter();
   const onFormSubmit = async (email: string, password: string) => {
     const result = await signIn({ signinServiceRequest: { email, password } });
-    if ('data' in result) {
+    if ("data" in result) {
       toast.success(`${result.data.user?.username}님, 환영합니다!`);
       router.push("/question");
     } else {

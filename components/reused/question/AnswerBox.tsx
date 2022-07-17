@@ -11,7 +11,11 @@ import CommentBox from "./CommentBox";
 import { FC, useState } from "react";
 import api, { AnswerPostInfo } from "../../../api";
 import Moment from "react-moment";
-import { selectAccessToken, selectUserInfo, useAppSelector } from "../../../store";
+import {
+  selectAccessToken,
+  selectUserInfo,
+  useAppSelector,
+} from "../../../store";
 import axios from "axios";
 import { toast } from "react-toastify";
 

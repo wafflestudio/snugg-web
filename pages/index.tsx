@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const Page: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
-    router.replace("/questions");
+    router.replace("/question");
   });
   return null;
 };
@@ -13,7 +13,7 @@ const Page: NextPage = () => {
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     redirect: {
-      destination: "/questions",
+      destination: "/question",
       permanent: true,
     },
   };

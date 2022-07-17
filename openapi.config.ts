@@ -8,7 +8,7 @@ const openapiConfig: ConfigFile = {
   exportName: "injectedApi",
   filterEndpoints: (operationName) => {
     return operationName !== "docRetrieve";
-  }
+  },
 };
 
 export default openapiConfig;

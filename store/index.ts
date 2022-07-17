@@ -26,7 +26,8 @@ const hydratedReducer: Reducer<AppState> = (state, action) => {
 const makeStore = () =>
   configureStore({
     reducer: hydratedReducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(enhancedApi.middleware)
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(enhancedApi.middleware),
   });
 
 type AppDispatch = ReturnType<typeof makeStore>["dispatch"];
@@ -39,4 +40,5 @@ export const wrapper = createWrapper(makeStore, {
 });
 
 export const selectUserInfo = (state: AppState) => state.apiUser.user?.user;
-export const selectAccessToken = (state: AppState) => state.apiUser.user?.token.access;
+export const selectAccessToken = (state: AppState) =>
+  state.apiUser.user?.token.access;

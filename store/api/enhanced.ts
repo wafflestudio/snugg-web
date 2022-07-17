@@ -38,28 +38,28 @@ export const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
       ],
     },
     authSigninCreate: {
-      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+      onQueryStarted: async (_arg, { queryFulfilled, dispatch }) => {
         const { data } = await queryFulfilled;
         dispatch(apiUser.actions.setUser(data));
-      }
+      },
     },
     authSignoutCreate: {
-      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+      onQueryStarted: async (_arg, { queryFulfilled, dispatch }) => {
         await queryFulfilled;
         dispatch(apiUser.actions.setUser(undefined));
-      }
+      },
     },
     authRefreshCreate: {
-      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+      onQueryStarted: async (_arg, { queryFulfilled, dispatch }) => {
         const { data } = await queryFulfilled;
         dispatch(apiUser.actions.setRefreshToken(data));
-      }
+      },
     },
     authSignupCreate: {
-      onQueryStarted: async (_arg, {queryFulfilled, dispatch}) => {
+      onQueryStarted: async (_arg, { queryFulfilled, dispatch }) => {
         const { data } = await queryFulfilled;
         dispatch(apiUser.actions.setUser(data));
-      }
-    }
+      },
+    },
   },
 });

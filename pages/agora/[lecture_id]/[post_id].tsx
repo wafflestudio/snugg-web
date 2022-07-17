@@ -13,7 +13,7 @@ const AgoraPostPageContainer: NextPage<Props> = ({ post }) => {
     <AgoraPostPage
       post={post}
       onSubmitComment={(comment) => {
-        toast.warning(`구현되지 않음. comment: ${comment}`)
+        toast.warning(`구현되지 않음. comment: ${comment}`);
       }}
     />
   );

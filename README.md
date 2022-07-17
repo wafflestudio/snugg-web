@@ -2,8 +2,8 @@
 
 전공 지식 공유 플랫폼, SNUGG입니다.
 
-* Amplify 배포 주소: https://main.dijisin4nhs5a.amplifyapp.com
-* 테스트 배포 주소: http://3.34.132.211
+- Amplify 배포 주소: https://main.dijisin4nhs5a.amplifyapp.com
+- 테스트 배포 주소: http://3.34.132.211
 
 ### 배포 - Amplify
 
