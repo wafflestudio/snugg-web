@@ -20,7 +20,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 interface Props {
-  onDeleteAnswer: (_id: number) => void;
+  onDeleteAnswer: (id: number) => void;
   answerData: AnswerPostInfo;
   accepted: boolean;
   acceptable: boolean;
