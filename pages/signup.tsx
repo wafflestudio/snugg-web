@@ -4,6 +4,7 @@ import { SignUpPage } from "../components/pages/root/SignUpPage";
 import { useAppDispatch } from "../store";
 import { signUp } from "../store/users";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface Props {}
 
@@ -20,14 +21,11 @@ const SignUpPageContainer: NextPage<Props> = () => {
     dispatch(signUp({ birth_date: null, email, password, username: id }))
       .then((action) => {
         if (signUp.fulfilled.match(action)) {
-          alert(`sign up success! ${action.payload.user.username}`);
+          toast.success(action.payload.user.username + "님, 잘 부탁드려요!");
           router.push("/question");
         } else if (signUp.rejected.match(action)) {
-          alert(`sign in failure! ${JSON.stringify(action.error)}`);
+          toast.error("회원가입에 실패했습니다: " + action.error.message);
         }
-      })
-      .catch((reason) => {
-        alert(`failure! ${reason}`);
       });
   };
   return <SignUpPage onFormSubmit={onFormSubmit} validateId={validateId} />;

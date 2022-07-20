@@ -37,8 +37,6 @@ const QuestionBox = (Props: Props) => {
   } catch (err) {
     success = false;
   }
-  console.log("raw content", rawContent);
-  console.log("json content", jsonContent);
 
   const questionView = useEditor({
     editable: false,

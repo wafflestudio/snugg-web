@@ -10,6 +10,22 @@ const isServer = typeof window === "undefined";
 
 // 서버에서 api를 요청하는 경우 백엔드로 바로 요청
 axios.defaults.baseURL = isServer ? API_ENDPOINT : "/api/";
+if (isServer) {
+  axios.interceptors.request.use((config) => {
+    console.log(config.method, config.baseURL, config.url, config.data);
+    return config;
+  });
+  axios.interceptors.response.use((response) => {
+    console.log(response?.status, response?.data);
+    return response;
+  }, (error) => {
+    if (axios.isAxiosError(error)) {
+      console.log("error");
+      console.log(error.message, error.code, error.response?.status, error.response?.data);
+    }
+    return Promise.reject(error);
+  });
+}
 
 export interface User {
   pk: number;
@@ -126,7 +142,7 @@ export type ListAnswerParams = PaginationParams & {
 };
 
 const withToken = (token: string) => ({
-  headers: { Authorization: `Bearer ${token}` },
+  headers: { Authorization: `Bearer ${token}` }
 });
 
 export type GetAnswersForQuestionParams = {
@@ -198,8 +214,8 @@ const api = {
   createQuestion: async (params: PostParams, token: string) =>
     await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }),
   updateQuestion: async (id: number, params: PostParams, token: string) =>
     await axios.put<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
@@ -223,7 +239,7 @@ const api = {
     await axios.get<ListQnaResponse>("/qna/posts", { params }),
   listAnswers: async (params: ListAnswerParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
-      params,
+      params
     }),
   getAnswersForQuestion: async (params: GetAnswersForQuestionParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>(
@@ -232,8 +248,8 @@ const api = {
   createAnswer: async (params: AnswerPost, token: string) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }),
   getAnswer: async (id: number) =>
     await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
@@ -247,11 +263,11 @@ const api = {
     const formData = new FormData();
     formData.set("key", key);
     formData.set("file", blob);
-    return await axios.post(url, formData, { baseURL: "" });
+    return await axios.post<EmptyResponse>(url, formData, { baseURL: "" });
   },
   listAgoraPost: async (params: ListAgoraPostParams) =>
     await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, {
-      params,
+      params
     }),
   createAgoraPost: async (params: AgoraPost) =>
     await axios.post<AgoraPostInfo>(`/agora/posts/`, params),
@@ -266,7 +282,7 @@ const api = {
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
-    await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
+    await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`)
 };
 
 export default api;
