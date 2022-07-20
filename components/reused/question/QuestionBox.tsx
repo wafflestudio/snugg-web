@@ -8,7 +8,7 @@ import { Button, Divider, Input } from "@mui/material";
 import NextLink from "next/link";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
-import { QuestionPostInfo } from "../../../api";
+import { ListCommentInfo, QuestionPostInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useState } from "react";
@@ -22,6 +22,7 @@ interface Props {
   onDeleteQuestion: () => {};
   token: string | undefined;
   questionId: number;
+  commentData: ListCommentInfo;
 }
 
 const QuestionBox = (Props: Props) => {
@@ -161,8 +162,9 @@ const QuestionBox = (Props: Props) => {
             등록
           </Button>
         </div>
-        <CommentBox />
-        <CommentBox />
+        {Props.commentData.results.map((item) => (
+          <CommentBox key={item.pk} commentData={item} />
+        ))}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import QuestionBox from "../../../reused/question/QuestionBox";
 import AnswerBox from "../../../reused/question/AnswerBox";
 import {
   AnswerPostInfo,
+  ListCommentInfo,
   PaginatedResponse,
   QuestionPostInfo,
 } from "../../../../api";
@@ -21,6 +22,7 @@ interface Props {
   questionData: QuestionPostInfo;
   answerListData: PaginatedResponse<AnswerPostInfo>;
   answerNum: number;
+  commentData: ListCommentInfo;
 }
 
 const QuestionViewPage: FC<Props> = ({
@@ -28,6 +30,7 @@ const QuestionViewPage: FC<Props> = ({
   answerNum,
   questionData,
   questionId,
+  commentData,
 }) => {
   const router = useRouter();
   const me = useAppSelector((state) => state.users.data);
@@ -92,6 +95,7 @@ const QuestionViewPage: FC<Props> = ({
         questionData={questionData}
         token={token}
         questionId={questionId}
+        commentData={commentData}
       />
       <div className={styles.answerCount}>{answerNum}개의 답변</div>
       {results.map((item) => (
