@@ -18,6 +18,7 @@ export interface User {
   birth_date?: string;
   created_at: string;
   last_login?: string;
+  self_introduction?: string;
 }
 
 export interface QuestionPost {
@@ -124,12 +125,12 @@ export type ListAnswerParams = PaginationParams & {
 };
 
 const withToken = (token: string) => ({
-  headers: { Authorization: `Bearer ${token}` }
+  headers: { Authorization: `Bearer ${token}` },
 });
 
 export type GetAnswersForQuestionParams = {
   questionId: string;
-}
+};
 
 export interface ListAgoraPostParams extends PaginationParams {
   lecture: number;
@@ -180,6 +181,27 @@ export type ListAgoraLectureInfo = {
   results: AgoraLectureInfo[];
 };
 
+export type CommentParams = {
+  content_type: number;
+  object_id: number;
+  content: string;
+};
+
+export type CommentInfo = {
+  pk: number;
+  writer: User;
+  content: string;
+  replies_count: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ListCommentInfo = {
+  next: string;
+  previous: string;
+  results: CommentInfo[];
+};
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -194,20 +216,32 @@ const api = {
   createQuestion: async (params: PostParams, token: string) =>
     await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }),
   updateQuestion: async (id: number, params: PostParams, token: string) =>
     await axios.put<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
-  partialUpdateQuestion: async (id: number, params: Partial<PostParams>, token: string) =>
-    await axios.patch<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
+  partialUpdateQuestion: async (
+    id: number,
+    params: Partial<PostParams>,
+    token: string
+  ) =>
+    await axios.patch<QuestionPost>(
+      `/qna/posts/${id}`,
+      params,
+      withToken(token)
+    ),
   acceptAnswer: async (questionId: number, answerId: number, token: string) =>
-    await api.partialUpdateQuestion(questionId, { accepted_answer: answerId }, token),
+    await api.partialUpdateQuestion(
+      questionId,
+      { accepted_answer: answerId },
+      token
+    ),
   listQuestions: async (params: ListQnaParams) =>
     await axios.get<ListQnaResponse>("/qna/posts", { params }),
   listAnswers: async (params: ListAnswerParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
-      params
+      params,
     }),
   getAnswersForQuestion: async (params: GetAnswersForQuestionParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>(
@@ -216,8 +250,8 @@ const api = {
   createAnswer: async (params: AnswerPost, token: string) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }),
   getAnswer: async (id: number) =>
     await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
@@ -234,7 +268,9 @@ const api = {
     return await axios.post(url, formData, { baseURL: "" });
   },
   listAgoraPost: async (params: ListAgoraPostParams) =>
-    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, { params }),
+    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, {
+      params,
+    }),
   createAgoraPost: async (params: AgoraPost) =>
     await axios.post<AgoraPostInfo>(`/agora/posts/`, params),
   getAgoraPost: async (id: number) =>
@@ -249,6 +285,16 @@ const api = {
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
+  createComment: async (type: string, id: number, params: CommentParams) =>
+    await axios.post<CommentInfo>(`/qna/comments/?${type}=${id}`, params),
+  listComment: async (type: string, id: number) =>
+    await axios.get<ListCommentInfo>(`/qna/comments?${type}=${id}`),
+  updateComment: async (id: number, params: CommentParams) =>
+    await axios.put<CommentInfo>(`/qna/comments/${id}`, params),
+  partialUpdateComment: async (id: number, params: Partial<CommentParams>) =>
+    await axios.put<CommentInfo>(`/qna/comments/${id}`, params),
+  deleteComment: async (id: number) =>
+    await axios.delete<{}>(`/qna/comments/${id}`),
 };
 
 export default api;
