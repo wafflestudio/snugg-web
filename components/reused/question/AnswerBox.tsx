@@ -11,12 +11,16 @@ import CommentBox from "./CommentBox";
 import { FC, useState } from "react";
 import api, { AnswerPostInfo } from "../../../api";
 import Moment from "react-moment";
-import { useAppSelector } from "../../../store";
+import {
+  selectAccessToken,
+  selectUserInfo,
+  useAppSelector,
+} from "../../../store";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 interface Props {
-  onDeleteAnswer: (_id: number) => void;
+  onDeleteAnswer: (id: number) => void;
   answerData: AnswerPostInfo;
   accepted: boolean;
   acceptable: boolean;
@@ -29,10 +33,10 @@ const AnswerBox: FC<Props> = ({
   acceptable,
 }: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
-  const me = useAppSelector((state) => state.users.data);
+  const token = useAppSelector(selectAccessToken);
+  const userInfo = useAppSelector(selectUserInfo);
 
   const onAcceptAnswer = () => {
-    const token = me?.token?.access;
     if (token === undefined) {
       toast.error("채택하려면 로그인 하십시오");
       return;
@@ -83,13 +87,13 @@ const AnswerBox: FC<Props> = ({
         <div className={styles.questionButtons}>
           <Button
             className={styles.questionButton}
-            disabled={me?.user.pk !== answerData.writer.pk}
+            disabled={userInfo?.pk !== answerData.writer.pk}
           >
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
           </Button>
           <Button
-            disabled={me?.user.pk !== answerData.writer.pk}
+            disabled={userInfo?.pk !== answerData.writer.pk}
             onClick={() => {
               onDeleteAnswer(answerData.pk);
             }}

@@ -14,7 +14,7 @@ import CommentBox from "./CommentBox";
 import { useState } from "react";
 import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
-import { useAppSelector } from "../../../store";
+import { selectUserInfo, useAppSelector } from "../../../store";
 
 interface Props {
   questionData: QuestionPostInfo | null;
@@ -24,7 +24,7 @@ interface Props {
 const QuestionBox = (Props: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
-  const me = useAppSelector((state) => state.users.data);
+  const userInfo = useAppSelector(selectUserInfo);
 
   const rawContent = Props.questionData?.content;
   let jsonContent: JSONContent | undefined;
@@ -82,7 +82,7 @@ const QuestionBox = (Props: Props) => {
         <div className={styles.questionButtons}>
           <NextLink href={`/question/${Props.questionData?.pk}/edit`} passHref>
             <Button
-              disabled={me?.user.pk !== Props.questionData?.writer.pk}
+              disabled={userInfo?.pk !== Props.questionData?.writer.pk}
               className={styles.questionButton}
             >
               <EditIcon className={styles.questionButtonIcon} />
@@ -90,7 +90,7 @@ const QuestionBox = (Props: Props) => {
             </Button>
           </NextLink>
           <Button
-            disabled={me?.user.pk !== Props.questionData?.writer.pk}
+            disabled={userInfo?.pk !== Props.questionData?.writer.pk}
             onClick={Props.onDeleteQuestion}
             className={styles.questionButton}
           >

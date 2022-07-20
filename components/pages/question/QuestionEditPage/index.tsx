@@ -1,6 +1,10 @@
 import React from "react";
 import { updatePost } from "../../../../store/posts";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import {
+  selectAccessToken,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store";
 import api, { IMAGE_ENDPOINT, QuestionPost } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { JSONContent } from "@tiptap/react";
@@ -14,7 +18,7 @@ interface Props {
 }
 
 const QuestionEditPage = (props: Props) => {
-  const token = useAppSelector((state) => state.users.data?.token.access);
+  const token = useAppSelector(selectAccessToken);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const handleUpdatePost = (

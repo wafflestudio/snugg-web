@@ -1,25 +1,18 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/eslint-recommended"
   ],
-  "ignorePatterns": ["amplify/**", "*.js"],
-  "rules": {
-    "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/ban-types": [
-      "error",
-      {
-        "extendDefaults": true,
-        "types": {
-          "{}": false
-        }
-      }
-    ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        "argsIgnorePattern": "^_"
-      }
+  "parserOptions": {
+    "project": [
+      "./tsconfig.json"
     ]
+  },
+  "ignorePatterns": [
+    "amplify/**",
+    "*.js"
+  ],
+  "rules": {
   }
 }

@@ -1,6 +1,10 @@
 import React from "react";
 import { createPost, updatePost } from "../../../../store/posts";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import {
+  selectAccessToken,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store";
 import { JSONContent } from "@tiptap/react";
 import api, { IMAGE_ENDPOINT } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
@@ -9,7 +13,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 const QuestionAskPage = () => {
-  const token = useAppSelector((state) => state.users.data?.token.access);
+  const token = useAppSelector(selectAccessToken);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const handleCreatePost = (

@@ -18,8 +18,7 @@ const QuestionSearchPage: FC<Props> = ({ posts, query }) => {
           {/* TODO: 태그 및 작성자 추가*/}
           <div>검색어 [{query}]</div>
         </div>
-        {
-          /*
+        {/*
           // TODO: 정렬 순서 추가
         <ToggleButtonGroup>
           <ToggleButton
@@ -35,8 +34,7 @@ const QuestionSearchPage: FC<Props> = ({ posts, query }) => {
             최신순
           </ToggleButton>
         </ToggleButtonGroup>
-           */
-        }
+           */}
       </div>
       {posts.map((post) => (
         <QuestionPreview post={post} key={post.pk} />
