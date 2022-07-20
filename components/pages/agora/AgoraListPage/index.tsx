@@ -16,9 +16,9 @@ export const AgoraListPage: FC<Props> = ({ onSearch, posts, lecture }) => {
   return (
     <div className={styles.container}>
       <div className={styles.className}>{lecture.name}</div>
-      {
-        posts.map((item) => <ClassPostPreview post={item} key={item.pk} />)
-      }
+      {posts.map((item) => (
+        <ClassPostPreview post={item} key={item.pk} />
+      ))}
       <div className={styles.bottom1}>
         <Pagination
           className={styles.pagination}

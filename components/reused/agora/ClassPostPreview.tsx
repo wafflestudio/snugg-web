@@ -18,9 +18,9 @@ const ClassPostPreview = ({ post }: Props) => {
         <Link href={`/profile/${post.writer.pk}`}>
           <a className={styles.postWriter}>{post.writer.username}</a>
         </Link>
-        <div className={styles.postTime}><Moment format={"YYYY.MM.DD"}>
-          {post.created_at}
-        </Moment></div>
+        <div className={styles.postTime}>
+          <Moment format={"YYYY.MM.DD"}>{post.created_at}</Moment>
+        </div>
       </div>
     </div>
   );

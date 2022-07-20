@@ -1,14 +1,21 @@
-import { FormEventHandler, FunctionComponent, useEffect, useState } from "react";
+import {
+  FormEventHandler,
+  FunctionComponent,
+  useEffect,
+  useState,
+} from "react";
 import styles from "/styles/profile/AuthModal.module.scss";
 import {
   Autocomplete,
-  Button, FilterOptionsState,
+  Button,
+  FilterOptionsState,
   InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
-  TextField, ToggleButton,
-  ToggleButtonGroup
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import Hangul from "hangul-js";
@@ -32,10 +39,14 @@ interface Props {
 }
 
 const AuthModal: FunctionComponent<Props> = ({
-  admissionYears, majors, degrees, schools, onSchoolEmailVerify,
+  admissionYears,
+  majors,
+  degrees,
+  schools,
+  onSchoolEmailVerify,
   onSubmit,
-  initialData
-                                             }) => {
+  initialData,
+}) => {
   const [school, setSchool] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [admissionYear, setAdmissionYear] = useState<number>();
@@ -49,15 +60,24 @@ const AuthModal: FunctionComponent<Props> = ({
       setMajor(initialData.major);
       setDegree(initialData.degree);
     }
-  }, [initialData])
+  }, [initialData]);
 
   const onFormSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    if (school === undefined || email === undefined || major === undefined || admissionYear === undefined) {
+    if (
+      school === undefined ||
+      email === undefined ||
+      major === undefined ||
+      admissionYear === undefined
+    ) {
       return;
     }
     onSubmit({
-      school, email, degree, major, admissionYear
+      school,
+      email,
+      degree,
+      major,
+      admissionYear,
     });
   };
   const filterOptions = (
@@ -103,11 +123,7 @@ const AuthModal: FunctionComponent<Props> = ({
         placeholder="학교 이메일을 입력하세요"
         required
       />
-      <Button
-        className={styles.button}
-        fullWidth
-        onClick={onSchoolEmailVerify}
-      >
+      <Button className={styles.button} fullWidth onClick={onSchoolEmailVerify}>
         인증하기
       </Button>
       <InputLabel htmlFor="admission-year" className={styles.label}>
