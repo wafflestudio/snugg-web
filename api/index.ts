@@ -182,8 +182,8 @@ export type ListAgoraLectureInfo = {
 };
 
 export type CommentParams = {
-  content_type: number;
-  object_id: number;
+  content_type?: number;
+  object_id?: number;
   content: string;
 };
 
@@ -285,16 +285,37 @@ const api = {
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
-  createComment: async (type: string, id: number, params: CommentParams) =>
-    await axios.post<CommentInfo>(`/qna/comments/?${type}=${id}`, params),
+  createComment: async (
+    type: string,
+    id: number,
+    params: CommentParams,
+    token: string
+  ) =>
+    await axios.post<CommentInfo>(
+      `/qna/comments/?${type}=${id}`,
+      params,
+      withToken(token)
+    ),
   listComment: async (type: string, id: number) =>
-    await axios.get<ListCommentInfo>(`/qna/comments?${type}=${id}`),
-  updateComment: async (id: number, params: CommentParams) =>
-    await axios.put<CommentInfo>(`/qna/comments/${id}`, params),
-  partialUpdateComment: async (id: number, params: Partial<CommentParams>) =>
-    await axios.put<CommentInfo>(`/qna/comments/${id}`, params),
-  deleteComment: async (id: number) =>
-    await axios.delete<{}>(`/qna/comments/${id}`),
+    await axios.get<ListCommentInfo>(`/qna/comments/?${type}=${id}`),
+  updateComment: async (id: number, params: CommentParams, token: string) =>
+    await axios.put<CommentInfo>(
+      `/qna/comments/${id}`,
+      params,
+      withToken(token)
+    ),
+  partialUpdateComment: async (
+    id: number,
+    params: Partial<CommentParams>,
+    token: string
+  ) =>
+    await axios.put<CommentInfo>(
+      `/qna/comments/${id}`,
+      params,
+      withToken(token)
+    ),
+  deleteComment: async (id: number, token: string) =>
+    await axios.delete<{}>(`/qna/comments/${id}`, withToken(token)),
 };
 
 export default api;

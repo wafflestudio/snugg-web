@@ -23,7 +23,12 @@ interface Props {
   answerNum: number;
 }
 
-const QuestionViewPage: FC<Props> = ({ answerListData: { results }, answerNum, questionData, questionId }) => {
+const QuestionViewPage: FC<Props> = ({
+  answerListData: { results },
+  answerNum,
+  questionData,
+  questionId,
+}) => {
   const router = useRouter();
   const me = useAppSelector((state) => state.users.data);
   const onDeleteQuestion = async () => {
@@ -85,6 +90,8 @@ const QuestionViewPage: FC<Props> = ({ answerListData: { results }, answerNum, q
       <QuestionBox
         onDeleteQuestion={onDeleteQuestion}
         questionData={questionData}
+        token={token}
+        questionId={questionId}
       />
       <div className={styles.answerCount}>{answerNum}개의 답변</div>
       {results.map((item) => (
@@ -92,7 +99,10 @@ const QuestionViewPage: FC<Props> = ({ answerListData: { results }, answerNum, q
           answerData={item}
           onDeleteAnswer={onDeleteAnswer}
           accepted={item.pk === questionData.accepted_answer}
-          acceptable={questionData.writer.pk === me?.user.pk && questionData.accepted_answer === null}
+          acceptable={
+            questionData.writer.pk === me?.user.pk &&
+            questionData.accepted_answer === null
+          }
           key={item.pk}
         />
       ))}
