@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import ClassPostPreview from "../../../reused/agora/ClassPostPreview";
 import { MenuItem, Pagination, Select } from "@mui/material";
 import { AgoraLectureInfo, AgoraPostInfo } from "../../../../api";
+import NextLink from "next/link";
 
 export interface Props {
   onSearch: (condition: string, query: string) => void;
@@ -16,9 +17,9 @@ export const AgoraListPage: FC<Props> = ({ onSearch, posts, lecture }) => {
   return (
     <div className={styles.container}>
       <div className={styles.className}>{lecture.name}</div>
-      {
-        posts.map((item) => <ClassPostPreview post={item} key={item.pk} />)
-      }
+      {posts.map((item) => (
+        <ClassPostPreview post={item} key={item.pk} />
+      ))}
       <div className={styles.bottom1}>
         <Pagination
           className={styles.pagination}
@@ -26,7 +27,9 @@ export const AgoraListPage: FC<Props> = ({ onSearch, posts, lecture }) => {
           siblingCount={10}
           size="small"
         />
-        <button className={styles.writeButton}>글쓰기</button>
+        <NextLink href={`/agora/${lecture.pk}/write`} passHref>
+          <button className={styles.writeButton}>글쓰기</button>
+        </NextLink>
       </div>
       <div className={styles.bottom2}>
         <form
