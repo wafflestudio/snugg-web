@@ -8,8 +8,12 @@ import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 
 import { Button, Divider, Input } from "@mui/material";
 import CommentBox from "./CommentBox";
-import { FC, useState } from "react";
-import api, { AnswerPostInfo } from "../../../api";
+import { FC, useEffect, useState } from "react";
+import api, {
+  AnswerPostInfo,
+  CommentInfo,
+  ListCommentInfo,
+} from "../../../api";
 import Moment from "react-moment";
 import { useAppSelector } from "../../../store";
 import axios from "axios";
@@ -21,7 +25,12 @@ interface Props {
   acceptable: boolean;
 }
 
-const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable }: Props) => {
+const AnswerBox: FC<Props> = ({
+  answerData,
+  onDeleteAnswer,
+  accepted,
+  acceptable,
+}: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const me = useAppSelector((state) => state.users.data);
 
@@ -45,16 +54,32 @@ const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable
     })();
   };
 
+  const [answerComments, setAnswerComments] = useState<CommentInfo[]>();
+  useEffect(() => {
+    async function getAnswerComments() {
+      const data = await api.listComment("answer", answerData.pk);
+      if (data) {
+        setAnswerComments(data.data.results);
+      }
+    }
+    getAnswerComments();
+  }, []);
+
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
-        {accepted ? <>
+        {accepted ? (
+          <>
             <CheckIcon className={styles.questionMarkIcon} />
             <div>채택 완료</div>
-          </> :
-          acceptable &&
-          <Button className={styles.button} onClick={() => onAcceptAnswer()}>채택하기</Button>
-        }
+          </>
+        ) : (
+          acceptable && (
+            <Button className={styles.button} onClick={() => onAcceptAnswer()}>
+              채택하기
+            </Button>
+          )
+        )}
       </div>
       <div className={styles.questionText}>{answerData.content}</div>
       <div className={styles.questionBottom}>
@@ -105,8 +130,11 @@ const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable
           <Input disableUnderline={true} placeholder="댓글을 남겨주세요." />
           <Button>등록</Button>
         </div>
-        <CommentBox />
-        <CommentBox />
+        {answerComments && answerComments.length >= 1
+          ? answerComments.map((item) => (
+              <CommentBox key={item.pk} commentData={item} />
+            ))
+          : null}
       </div>
     </div>
   );

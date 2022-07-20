@@ -72,6 +72,7 @@ const QuestionBox = (Props: Props) => {
         alert(`댓글 등록 실패 ${reason}`);
       });
   };
+  console.log(Props.commentData.results.length);
 
   return (
     <div className={styles.questionBox}>
@@ -162,9 +163,11 @@ const QuestionBox = (Props: Props) => {
             등록
           </Button>
         </div>
-        {Props.commentData.results.map((item) => (
-          <CommentBox key={item.pk} commentData={item} />
-        ))}
+        {Props.commentData.results.length >= 1
+          ? Props.commentData.results.map((item) => (
+              <CommentBox key={item.pk} commentData={item} />
+            ))
+          : null}
       </div>
     </div>
   );
