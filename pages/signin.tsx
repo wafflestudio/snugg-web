@@ -14,7 +14,7 @@ const SignInPageContainer: NextPage<Props> = () => {
     const result = await signIn({ signinServiceRequest: { email, password } });
     if ("data" in result) {
       toast.success(`${result.data.user?.username}님, 환영합니다!`);
-      router.push("/question");
+      await router.push("/question");
     } else {
       toast.error("로그인에 실패했습니다: " + errorToString(result.error));
     }
