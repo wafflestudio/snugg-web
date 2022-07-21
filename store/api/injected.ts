@@ -87,6 +87,32 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    authPasswordUpdate: build.mutation<
+      AuthPasswordUpdateApiResponse,
+      AuthPasswordUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/auth/password/`,
+        method: "PUT",
+        body: queryArg.passwordServiceRequest,
+      }),
+    }),
+    authProfileRetrieve: build.query<
+      AuthProfileRetrieveApiResponse,
+      AuthProfileRetrieveApiArg
+    >({
+      query: () => ({ url: `/auth/profile/` }),
+    }),
+    authProfileUpdate: build.mutation<
+      AuthProfileUpdateApiResponse,
+      AuthProfileUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/auth/profile/`,
+        method: "PUT",
+        body: queryArg.userRequest,
+      }),
+    }),
     authRefreshCreate: build.mutation<
       AuthRefreshCreateApiResponse,
       AuthRefreshCreateApiArg
@@ -184,6 +210,72 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/qna/answers/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
+    qnaCommentsList: build.query<
+      QnaCommentsListApiResponse,
+      QnaCommentsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/`,
+        params: {
+          answer: queryArg.answer,
+          comment: queryArg.comment,
+          cursor: queryArg.cursor,
+          ordering: queryArg.ordering,
+          page_size: queryArg.pageSize,
+          post: queryArg.post,
+        },
+      }),
+    }),
+    qnaCommentsCreate: build.mutation<
+      QnaCommentsCreateApiResponse,
+      QnaCommentsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/`,
+        method: "POST",
+        body: queryArg.commentRequest,
+        params: {
+          answer: queryArg.answer,
+          comment: queryArg.comment,
+          post: queryArg.post,
+        },
+      }),
+    }),
+    qnaCommentsRetrieve: build.query<
+      QnaCommentsRetrieveApiResponse,
+      QnaCommentsRetrieveApiArg
+    >({
+      query: (queryArg) => ({ url: `/qna/comments/${queryArg.id}/` }),
+    }),
+    qnaCommentsUpdate: build.mutation<
+      QnaCommentsUpdateApiResponse,
+      QnaCommentsUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/${queryArg.id}/`,
+        method: "PUT",
+        body: queryArg.commentRequest,
+      }),
+    }),
+    qnaCommentsPartialUpdate: build.mutation<
+      QnaCommentsPartialUpdateApiResponse,
+      QnaCommentsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.commentRequest,
+      }),
+    }),
+    qnaCommentsDestroy: build.mutation<
+      QnaCommentsDestroyApiResponse,
+      QnaCommentsDestroyApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -312,6 +404,16 @@ export type AgoraPostsDestroyApiArg = {
   /** A unique integer value identifying this post. */
   id: number;
 };
+export type AuthPasswordUpdateApiResponse = /** status 200  */ Success;
+export type AuthPasswordUpdateApiArg = {
+  passwordServiceRequest: PasswordServiceRequest;
+};
+export type AuthProfileRetrieveApiResponse = /** status 200  */ User;
+export type AuthProfileRetrieveApiArg = void;
+export type AuthProfileUpdateApiResponse = /** status 200  */ User;
+export type AuthProfileUpdateApiArg = {
+  userRequest: UserRequest;
+};
 export type AuthRefreshCreateApiResponse = /** status 200  */ RefreshToken;
 export type AuthRefreshCreateApiArg = {
   refreshServiceRequest: RefreshServiceRequest;
@@ -364,6 +466,54 @@ export type QnaAnswersPartialUpdateApiArg = {
 export type QnaAnswersDestroyApiResponse = unknown;
 export type QnaAnswersDestroyApiArg = {
   /** A unique integer value identifying this answer. */
+  id: number;
+};
+export type QnaCommentsListApiResponse =
+  /** status 200  */ PaginatedCommentList;
+export type QnaCommentsListApiArg = {
+  /** Answer id */
+  answer?: number;
+  /** Comment id */
+  comment?: number;
+  /** The pagination cursor value. */
+  cursor?: string;
+  /** Which field to use when ordering the results. */
+  ordering?: string;
+  /** Number of results to return per page. */
+  pageSize?: number;
+  /** Post id */
+  post?: number;
+};
+export type QnaCommentsCreateApiResponse = /** status 201  */ CommentAnswer;
+export type QnaCommentsCreateApiArg = {
+  /** Answer id */
+  answer?: number;
+  /** Comment id */
+  comment?: number;
+  /** Post id */
+  post?: number;
+  commentRequest: CommentRequest;
+};
+export type QnaCommentsRetrieveApiResponse = /** status 200  */ Comment;
+export type QnaCommentsRetrieveApiArg = {
+  /** A unique integer value identifying this comment. */
+  id: number;
+};
+export type QnaCommentsUpdateApiResponse = /** status 200  */ Comment;
+export type QnaCommentsUpdateApiArg = {
+  /** A unique integer value identifying this comment. */
+  id: number;
+  commentRequest: CommentRequest;
+};
+export type QnaCommentsPartialUpdateApiResponse = /** status 200  */ Comment;
+export type QnaCommentsPartialUpdateApiArg = {
+  /** A unique integer value identifying this comment. */
+  id: number;
+  commentRequest: CommentRequest;
+};
+export type QnaCommentsDestroyApiResponse = unknown;
+export type QnaCommentsDestroyApiArg = {
+  /** A unique integer value identifying this comment. */
   id: number;
 };
 export type QnaPostsListApiResponse = /** status 200  */ PaginatedPostList;
@@ -424,18 +574,16 @@ export type PaginatedLectureList = {
   previous?: string | null;
   results?: Lecture[];
 };
-export type User = {
+export type UserPublic = {
   pk?: number;
-  email: string;
   username: string;
-  birth_date?: string | null;
   created_at?: string;
   last_login?: string | null;
 };
 export type Post = {
   pk?: number;
   lecture: string;
-  writer?: User;
+  writer?: UserPublic;
   title: string;
   content: string;
   created_at?: string;
@@ -450,6 +598,28 @@ export type PostRequest = {
   lecture: string;
   title: string;
   content: string;
+};
+export type Success = {
+  success: boolean;
+};
+export type PasswordServiceRequest = {
+  old_password: string;
+  new_password: string;
+};
+export type User = {
+  pk?: number;
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
+  created_at?: string;
+  last_login?: string | null;
+};
+export type UserRequest = {
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
 };
 export type RefreshToken = {
   refresh: string;
@@ -469,9 +639,6 @@ export type SigninServiceRequest = {
   email: string;
   password: string;
 };
-export type Success = {
-  success: boolean;
-};
 export type SignoutServiceRequest = {
   refresh: string;
 };
@@ -484,7 +651,7 @@ export type SignupServiceRequest = {
 export type Answer = {
   pk?: number;
   post: number;
-  writer?: User;
+  writer?: UserPublic;
   content: string;
   created_at?: string;
   updated_at?: string;
@@ -496,5 +663,31 @@ export type PaginatedAnswerList = {
 };
 export type AnswerRequest = {
   post: number;
+  content: string;
+};
+export type Comment = {
+  pk?: number;
+  writer?: UserPublic;
+  content: string;
+  replies_count?: number;
+  created_at?: string;
+  updated_at?: string;
+};
+export type PaginatedCommentList = {
+  next?: string | null;
+  previous?: string | null;
+  results?: Comment[];
+};
+export type CommentAnswer = {
+  pk?: number;
+  writer?: UserPublic;
+  content: string;
+  replies_count?: number;
+  created_at?: string;
+  updated_at?: string;
+};
+export type CommentRequest = {
+  content_type?: number;
+  object_id?: number;
   content: string;
 };
