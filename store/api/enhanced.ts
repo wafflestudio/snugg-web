@@ -18,8 +18,8 @@ export const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
         result ? [{ id: result.pk, type: Tag.Answer }] : [],
     },
     qnaAnswersDestroy: {
-      invalidatesTags: (_r, _e, args) =>
-        _r ? [{ id: args.id, type: Tag.Answer }] : [],
+      invalidatesTags: (result, _e, args) =>
+        result ? [{ id: args.id, type: Tag.Answer }] : [],
     },
     qnaAnswersPartialUpdate: {
       invalidatesTags: (result) =>
@@ -47,12 +47,6 @@ export const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
       onQueryStarted: async (_arg, { queryFulfilled, dispatch }) => {
         await queryFulfilled;
         dispatch(apiUser.actions.setUser(undefined));
-      },
-    },
-    authRefreshCreate: {
-      onQueryStarted: async (_arg, { queryFulfilled, dispatch }) => {
-        const { data } = await queryFulfilled;
-        dispatch(apiUser.actions.setRefreshToken(data));
       },
     },
     authSignupCreate: {
