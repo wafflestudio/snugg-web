@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RefreshToken, UserToken } from "./injected";
+import { UserToken } from "./injected";
 
 export const apiUser = createSlice({
   initialState: {} as {
@@ -10,9 +10,9 @@ export const apiUser = createSlice({
     setUser: (state, action: PayloadAction<UserToken | undefined>) => {
       state.user = action.payload;
     },
-    setRefreshToken: (state, action: PayloadAction<RefreshToken>) => {
+    refreshToken: (state, action: PayloadAction<string>) => {
       if (state.user) {
-        state.user.token.refresh = action.payload.refresh;
+        state.user.token.access = action.payload;
       }
     },
   },
