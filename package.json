@@ -23,7 +23,7 @@
     "@tiptap/starter-kit": "^2.0.0-beta.183",
     "@types/form-data": "^2.5.0",
     "@types/uuid": "^8.3.4",
-    "aws-amplify": "^4.3.26",
+    "aws-amplify": "^4.3.27",
     "axios": "^0.26.1",
     "form-data": "^4.0.0",
     "hangul-js": "^0.2.6",

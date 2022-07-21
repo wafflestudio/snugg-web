@@ -27,7 +27,7 @@ const AgoraWritePage: FC<Props> = ({ lectureId, lecture }) => {
           params: {
             lecture: lectureId,
             title,
-            content: "placeholder",
+            content: JSON.stringify(jsonContent),
           },
           token,
         })

@@ -6,6 +6,8 @@ import { Divider, OutlinedInput } from "@mui/material";
 import ClassPostComment from "../../../reused/agora/ClassPostComment";
 import { AuthorSummary } from "../../../reused/agora/AuthorSummary";
 import { AgoraPostInfo } from "../../../../api";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { editorExtensions } from "../../../reused/QuestionEditor";
 
 interface Props {
   post: AgoraPostInfo;
@@ -14,20 +16,39 @@ interface Props {
 
 export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
   const [comment, setComment] = useState("");
+
+  const rawContent = post.content;
+  let jsonContent: any;
+  let success = false;
+  try {
+    if (rawContent !== undefined) {
+      jsonContent = JSON.parse(rawContent);
+      success = true;
+    }
+  } catch (err) {
+    success = false;
+  }
+  const postView = useEditor({
+    editable: false,
+    extensions: editorExtensions,
+    content: success ? jsonContent : rawContent,
+  });
+
   return (
     <div className={styles.container}>
       <div className={styles.mainText}>
         <div className={styles.postTitle}>{post.title}</div>
         <div className={styles.mainTextHeader}>
-          <AuthorSummary userName={post.writer.username} createdAt={post.created_at} />
+          <AuthorSummary
+            userName={post.writer.username}
+            createdAt={post.created_at}
+          />
           <div className={styles.postComment}>
             <ChatBubbleIcon className={styles.chatBubbleIcon} />
             <div>5</div>
           </div>
         </div>
-        <div className={styles.postContent}>
-          {post.content}
-        </div>
+        <EditorContent editor={postView} className={styles.postContent} />
       </div>
       <Divider className={styles.divider} />
       <form
