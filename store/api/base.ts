@@ -3,6 +3,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AppState } from "../index";
 import { apiUser } from "./apiUser";
+import { Post } from "./injected";
 
 export const API_ENDPOINT =
   "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
@@ -51,5 +52,23 @@ const baseQueryWithReauth: typeof baseQuery = async (
 
 export const baseApi = createApi({
   baseQuery: baseQueryWithReauth,
-  endpoints: () => ({}),
+  endpoints: (build) => ({
+    qnaPostsAcceptAnswer: build.mutation<
+      QnaPostsAcceptAnswerResponse,
+      QnaPostsAcceptAnswerArgs
+    >({
+      query: (arg) => ({
+        url: `/qna/posts/${arg.id}`,
+        method: "PATCH",
+        body: { accepted_answer: arg.accepted_answer },
+      }),
+    }),
+  }),
 });
+
+type QnaPostsAcceptAnswerArgs = {
+  id: number;
+  accepted_answer: number;
+};
+
+type QnaPostsAcceptAnswerResponse = Post;

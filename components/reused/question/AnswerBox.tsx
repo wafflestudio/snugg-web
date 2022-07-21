@@ -9,19 +9,16 @@ import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import { Button, Divider, Input } from "@mui/material";
 import CommentBox from "./CommentBox";
 import { FC, useState } from "react";
-import api, { AnswerPostInfo } from "../../../api";
 import Moment from "react-moment";
-import {
-  selectAccessToken,
-  selectUserInfo,
-  useAppSelector,
-} from "../../../store";
-import axios from "axios";
+import { selectUserInfo, useAppSelector } from "../../../store";
 import { toast } from "react-toastify";
+import { Answer } from "../../../store/api/injected";
+import { enhancedApi } from "../../../store/api/enhanced";
+import { errorToString } from "../../../utility";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
-  answerData: AnswerPostInfo;
+  answerData: Answer;
   accepted: boolean;
   acceptable: boolean;
 }
@@ -33,27 +30,20 @@ const AnswerBox: FC<Props> = ({
   acceptable,
 }: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
-  const token = useAppSelector(selectAccessToken);
   const userInfo = useAppSelector(selectUserInfo);
+  const [acceptAnswer] = enhancedApi.useQnaPostsAcceptAnswerMutation();
 
   const onAcceptAnswer = () => {
-    if (token === undefined) {
-      toast.error("채택하려면 로그인 하십시오");
-      return;
-    }
-    (async () => {
-      try {
-        await api.acceptAnswer(answerData.post, answerData.pk, token);
+    acceptAnswer({
+      id: answerData.post,
+      accepted_answer: answerData.pk!!,
+    }).then((result) => {
+      if ("error" in result) {
+        toast.error("채택할 수 없습니다: " + errorToString(result.error));
+      } else {
         toast.success("채택되었습니다");
-        // TODO refresh answers
-      } catch (e) {
-        if (axios.isAxiosError(e)) {
-          toast.success("채택할 수 없습니다: " + e.response?.statusText);
-        } else {
-          throw e;
-        }
       }
-    })();
+    });
   };
 
   return (
@@ -77,7 +67,7 @@ const AnswerBox: FC<Props> = ({
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
           <div className={styles.questionUser}>
-            {answerData.writer.username} 님의 답변
+            {answerData.writer?.username} 님의 답변
           </div>
           <div className={styles.answerCount}>답변 20 채택 10</div>
           <div className={styles.questionTime}>
@@ -87,15 +77,15 @@ const AnswerBox: FC<Props> = ({
         <div className={styles.questionButtons}>
           <Button
             className={styles.questionButton}
-            disabled={userInfo?.pk !== answerData.writer.pk}
+            disabled={userInfo?.pk !== answerData.writer?.pk}
           >
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
           </Button>
           <Button
-            disabled={userInfo?.pk !== answerData.writer.pk}
+            disabled={userInfo?.pk !== answerData.writer?.pk}
             onClick={() => {
-              onDeleteAnswer(answerData.pk);
+              answerData.pk && onDeleteAnswer(answerData.pk);
             }}
             className={styles.questionButton}
           >

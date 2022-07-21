@@ -6,21 +6,15 @@ import {
   PaginatedResponse,
   QuestionPostInfo,
 } from "../../../../api";
-import api from "../../../../api";
-import axios from "axios";
 import { useRouter } from "next/router";
 
 import { FC, useState } from "react";
 import AnswerEditor from "../../../reused/AnswerEditor";
-import {
-  selectAccessToken,
-  selectUserInfo,
-  useAppDispatch,
-  useAppSelector,
-} from "../../../../store";
-import { createAnswer } from "../../../../store/answerPosts";
+import { selectUserInfo, useAppSelector } from "../../../../store";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
+import { enhancedApi } from "../../../../store/api/enhanced";
+import { errorToString } from "../../../../utility";
 
 interface Props {
   questionId: number;
@@ -37,57 +31,47 @@ const QuestionViewPage: FC<Props> = ({
 }) => {
   const router = useRouter();
   const userInfo = useAppSelector(selectUserInfo);
-  const token = useAppSelector(selectAccessToken);
-  const onDeleteQuestion = async () => {
-    try {
-      if (!token) {
-        toast.warning("질문을 삭제하려면 로그인하세요");
-        return;
-      }
-      await api.deleteQuestion({ id: questionId }, token);
-      await router.push("/question");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
+  const [destroyQuestion] = enhancedApi.useQnaPostsDestroyMutation();
+  const [createAnswer] = enhancedApi.useQnaAnswersCreateMutation();
+  const [destroyAnswer] = enhancedApi.useQnaAnswersDestroyMutation();
+  const [content, setContent] = useState("");
+
+  const onDeleteQuestion = () => {
+    destroyQuestion({ id: questionId }).then((result) => {
+      if ("error" in result) {
         toast.error(
-          "질문을 삭제할 수 없습니다: " + error.response?.data.detail
+          "질문을 삭제할 수 없습니다: " + errorToString(result.error)
         );
-      }
-    }
-  };
-
-  const [content, setContent] = useState<string>("");
-
-  const dispatch = useAppDispatch();
-  const handleCreateAnswer = (post: number, content: string, token: string) => {
-    const params = { post, content };
-    dispatch(createAnswer({ params, token })).then((action) => {
-      if (createAnswer.fulfilled.match(action)) {
-        toast.success("답변을 등록하였습니다");
-        router.push(`/question/${questionId}`);
-      } else if (createAnswer.rejected.match(action)) {
-        toast.error("답변을 등록할 수 없습니다: " + action.error.message);
+      } else {
+        toast.success("질문을 삭제했습니다");
+        return router.push("/question");
       }
     });
   };
 
-  const onDeleteAnswer = async (id: number) => {
-    try {
-      if (!token) {
-        toast.error("답변을 삭제하려면 로그인하세요");
-        return;
-      }
-      await api.deleteAnswer(id, token);
-      // TODO reload answers
-      await router.push("/question/" + questionId); // router.push는 새로고침이 강제됨.
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
+  const handleCreateAnswer = (post: number, content: string) => {
+    createAnswer({ answerRequest: { content, post } }).then((result) => {
+      if ("error" in result) {
         toast.error(
-          "답변을 삭제할 수 없습니다: " + error.response?.data.detail
+          "답변을 등록할 수 없습니다: " + errorToString(result.error)
         );
       } else {
-        throw error;
+        toast.success("답변을 등록하였습니다");
+        return router.push(`/question/${questionId}`);
       }
-    }
+    });
+  };
+
+  const onDeleteAnswer = (id: number) => {
+    destroyAnswer({ id }).then((result) => {
+      if ("error" in result) {
+        toast.error(
+          "답변을 삭제할 수 없습니다: " + errorToString(result.error)
+        );
+      } else {
+        toast.success("답변을 삭제했습니다");
+      }
+    });
   };
 
   return (
@@ -117,8 +101,8 @@ const QuestionViewPage: FC<Props> = ({
           className={styles.answerButton}
           onClick={(e) => {
             e.preventDefault();
-            if (token !== undefined) {
-              handleCreateAnswer(questionData?.pk, content, token);
+            if (userInfo !== undefined) {
+              handleCreateAnswer(questionData?.pk, content);
             } else {
               toast.warning("답변을 달려면 로그인하세요");
             }

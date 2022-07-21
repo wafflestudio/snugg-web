@@ -9,6 +9,10 @@ enum Tag {
 
 export const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
   endpoints: {
+    qnaPostsAcceptAnswer: {
+      invalidatesTags: (result) =>
+        result ? [{ id: result.pk, type: Tag.AnswerList }] : [],
+    },
     qnaAnswersCreate: {
       invalidatesTags: (result) =>
         result ? [{ id: result.post, type: Tag.AnswerList }] : [],
@@ -57,3 +61,6 @@ export const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
     },
   },
 });
+
+export const pendingQueries = () =>
+  Promise.all(enhancedApi.util.getRunningOperationPromises());

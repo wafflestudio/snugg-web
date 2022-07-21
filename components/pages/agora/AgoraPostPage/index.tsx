@@ -5,23 +5,26 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { Divider, OutlinedInput } from "@mui/material";
 import ClassPostComment from "../../../reused/agora/ClassPostComment";
 import { AuthorSummary } from "../../../reused/agora/AuthorSummary";
-import { AgoraPostInfo } from "../../../../api";
+import { enhancedApi } from "../../../../store/api/enhanced";
+import { toast } from "react-toastify";
 
 interface Props {
-  post: AgoraPostInfo;
-  onSubmitComment: (comment: string) => void;
+  id: number;
 }
 
-export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
+export const AgoraPostPage: FC<Props> = ({ id }) => {
+  const { data: post, error } = enhancedApi.useAgoraPostsRetrieveQuery({ id });
   const [comment, setComment] = useState("");
-  return (
+  return error ? (
+    <span>error</span>
+  ) : post ? (
     <div className={styles.container}>
       <div className={styles.mainText}>
         <div className={styles.postTitle}>{post.title}</div>
         <div className={styles.mainTextHeader}>
           <AuthorSummary
-            userName={post.writer.username}
-            createdAt={post.created_at}
+            userName={post.writer!!.username}
+            createdAt={post.created_at!!}
           />
           <div className={styles.postComment}>
             <ChatBubbleIcon className={styles.chatBubbleIcon} />
@@ -35,7 +38,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
         className={styles.writeComment}
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmitComment(comment);
+          toast.info("not implemented. comment: " + comment);
         }}
       >
         <AccountCircleIcon className={styles.accountCircleIcon} />
@@ -51,5 +54,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
         return <ClassPostComment key={item} />;
       })}
     </div>
+  ) : (
+    <span>loading</span>
   );
 };
