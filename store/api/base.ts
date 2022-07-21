@@ -15,7 +15,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as AppState;
     const token = state.apiUser.user?.token.access;
-    if (token) headers.set("Authorization", token);
+    if (token) headers.set("Authorization", "Bearer " + token);
     return headers;
   },
 });
@@ -33,6 +33,7 @@ const baseQueryWithReauth: typeof baseQuery = async (
         body: {
           refresh: "",
         },
+        method: "POST",
       },
       api,
       extraOptions
