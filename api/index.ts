@@ -278,8 +278,8 @@ const api = {
       params,
       withToken(token)
     ),
-  deleteAgoraPost: async (id: number) =>
-    await axios.delete<{}>(`/agora/posts/${id}`),
+  deleteAgoraPost: async (id: number, token: string) =>
+    await axios.delete<{}>(`/agora/posts/${id}`, withToken(token)),
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>

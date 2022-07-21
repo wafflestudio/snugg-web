@@ -54,6 +54,7 @@
       .postComment {
         display: flex;
         align-items: center;
+        margin-left: 15px;
 
         .chatBubbleIcon {
           color: #588a69;
@@ -101,6 +102,33 @@
       width: 60px;
       height: 35px;
       font-size: 15px;
+    }
+  }
+}
+
+.headerButtons {
+  display: flex;
+
+  .questionButton {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    color: black;
+
+    .questionButtonIcon {
+      color: $main-color;
+      width: 20px;
+      height: 20px;
+      margin-right: 2px;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+
+    div {
+      font-size: 15px;
+      @include NanumGothicRegular;
+      line-height: 25px;
     }
   }
 }
