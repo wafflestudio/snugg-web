@@ -3,7 +3,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AppState } from "../index";
 import { apiUser } from "./apiUser";
-import { Post } from "./injected";
+import { Post, User } from "./injected";
 
 export const API_ENDPOINT =
   "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
@@ -63,12 +63,45 @@ export const baseApi = createApi({
         body: { accepted_answer: arg.accepted_answer },
       }),
     }),
+    mediaPresignedCreate: build.mutation<
+      MediaPresignedCreateApiResponse,
+      MediaPresignedCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/media/presigned/`,
+        method: "POST",
+        body: queryArg.directoryRequest,
+      }),
+    }),
   }),
 });
 
-type QnaPostsAcceptAnswerArgs = {
+export type QnaPostsAcceptAnswerArgs = {
   id: number;
   accepted_answer: number;
 };
 
-type QnaPostsAcceptAnswerResponse = Post;
+export type QnaPostsAcceptAnswerResponse = Post;
+
+export type PresignedPostFields = {
+  key: string;
+} & Record<string, any>;
+export type PresignedPost = {
+  url: string;
+  fields: PresignedPostFields;
+}
+export type Directory = {
+  pk?: number;
+  uploader?: User;
+  path?: string;
+  filenames: string[];
+  created_at?: string;
+  presigned_posts: PresignedPost[];
+};
+export type MediaPresignedCreateApiResponse = /** status 201  */ Directory;
+export type DirectoryRequest = {
+  filenames: string[];
+};
+export type MediaPresignedCreateApiArg = {
+  directoryRequest: DirectoryRequest;
+};
