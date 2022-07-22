@@ -26,12 +26,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/agora/lectures/${queryArg.id}/` }),
     }),
-    agoraPostsList: build.query<
-      AgoraPostsListApiResponse,
-      AgoraPostsListApiArg
+    agoraStorysList: build.query<
+      AgoraStorysListApiResponse,
+      AgoraStorysListApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/`,
+        url: `/agora/storys/`,
         params: {
           cursor: queryArg.cursor,
           lecture: queryArg.lecture,
@@ -42,48 +42,48 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
-    agoraPostsCreate: build.mutation<
-      AgoraPostsCreateApiResponse,
-      AgoraPostsCreateApiArg
+    agoraStorysCreate: build.mutation<
+      AgoraStorysCreateApiResponse,
+      AgoraStorysCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/`,
+        url: `/agora/storys/`,
         method: "POST",
-        body: queryArg.postRequest,
+        body: queryArg.storyRequest,
       }),
     }),
-    agoraPostsRetrieve: build.query<
-      AgoraPostsRetrieveApiResponse,
-      AgoraPostsRetrieveApiArg
+    agoraStorysRetrieve: build.query<
+      AgoraStorysRetrieveApiResponse,
+      AgoraStorysRetrieveApiArg
     >({
-      query: (queryArg) => ({ url: `/agora/posts/${queryArg.id}/` }),
+      query: (queryArg) => ({ url: `/agora/storys/${queryArg.id}/` }),
     }),
-    agoraPostsUpdate: build.mutation<
-      AgoraPostsUpdateApiResponse,
-      AgoraPostsUpdateApiArg
+    agoraStorysUpdate: build.mutation<
+      AgoraStorysUpdateApiResponse,
+      AgoraStorysUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/${queryArg.id}/`,
+        url: `/agora/storys/${queryArg.id}/`,
         method: "PUT",
-        body: queryArg.postRequest,
+        body: queryArg.storyRequest,
       }),
     }),
-    agoraPostsPartialUpdate: build.mutation<
-      AgoraPostsPartialUpdateApiResponse,
-      AgoraPostsPartialUpdateApiArg
+    agoraStorysPartialUpdate: build.mutation<
+      AgoraStorysPartialUpdateApiResponse,
+      AgoraStorysPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/${queryArg.id}/`,
+        url: `/agora/storys/${queryArg.id}/`,
         method: "PATCH",
-        body: queryArg.postRequest,
+        body: queryArg.storyRequest,
       }),
     }),
-    agoraPostsDestroy: build.mutation<
-      AgoraPostsDestroyApiResponse,
-      AgoraPostsDestroyApiArg
+    agoraStorysDestroy: build.mutation<
+      AgoraStorysDestroyApiResponse,
+      AgoraStorysDestroyApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/${queryArg.id}/`,
+        url: `/agora/storys/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -111,16 +111,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/auth/profile/`,
         method: "PUT",
         body: queryArg.userRequest,
-      }),
-    }),
-    authRefreshCreate: build.mutation<
-      AuthRefreshCreateApiResponse,
-      AuthRefreshCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/auth/refresh/`,
-        method: "POST",
-        body: queryArg.refreshServiceRequest,
       }),
     }),
     authSigninCreate: build.mutation<
@@ -151,6 +141,16 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/auth/signup/`,
         method: "POST",
         body: queryArg.signupServiceRequest,
+      }),
+    }),
+    mediaPresignedCreate: build.mutation<
+      MediaPresignedCreateApiResponse,
+      MediaPresignedCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/media/presigned/`,
+        method: "POST",
+        body: queryArg.directoryRequest,
       }),
     }),
     qnaAnswersList: build.query<
@@ -365,8 +365,8 @@ export type AgoraLecturesRetrieveApiArg = {
   /** A unique integer value identifying this lecture. */
   id: number;
 };
-export type AgoraPostsListApiResponse = /** status 200  */ PaginatedPostList;
-export type AgoraPostsListApiArg = {
+export type AgoraStorysListApiResponse = /** status 200  */ PaginatedStoryList;
+export type AgoraStorysListApiArg = {
   /** The pagination cursor value. */
   cursor?: string;
   lecture?: number;
@@ -378,30 +378,30 @@ export type AgoraPostsListApiArg = {
   search?: string;
   writer?: number;
 };
-export type AgoraPostsCreateApiResponse = /** status 201  */ Post;
-export type AgoraPostsCreateApiArg = {
-  postRequest: PostRequest;
+export type AgoraStorysCreateApiResponse = /** status 201  */ Story;
+export type AgoraStorysCreateApiArg = {
+  storyRequest: StoryRequest;
 };
-export type AgoraPostsRetrieveApiResponse = /** status 200  */ Post;
-export type AgoraPostsRetrieveApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysRetrieveApiResponse = /** status 200  */ Story;
+export type AgoraStorysRetrieveApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
 };
-export type AgoraPostsUpdateApiResponse = /** status 200  */ Post;
-export type AgoraPostsUpdateApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysUpdateApiResponse = /** status 200  */ Story;
+export type AgoraStorysUpdateApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
-  postRequest: PostRequest;
+  storyRequest: StoryRequest;
 };
-export type AgoraPostsPartialUpdateApiResponse = /** status 200  */ Post;
-export type AgoraPostsPartialUpdateApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysPartialUpdateApiResponse = /** status 200  */ Story;
+export type AgoraStorysPartialUpdateApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
-  postRequest: PostRequest;
+  storyRequest: StoryRequest;
 };
-export type AgoraPostsDestroyApiResponse = unknown;
-export type AgoraPostsDestroyApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysDestroyApiResponse = unknown;
+export type AgoraStorysDestroyApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
 };
 export type AuthPasswordUpdateApiResponse = /** status 200  */ Success;
@@ -414,10 +414,6 @@ export type AuthProfileUpdateApiResponse = /** status 200  */ User;
 export type AuthProfileUpdateApiArg = {
   userRequest: UserRequest;
 };
-export type AuthRefreshCreateApiResponse = /** status 200  */ RefreshToken;
-export type AuthRefreshCreateApiArg = {
-  refreshServiceRequest: RefreshServiceRequest;
-};
 export type AuthSigninCreateApiResponse = /** status 200  */ UserToken;
 export type AuthSigninCreateApiArg = {
   signinServiceRequest: SigninServiceRequest;
@@ -429,6 +425,10 @@ export type AuthSignoutCreateApiArg = {
 export type AuthSignupCreateApiResponse = /** status 201  */ UserToken;
 export type AuthSignupCreateApiArg = {
   signupServiceRequest: SignupServiceRequest;
+};
+export type MediaPresignedCreateApiResponse = /** status 201  */ Directory;
+export type MediaPresignedCreateApiArg = {
+  directoryRequest: DirectoryRequest;
 };
 export type QnaAnswersListApiResponse = /** status 200  */ PaginatedAnswerList;
 export type QnaAnswersListApiArg = {
@@ -580,7 +580,7 @@ export type UserPublic = {
   created_at?: string;
   last_login?: string | null;
 };
-export type Post = {
+export type Story = {
   pk?: number;
   lecture: string;
   writer?: UserPublic;
@@ -589,12 +589,12 @@ export type Post = {
   created_at?: string;
   updated_at?: string;
 };
-export type PaginatedPostList = {
+export type PaginatedStoryList = {
   next?: string | null;
   previous?: string | null;
-  results?: Post[];
+  results?: Story[];
 };
-export type PostRequest = {
+export type StoryRequest = {
   lecture: string;
   title: string;
   content: string;
@@ -621,12 +621,6 @@ export type UserRequest = {
   birth_date?: string | null;
   self_introduction?: string;
 };
-export type RefreshToken = {
-  refresh: string;
-};
-export type RefreshServiceRequest = {
-  refresh: string;
-};
 export type Token = {
   access: string;
   refresh: string;
@@ -647,6 +641,16 @@ export type SignupServiceRequest = {
   username: string;
   password: string;
   birth_date?: string | null;
+};
+export type Directory = {
+  pk?: number;
+  uploader?: User;
+  path?: string;
+  filenames: string[];
+  created_at?: string;
+};
+export type DirectoryRequest = {
+  filenames: string[];
 };
 export type Answer = {
   pk?: number;
@@ -690,4 +694,27 @@ export type CommentRequest = {
   content_type?: number;
   object_id?: number;
   content: string;
+};
+export type Post = {
+  pk?: number;
+  field: string;
+  writer?: UserPublic;
+  title: string;
+  content: string;
+  created_at?: string;
+  updated_at?: string;
+  accepted_answer?: number | null;
+  tags?: string;
+};
+export type PaginatedPostList = {
+  next?: string | null;
+  previous?: string | null;
+  results?: Post[];
+};
+export type PostRequest = {
+  field: string;
+  title: string;
+  content: string;
+  accepted_answer?: number | null;
+  tags?: string;
 };

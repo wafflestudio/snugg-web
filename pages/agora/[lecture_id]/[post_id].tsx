@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<Props> =
     const postId = nanToNull(Number(context.params?.post_id));
     if (postId === null) return { notFound: true };
     store.dispatch(
-      enhancedApi.endpoints.agoraPostsRetrieve.initiate({ id: postId })
+      enhancedApi.endpoints.agoraStorysRetrieve.initiate({ id: postId })
     );
     await pendingQueries();
     return {

@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const AgoraPostPage: FC<Props> = ({ id }) => {
-  const { data: post, error } = enhancedApi.useAgoraPostsRetrieveQuery({ id });
+  const { data: post, error } = enhancedApi.useAgoraStorysRetrieveQuery({ id });
   const [comment, setComment] = useState("");
   return error ? (
     <span>error</span>
