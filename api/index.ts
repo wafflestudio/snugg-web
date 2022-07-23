@@ -255,16 +255,16 @@ const api = {
     return await axios.post(url, formData, { baseURL: "" });
   },
   listAgoraPost: async (params: ListAgoraPostParams) =>
-    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, {
+    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/storys/`, {
       params,
     }),
   createAgoraPost: async (params: AgoraPost, token: string) =>
-    await axios.post<AgoraPostInfo>(`/agora/posts/`, params, withToken(token)),
+    await axios.post<AgoraPostInfo>(`/agora/storys/`, params, withToken(token)),
   getAgoraPost: async (id: number) =>
-    await axios.get<AgoraPostInfo>(`/agora/posts/${id}`),
+    await axios.get<AgoraPostInfo>(`/agora/storys/${id}`),
   updateAgoraPost: async (id: number, params: AgoraPost, token: string) =>
     await axios.put<AgoraPostInfo>(
-      `/agora/posts/${id}`,
+      `/agora/storys/${id}`,
       params,
       withToken(token)
     ),
@@ -274,12 +274,12 @@ const api = {
     token: string
   ) =>
     await axios.patch<AgoraPostInfo>(
-      `/agora/posts/${id}`,
+      `/agora/storys/${id}`,
       params,
       withToken(token)
     ),
   deleteAgoraPost: async (id: number, token: string) =>
-    await axios.delete<{}>(`/agora/posts/${id}`, withToken(token)),
+    await axios.delete<{}>(`/agora/storys/${id}`, withToken(token)),
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
