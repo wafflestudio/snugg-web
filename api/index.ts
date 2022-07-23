@@ -143,7 +143,10 @@ export interface AgoraPost {
   content: string;
 }
 
-export interface AgoraPostInfo extends AgoraPost {
+export interface AgoraPostInfo {
+  lecture: AgoraLectureInfo;
+  title: string;
+  content: string;
   pk: number;
   writer: User;
   created_at: string;

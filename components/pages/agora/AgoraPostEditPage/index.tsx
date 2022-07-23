@@ -2,16 +2,20 @@ import React, { FC } from "react";
 import { createAgoraPost, updateAgoraPost } from "../../../../store/agoraPosts";
 import { useAppDispatch, useAppSelector } from "../../../../store";
 import { JSONContent } from "@tiptap/react";
-import api, { AgoraLectureInfo, IMAGE_ENDPOINT } from "../../../../api";
+import api, {
+  AgoraLectureInfo,
+  AgoraPostInfo,
+  IMAGE_ENDPOINT,
+} from "../../../../api";
 import { replaceImgSrc } from "../../../../utility";
 import { useRouter } from "next/router";
 import AgoraWriteTemplate from "../../../reused/agora/AgoraWriteTemplate";
 
 interface Props {
-  lectureId: number;
+  post: AgoraPostInfo;
 }
 
-const AgoraPostEditPage: FC<Props> = ({ lectureId }) => {
+const AgoraPostEditPage: FC<Props> = ({ post }) => {
   const token = useAppSelector((state) => state.users.data?.token.access);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -22,16 +26,17 @@ const AgoraPostEditPage: FC<Props> = ({ lectureId }) => {
   ) => {
     (async () => {
       const createAction = await dispatch(
-        createAgoraPost({
+        updateAgoraPost({
+          id: post.pk,
           params: {
-            lecture: lectureId,
+            lecture: post.lecture.pk,
             title,
             content: JSON.stringify(jsonContent),
           },
           token,
         })
       );
-      if (!createAgoraPost.fulfilled.match(createAction)) {
+      if (!updateAgoraPost.fulfilled.match(createAction)) {
         alert("게시글 등록 실패");
         return;
       }
@@ -54,15 +59,16 @@ const AgoraPostEditPage: FC<Props> = ({ lectureId }) => {
       // );
       // await Promise.all(imagePromises.concat([updatePromise]));
 
-      router.push(`/agora/${lectureId}`);
-      alert("게시글 등록 완료");
+      router.push(`/agora/${post.lecture.pk}`);
+      alert("게시글 수정 완료");
     })();
   };
 
   return (
     <AgoraWriteTemplate
-      header={"새 게시글 작성"}
-      submitLabel={"게시글 등록하기"}
+      header={"게시글 수정"}
+      submitLabel={"게시글 수정하기"}
+      initialValue={post}
       onSubmit={(title, content) => {
         if (token !== undefined) {
           handleCreateAgoraPost(title, content, token);

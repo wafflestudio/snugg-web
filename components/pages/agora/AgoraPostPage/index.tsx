@@ -72,7 +72,10 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
           />
           <div className={styles.headerButtons}>
             {/* href 고치기 */}
-            <NextLink href={`/agora/`} passHref>
+            <NextLink
+              href={`/agora/${post.lecture.pk}/${post.pk}/edit`}
+              passHref
+            >
               <Button
                 disabled={me?.user.pk !== post.writer.pk}
                 className={styles.questionButton}
