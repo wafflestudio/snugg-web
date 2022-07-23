@@ -52,8 +52,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
       const response = await api.deleteAgoraPost(post.pk, me.token.access);
       window.alert("게시글 삭제 완료");
       // console.log(response);
-      // 고치기 (AgoraPostInfo.lecture type 수정하기!)
-      router.push(`/agora/`);
+      router.push(`/agora/${post.lecture.pk}/${post.pk}`);
     } catch (error) {
       const err = error as AxiosError;
       // console.log(err);
