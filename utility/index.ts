@@ -101,3 +101,4 @@ export const errorToString = (e: SerializedError | FetchBaseQueryError) => {
     return JSON.stringify(e.data);
   }
 };
+export const forceType = <T>(x: any) => x as T;

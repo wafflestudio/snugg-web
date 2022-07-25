@@ -2,21 +2,27 @@ import { FC, useState } from "react";
 import styles from "./styles.module.scss";
 import ClassPostPreview from "../../../reused/agora/ClassPostPreview";
 import { MenuItem, Pagination, Select } from "@mui/material";
-import { AgoraLectureInfo, AgoraPostInfo } from "../../../../api";
+import { enhancedApi } from "../../../../store/api/enhanced";
 
 export interface Props {
   onSearch: (condition: string, query: string) => void;
-  posts: AgoraPostInfo[];
-  lecture: AgoraLectureInfo;
+  lectureId: number;
 }
 
-export const AgoraListPage: FC<Props> = ({ onSearch, posts, lecture }) => {
+export const AgoraListPage: FC<Props> = ({ onSearch, lectureId }) => {
   const [searchCondition, setSearchCondition] = useState("content");
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: lecture, error: lectureError } = enhancedApi.useAgoraLecturesRetrieveQuery({ id: lectureId})
+  const { data: posts, error: postsError } = enhancedApi.useAgoraStorysListQuery({ lecture: lectureId });
+  if (lectureError || postsError) {
+    return <span>error</span>
+  } else if (!lecture || !posts) {
+    return <span>loading...</span>
+  } else
   return (
     <div className={styles.container}>
       <div className={styles.className}>{lecture.name}</div>
-      {posts.map((item) => (
+      {posts.results!!.map((item) => (
         <ClassPostPreview post={item} key={item.pk} />
       ))}
       <div className={styles.bottom1}>

@@ -630,3 +630,33 @@ export type PostRequest = {
   accepted_answer?: number | null;
   tags?: string;
 };
+export const {
+  useAgoraLecturesListQuery,
+  useAgoraLecturesRetrieveQuery,
+  useAgoraStorysListQuery,
+  useAgoraStorysCreateMutation,
+  useAgoraStorysRetrieveQuery,
+  useAgoraStorysUpdateMutation,
+  useAgoraStorysDestroyMutation,
+  useAuthPasswordUpdateMutation,
+  useAuthProfileRetrieveQuery,
+  useAuthProfileUpdateMutation,
+  useAuthSigninCreateMutation,
+  useAuthSignoutCreateMutation,
+  useAuthSignupCreateMutation,
+  useQnaAnswersListQuery,
+  useQnaAnswersCreateMutation,
+  useQnaAnswersRetrieveQuery,
+  useQnaAnswersUpdateMutation,
+  useQnaAnswersDestroyMutation,
+  useQnaCommentsListQuery,
+  useQnaCommentsCreateMutation,
+  useQnaCommentsRetrieveQuery,
+  useQnaCommentsUpdateMutation,
+  useQnaCommentsDestroyMutation,
+  useQnaPostsListQuery,
+  useQnaPostsCreateMutation,
+  useQnaPostsRetrieveQuery,
+  useQnaPostsUpdateMutation,
+  useQnaPostsDestroyMutation,
+} = injectedRtkApi;

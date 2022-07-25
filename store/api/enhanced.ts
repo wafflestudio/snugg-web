@@ -25,10 +25,6 @@ export const enhancedApi = injectedApi.enhanceEndpoints<Tag>({
       invalidatesTags: (result, _e, args) =>
         result ? [{ id: args.id, type: Tag.Answer }] : [],
     },
-    qnaAnswersPartialUpdate: {
-      invalidatesTags: (result) =>
-        result ? [{ id: result.pk, type: Tag.Answer }] : [],
-    },
     qnaAnswersRetrieve: {
       providesTags: (_r, _e, args) => [{ id: args.id, type: Tag.Answer }],
     },

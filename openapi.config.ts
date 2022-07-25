@@ -14,7 +14,7 @@ const openapiConfig: ConfigFile = {
       !blackList.includes(operationName) && operationDefinition.verb !== "patch"
     );
   },
-
+  hooks: true,
 };
 
 export default openapiConfig;

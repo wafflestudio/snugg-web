@@ -1,11 +1,6 @@
 import styles from "./styles.module.scss";
 import QuestionBox from "../../../reused/question/QuestionBox";
 import AnswerBox from "../../../reused/question/AnswerBox";
-import {
-  AnswerPostInfo,
-  PaginatedResponse,
-  QuestionPostInfo,
-} from "../../../../api";
 import { useRouter } from "next/router";
 
 import { FC, useState } from "react";
@@ -13,27 +8,30 @@ import AnswerEditor from "../../../reused/AnswerEditor";
 import { selectUserInfo, useAppSelector } from "../../../../store";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
-import { enhancedApi } from "../../../../store/api/enhanced";
 import { errorToString } from "../../../../utility";
+import {
+  useQnaAnswersCreateMutation,
+  useQnaAnswersDestroyMutation, useQnaAnswersListQuery,
+  useQnaPostsDestroyMutation,
+  useQnaPostsRetrieveQuery,
+} from "../../../../store/api/injected";
 
 interface Props {
   questionId: number;
-  questionData: QuestionPostInfo;
-  answerListData: PaginatedResponse<AnswerPostInfo>;
-  answerNum: number;
 }
 
-const QuestionViewPage: FC<Props> = ({
-  answerListData: { results },
-  answerNum,
-  questionData,
-  questionId,
-}) => {
+const QuestionViewPage: FC<Props> = ({ questionId }) => {
   const router = useRouter();
   const userInfo = useAppSelector(selectUserInfo);
-  const [destroyQuestion] = enhancedApi.useQnaPostsDestroyMutation();
-  const [createAnswer] = enhancedApi.useQnaAnswersCreateMutation();
-  const [destroyAnswer] = enhancedApi.useQnaAnswersDestroyMutation();
+  const { data: question, error: questionError } = useQnaPostsRetrieveQuery({
+    id: questionId,
+  });
+  const { data: answers, error: answersError } = useQnaAnswersListQuery({
+    post: questionId
+  });
+  const [destroyQuestion] = useQnaPostsDestroyMutation();
+  const [createAnswer] = useQnaAnswersCreateMutation();
+  const [destroyAnswer] = useQnaAnswersDestroyMutation();
   const [content, setContent] = useState("");
 
   const onDeleteQuestion = () => {
@@ -74,45 +72,48 @@ const QuestionViewPage: FC<Props> = ({
     });
   };
 
-  return (
-    <div className={styles.mainContainer}>
-      <QuestionBox
-        onDeleteQuestion={onDeleteQuestion}
-        questionData={questionData}
-      />
-      <div className={styles.answerCount}>{answerNum}개의 답변</div>
-      {results.map((item) => (
-        <AnswerBox
-          answerData={item}
-          onDeleteAnswer={onDeleteAnswer}
-          accepted={item.pk === questionData.accepted_answer}
-          acceptable={
-            questionData.writer.pk === userInfo?.pk &&
-            questionData.accepted_answer === null
-          }
-          key={item.pk}
+  if (questionError || answersError) return <span>error</span>;
+  else if (!question || !answers) return <span>loading...</span>;
+  else
+    return (
+      <div className={styles.mainContainer}>
+        <QuestionBox
+          onDeleteQuestion={onDeleteQuestion}
+          questionData={question}
         />
-      ))}
-
-      <div className={styles.answerWriter}>
-        <div className={styles.answerWriterTitle}>답변 작성하기</div>
-        <AnswerEditor setContent={setContent} />
-        <Button
-          className={styles.answerButton}
-          onClick={(e) => {
-            e.preventDefault();
-            if (userInfo !== undefined) {
-              handleCreateAnswer(questionData?.pk, content);
-            } else {
-              toast.warning("답변을 달려면 로그인하세요");
+        <div className={styles.answerCount}>{answers.results!!.length}개의 답변</div>
+        {answers.results!!.map((item) => (
+          <AnswerBox
+            answerData={item}
+            onDeleteAnswer={onDeleteAnswer}
+            accepted={item.pk === question.accepted_answer}
+            acceptable={
+              question.writer!!.pk === userInfo?.pk &&
+              question.accepted_answer === null
             }
-          }}
-        >
-          답변 등록하기
-        </Button>
+            key={item.pk}
+          />
+        ))}
+
+        <div className={styles.answerWriter}>
+          <div className={styles.answerWriterTitle}>답변 작성하기</div>
+          <AnswerEditor setContent={setContent} />
+          <Button
+            className={styles.answerButton}
+            onClick={(e) => {
+              e.preventDefault();
+              if (userInfo !== undefined) {
+                handleCreateAnswer(question.pk!!, content);
+              } else {
+                toast.warning("답변을 달려면 로그인하세요");
+              }
+            }}
+          >
+            답변 등록하기
+          </Button>
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default QuestionViewPage;
