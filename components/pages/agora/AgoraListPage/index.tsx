@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import styles from "./styles.module.scss";
 import ClassPostPreview from "../../../reused/agora/ClassPostPreview";
 import { MenuItem, Pagination, Select } from "@mui/material";
-import { enhancedApi } from "../../../../store/api/enhanced";
+import { useAgoraLecturesRetrieveQuery, useAgoraStorysListQuery } from "../../../../store/api/injected";
 
 export interface Props {
   onSearch: (condition: string, query: string) => void;
@@ -12,8 +12,8 @@ export interface Props {
 export const AgoraListPage: FC<Props> = ({ onSearch, lectureId }) => {
   const [searchCondition, setSearchCondition] = useState("content");
   const [searchQuery, setSearchQuery] = useState("");
-  const { data: lecture, error: lectureError } = enhancedApi.useAgoraLecturesRetrieveQuery({ id: lectureId})
-  const { data: posts, error: postsError } = enhancedApi.useAgoraStorysListQuery({ lecture: lectureId });
+  const { data: lecture, error: lectureError } = useAgoraLecturesRetrieveQuery({ id: lectureId})
+  const { data: posts, error: postsError } = useAgoraStorysListQuery({ lecture: lectureId });
   if (lectureError || postsError) {
     return <span>error</span>
   } else if (!lecture || !posts) {

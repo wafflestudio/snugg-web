@@ -2,13 +2,13 @@ import { NextPage } from "next";
 import { SignInPage } from "../components/pages/root/SignInPage";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { enhancedApi } from "../store/api/enhanced";
 import { errorToString } from "../utility";
+import { useAuthSigninCreateMutation } from "../store/api/injected";
 
 interface Props {}
 
 const SignInPageContainer: NextPage<Props> = () => {
-  const [signIn] = enhancedApi.useAuthSigninCreateMutation();
+  const [signIn] = useAuthSigninCreateMutation();
   const router = useRouter();
   const onFormSubmit = async (email: string, password: string) => {
     const result = await signIn({ signinServiceRequest: { email, password } });

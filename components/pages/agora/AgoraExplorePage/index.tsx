@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from "react";
 import styles from "./styles.module.scss";
 import LectureInfo from "../../../reused/agora/LectureInfo";
-import { enhancedApi } from "../../../../store/api/enhanced";
+import { useAgoraLecturesListQuery } from "../../../../store/api/injected";
 
 interface Props {
   query: string | null;
 }
 
 const AgoraExplorePage: FunctionComponent<Props> = ({ query }) => {
-  const { data, error } = enhancedApi.useAgoraLecturesListQuery({
+  const { data, error } = useAgoraLecturesListQuery({
     search: query ?? undefined,
   });
   return (

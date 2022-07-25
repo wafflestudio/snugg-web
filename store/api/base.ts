@@ -105,3 +105,8 @@ export type DirectoryRequest = {
 export type MediaPresignedCreateApiArg = {
   directoryRequest: DirectoryRequest;
 };
+
+export const {
+  useQnaPostsAcceptAnswerMutation,
+  useMediaPresignedCreateMutation
+} = baseApi;

@@ -13,8 +13,8 @@ import Moment from "react-moment";
 import { selectUserInfo, useAppSelector } from "../../../store";
 import { toast } from "react-toastify";
 import { Answer } from "../../../store/api/injected";
-import { enhancedApi } from "../../../store/api/enhanced";
 import { errorToString } from "../../../utility";
+import { useQnaPostsAcceptAnswerMutation } from "../../../store/api/base";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
@@ -31,7 +31,7 @@ const AnswerBox: FC<Props> = ({
 }: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const userInfo = useAppSelector(selectUserInfo);
-  const [acceptAnswer] = enhancedApi.useQnaPostsAcceptAnswerMutation();
+  const [acceptAnswer] = useQnaPostsAcceptAnswerMutation();
 
   const onAcceptAnswer = () => {
     acceptAnswer({

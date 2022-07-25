@@ -5,15 +5,15 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { Divider, OutlinedInput } from "@mui/material";
 import ClassPostComment from "../../../reused/agora/ClassPostComment";
 import { AuthorSummary } from "../../../reused/agora/AuthorSummary";
-import { enhancedApi } from "../../../../store/api/enhanced";
 import { toast } from "react-toastify";
+import { useAgoraStorysRetrieveQuery } from "../../../../store/api/injected";
 
 interface Props {
   id: number;
 }
 
 export const AgoraPostPage: FC<Props> = ({ id }) => {
-  const { data: post, error } = enhancedApi.useAgoraStorysRetrieveQuery({ id });
+  const { data: post, error } = useAgoraStorysRetrieveQuery({ id });
   const [comment, setComment] = useState("");
   return error ? (
     <span>error</span>
