@@ -35,6 +35,7 @@ export interface User {
   email: string;
   username: string;
   birth_date?: string;
+  self_introduction?: string;
   created_at: string;
   last_login?: string;
 }
