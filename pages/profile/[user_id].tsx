@@ -1,7 +1,7 @@
 import React from "react";
-import ProfilePage from "../../components/pages/profile";
 import { queryToString } from "../../utility";
 import { GetServerSideProps, NextPage } from "next";
+import ProfilePage from "components/pages/profile/ProfilePage";
 
 interface Props {
   userId: number;

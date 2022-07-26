@@ -19,10 +19,9 @@ import { User } from "store/api/injected";
 
 interface props {
   id: number;
-  profile: User;
 }
 
-const ProfilePage: FC<props> = ({ profile }) => {
+const ProfilePage: FC<props> = () => {
   const introductionText = "안녕하세요 \n 가나다라마바사아자차카타파하";
   const majorSample = [
     {
@@ -58,7 +57,7 @@ const ProfilePage: FC<props> = ({ profile }) => {
                 />
               </div>
               <div className={styles.basicProfileRight}>
-                <div className={styles.username}>{profile.username}</div>
+                <div className={styles.username}>USERNAME</div>
                 <div className={styles.point}>
                   <DiamondIcon className={styles.pointIcon} />
                   <div onClick={() => setPointOpen(true)}>30p</div>
