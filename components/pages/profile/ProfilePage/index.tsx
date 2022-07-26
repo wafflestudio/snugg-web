@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react";
 import styles from "./styles.module.scss";
 
-import testImg from "../../../Image/magnifier.svg";
-import EditIcon from "../../../Image/edit_icon_151377.svg";
+import testImg from "../../../../Image/magnifier.svg";
+import EditIcon from "../../../../Image/edit_icon_151377.svg";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import ListIcon from "@mui/icons-material/List";
@@ -11,16 +11,18 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import Image from "next/image";
 import { Button } from "@mui/material";
-import SimplifiedPreview from "../../reused/question/SimplifiedPreview";
-import PasswordModal from "./PasswordModal";
-import EditMajorModal from "../../reused/profile/EditMajorModal";
-import PointModal from "../../reused/profile/PointModal";
+import SimplifiedPreview from "../../../reused/question/SimplifiedPreview";
+import PasswordModal from "../PasswordModal";
+import EditMajorModal from "../../../reused/profile/EditMajorModal";
+import PointModal from "../../../reused/profile/PointModal";
+import { User } from "store/api/injected";
 
 interface props {
   id: number;
+  profile: User;
 }
 
-const ProfilePage: FC<props> = () => {
+const ProfilePage: FC<props> = ({ profile }) => {
   const introductionText = "안녕하세요 \n 가나다라마바사아자차카타파하";
   const majorSample = [
     {
@@ -56,7 +58,7 @@ const ProfilePage: FC<props> = () => {
                 />
               </div>
               <div className={styles.basicProfileRight}>
-                <div className={styles.username}>USERNAME</div>
+                <div className={styles.username}>{profile.username}</div>
                 <div className={styles.point}>
                   <DiamondIcon className={styles.pointIcon} />
                   <div onClick={() => setPointOpen(true)}>30p</div>
