@@ -8,21 +8,27 @@ import PushPinIcon from "@mui/icons-material/PushPin";
 import ListIcon from "@mui/icons-material/List";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import CheckIcon from "@mui/icons-material/Check";
+import SaveIcon from "@mui/icons-material/Save";
 
 import Image from "next/image";
-import { Button } from "@mui/material";
+import { Button, Input, OutlinedInput, TextField } from "@mui/material";
 import SimplifiedPreview from "../../../reused/question/SimplifiedPreview";
 import PasswordModal from "../PasswordModal";
 import EditMajorModal from "../../../reused/profile/EditMajorModal";
 import PointModal from "../../../reused/profile/PointModal";
 import { User } from "store/api/injected";
+import { enhancedApi } from "store/api/enhanced";
+import { toast } from "react-toastify";
+import { errorToString } from "utility";
+import { selectAccessToken, useAppSelector } from "store";
+import { withToken } from "api";
 
 interface props {
   id: number;
+  profile: User;
 }
 
-const ProfilePage: FC<props> = () => {
-  const introductionText = "안녕하세요 \n 가나다라마바사아자차카타파하";
+const ProfilePage: FC<props> = ({ profile }) => {
   const majorSample = [
     {
       school: "서울대학교",
@@ -36,15 +42,48 @@ const ProfilePage: FC<props> = () => {
   const [pwOpen, setPwOpen] = useState(false);
   const [majorOpen, setMajorOpen] = useState(false);
   const [pointOpen, setPointOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+
+  const [username, setUsername] = useState(profile.username);
+  const [introduction, setIntroduction] = useState(profile.self_introduction);
+
+  const token = useAppSelector(selectAccessToken);
+  const [editProfile] = enhancedApi.useAuthProfileUpdateMutation();
+  const handleEditProfile = async () => {
+    const result = await editProfile({
+      userRequest: {
+        email: profile.email,
+        username: username ? username : profile.username,
+        birth_date: profile.birth_date,
+        self_introduction: introduction,
+      },
+    });
+    if ("data" in result) {
+      toast.success("프로필 수정 완료");
+      setEdit(false);
+    } else {
+      toast.error("프로필 수정 실패: " + errorToString(result.error));
+    }
+  };
 
   return (
     <div className={styles.profile}>
       <div className={styles.profileLeft}>
         <div className={styles.basicProfile}>
           <div className={styles.basicProfileEdit}>
-            <Button className={styles.editIcon}>
-              <Image src={EditIcon} width={30} height={30} alt={"Edit"} />
-            </Button>
+            {!edit && (
+              <Button
+                className={styles.editIcon}
+                onClick={() => setEdit(!edit)}
+              >
+                <Image src={EditIcon} width={30} height={30} alt={"Edit"} />
+              </Button>
+            )}
+            {edit && (
+              <Button className={styles.editIcon} onClick={handleEditProfile}>
+                <SaveIcon className={styles.saveIcon} />
+              </Button>
+            )}
           </div>
           <div className={styles.basicProfileMain}>
             <div className={styles.basicProfileUp}>
@@ -57,7 +96,17 @@ const ProfilePage: FC<props> = () => {
                 />
               </div>
               <div className={styles.basicProfileRight}>
-                <div className={styles.username}>USERNAME</div>
+                {!edit && (
+                  <div className={styles.username}>{profile.username}</div>
+                )}
+                {edit && (
+                  <OutlinedInput
+                    value={username}
+                    className={styles.usernameEdit}
+                    inputProps={{ style: { textAlign: "center" } }}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                )}
                 <div className={styles.point}>
                   <DiamondIcon className={styles.pointIcon} />
                   <div onClick={() => setPointOpen(true)}>30p</div>
@@ -71,9 +120,20 @@ const ProfilePage: FC<props> = () => {
                 <div>소개</div>
               </div>
               <div className={styles.introductionTextBox}>
-                <div className={styles.introductionText}>
-                  {introductionText}
-                </div>
+                {!edit && (
+                  <div className={styles.introductionText}>
+                    {profile.self_introduction}
+                  </div>
+                )}
+                {edit && (
+                  <OutlinedInput
+                    value={introduction}
+                    className={styles.introductionTextEdit}
+                    multiline={true}
+                    inputProps={{ style: { textAlign: "center" } }}
+                    onChange={(e) => setIntroduction(e.target.value)}
+                  />
+                )}
               </div>
             </div>
           </div>

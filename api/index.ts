@@ -145,7 +145,7 @@ export type ListAnswerParams = PaginationParams & {
   writer?: User;
 };
 
-const withToken = (token: string) => ({
+export const withToken = (token: string) => ({
   headers: { Authorization: `Bearer ${token}` },
 });
 
