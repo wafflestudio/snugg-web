@@ -21,14 +21,16 @@ import { enhancedApi } from "store/api/enhanced";
 import { toast } from "react-toastify";
 import { errorToString } from "utility";
 import { selectAccessToken, useAppSelector } from "store";
-import api, { withToken } from "api";
+import api, { AnswerPostInfo, QuestionPost, withToken } from "api";
 
 interface props {
   id: number;
   profile: User;
+  myQnaPosts: QuestionPost[];
+  myQnaAnswers: AnswerPostInfo[];
 }
 
-const ProfilePage: FC<props> = ({ profile }) => {
+const ProfilePage: FC<props> = ({ profile, myQnaPosts, myQnaAnswers }) => {
   const majorSample = [
     {
       school: "서울대학교",
@@ -207,9 +209,16 @@ const ProfilePage: FC<props> = ({ profile }) => {
               </div>
             </div>
             <div className={styles.myQuestionMain}>
-              {[1, 2, 3, 4, 5].map((id) => (
-                <SimplifiedPreview key={id} />
-              ))}
+              {myQnaPosts.length <= 5 &&
+                myQnaPosts.map((item) => (
+                  <SimplifiedPreview key={item.pk} post={item} />
+                ))}
+              {myQnaPosts.length > 5 &&
+                myQnaPosts
+                  .slice(0, 5)
+                  .map((item) => (
+                    <SimplifiedPreview key={item.pk} post={item} />
+                  ))}
             </div>
           </div>
           <div className={styles.myQuestion}>
@@ -223,9 +232,16 @@ const ProfilePage: FC<props> = ({ profile }) => {
               </div>
             </div>
             <div className={styles.myQuestionMain}>
-              {[1, 2, 3, 4, 5].map((id) => (
-                <SimplifiedPreview key={id} />
-              ))}
+              {myQnaAnswers.length <= 5 &&
+                myQnaAnswers.map((item) => (
+                  <SimplifiedPreview key={item.pk} answer={item} />
+                ))}
+              {myQnaAnswers.length > 5 &&
+                myQnaAnswers
+                  .slice(0, 5)
+                  .map((item) => (
+                    <SimplifiedPreview key={item.pk} answer={item} />
+                  ))}
             </div>
           </div>
         </div>

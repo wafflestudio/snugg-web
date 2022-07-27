@@ -149,7 +149,7 @@ export type AnswerPostInfo = AnswerPost & {
 };
 
 export type ListAnswerParams = PaginationParams & {
-  writer?: User;
+  writer?: number;
 };
 
 export const withToken = (token: string) => ({
