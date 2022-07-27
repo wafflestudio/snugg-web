@@ -39,6 +39,18 @@
     @include NanumGothicBold;
     font-size: 15px;
     margin-right: 10px;
+    max-width: 180px;
+  }
+
+  .previewContent2_2 {
+    color: $main-color;
+    @include NanumGothicBold;
+    font-size: 15px;
+    margin-right: 10px;
+    max-width: 350px;
+    overflow: hidden;
+    height: 33px;
+    margin-top: -13px;
   }
 
   .previewContent3 {
