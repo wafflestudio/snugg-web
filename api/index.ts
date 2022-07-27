@@ -40,6 +40,13 @@ export interface User {
   last_login?: string;
 }
 
+export interface ProfileParams {
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
+}
+
 export interface QuestionPost {
   pk: number;
   field: string;
@@ -281,6 +288,8 @@ const api = {
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
+  updateProfile: async (params: ProfileParams, token: string) =>
+    await axios.put<User>(`/auth/profile`, params, withToken(token)),
 };
 
 export default api;

@@ -21,7 +21,7 @@ import { enhancedApi } from "store/api/enhanced";
 import { toast } from "react-toastify";
 import { errorToString } from "utility";
 import { selectAccessToken, useAppSelector } from "store";
-import { withToken } from "api";
+import api, { withToken } from "api";
 
 interface props {
   id: number;
@@ -47,22 +47,46 @@ const ProfilePage: FC<props> = ({ profile }) => {
   const [username, setUsername] = useState(profile.username);
   const [introduction, setIntroduction] = useState(profile.self_introduction);
 
+  // const [editProfile] = enhancedApi.useAuthProfileUpdateMutation();
+  // const handleEditProfile = async () => {
+  //   const result = await editProfile({
+  //     userRequest: {
+  //       email: profile.email,
+  //       username: username ? username : profile.username,
+  //       birth_date: profile.birth_date,
+  //       self_introduction: introduction,
+  //     },
+  //   });
+  //   if ("data" in result) {
+  //     toast.success("프로필 수정 완료");
+  //     setEdit(false);
+  //   } else {
+  //     toast.error("프로필 수정 실패: " + errorToString(result.error));
+  //     setEdit(false);
+  //   }
+  // };
+
   const token = useAppSelector(selectAccessToken);
-  const [editProfile] = enhancedApi.useAuthProfileUpdateMutation();
+  console.log(token);
   const handleEditProfile = async () => {
-    const result = await editProfile({
-      userRequest: {
-        email: profile.email,
-        username: username ? username : profile.username,
-        birth_date: profile.birth_date,
-        self_introduction: introduction,
-      },
-    });
-    if ("data" in result) {
-      toast.success("프로필 수정 완료");
-      setEdit(false);
+    if (token) {
+      const params = {
+        email: "snugg@gmail.com",
+        username: "snu",
+        // birth_date: "2022-02-02",
+        // self_introduction: "hello",
+      };
+      const result = await api.updateProfile(params, token);
+      console.log(result);
+      // if ("data" in result) {
+      //   toast.success("프로필 수정 완료");
+      //   setEdit(false);
+      // } else {
+      //   toast.error("프로필 수정 실패: ");
+      //   setEdit(false);
+      // }
     } else {
-      toast.error("프로필 수정 실패: " + errorToString(result.error));
+      toast.error("로그인하세요.");
     }
   };
 
