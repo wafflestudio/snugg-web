@@ -1,21 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api, { CommentParams, CommentInfo } from "../api";
+import api, { CommentParams, CommentInfo, CommentQuery } from "../api";
 
 interface CommentState {
   data: CommentInfo | null;
 }
 
 interface CommentTokenParams {
-  type: string;
-  id: number;
-  params: CommentParams;
+  body: CommentParams;
+  params: CommentQuery;
   token: string;
 }
 
 export const createComment = createAsyncThunk(
   "createComment",
-  async ({ type, id, params, token }: CommentTokenParams) => {
-    const res = await api.createComment(type, id, params, token);
+  async ({ body, params, token }: CommentTokenParams) => {
+    const res = await api.createComment(body, params, token);
     return res.data;
   }
 );

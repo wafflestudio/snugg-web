@@ -202,6 +202,12 @@ export type ListCommentInfo = {
   results: CommentInfo[];
 };
 
+export type CommentQuery = {
+  answer?: number;
+  comment?: number;
+  post?: number;
+};
+
 const api = {
   signIn: async (params: SignInParams) =>
     await axios.post<UserTokenResponse>("/auth/signin/", params),
@@ -286,16 +292,14 @@ const api = {
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
   createComment: async (
-    type: string,
-    id: number,
-    params: CommentParams,
+    body: CommentParams,
+    params: CommentQuery,
     token: string
   ) =>
-    await axios.post<CommentInfo>(
-      `/qna/comments/?${type}=${id}`,
-      params,
-      withToken(token)
-    ),
+    await axios.post<CommentInfo>(`/qna/comments`, body, {
+      params: params,
+      headers: { Authorization: `Bearer ${token}` },
+    }),
   listComment: async (type: string, id: number) =>
     await axios.get<ListCommentInfo>(`/qna/comments/?${type}=${id}`),
   updateComment: async (id: number, params: CommentParams, token: string) =>

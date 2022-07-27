@@ -41,8 +41,8 @@ const QuestionBox = (Props: Props) => {
   } catch (err) {
     success = false;
   }
-  console.log("raw content", rawContent);
-  console.log("json content", jsonContent);
+  // console.log("raw content", rawContent);
+  // console.log("json content", jsonContent);
 
   const questionView = useEditor({
     editable: false,
@@ -55,9 +55,8 @@ const QuestionBox = (Props: Props) => {
   const handleCreateComment = (token: string, content: string) => {
     dispatch(
       createComment({
-        type: "post",
-        id: Props.questionId,
-        params: { content: content },
+        body: { content: content },
+        params: { post: Props.questionId },
         token: token,
       })
     )
@@ -72,7 +71,7 @@ const QuestionBox = (Props: Props) => {
         alert(`댓글 등록 실패 ${reason}`);
       });
   };
-  console.log(Props.commentData.results.length);
+  // console.log(Props.commentData.results.length);
 
   return (
     <div className={styles.questionBox}>
