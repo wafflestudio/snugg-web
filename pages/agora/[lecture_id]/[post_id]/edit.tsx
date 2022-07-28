@@ -2,7 +2,7 @@ import { NextPage } from "next";
 
 import React from "react";
 import AgoraPostEditPage from "../../../../components/pages/agora/AgoraPostEditPage";
-import { nanToNull} from "../../../../utility";
+import { nanToNull } from "../../../../utility";
 import { wrapper } from "../../../../store";
 import { enhancedApi, pendingQueries } from "../../../../store/api/enhanced";
 import { useAgoraStorysRetrieveQuery } from "../../../../store/api/injected";

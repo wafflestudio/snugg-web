@@ -22,19 +22,10 @@ const handleApi = (req: NextApiRequest, res: NextApiResponse) =>
     ],
     onProxyInit: (server) => {
       server.on("proxyReq", (proxyReq) => {
-        console.log(
-          "proxyReq:",
-          proxyReq.method,
-          proxyReq.host,
-          proxyReq.path,
-        );
+        console.log("proxyReq:", proxyReq.method, proxyReq.host, proxyReq.path);
       });
       server.on("proxyRes", (proxyRes) => {
-        console.log(
-          "proxyRes:",
-          proxyRes.statusCode,
-          proxyRes.statusMessage,
-        );
+        console.log("proxyRes:", proxyRes.statusCode, proxyRes.statusMessage);
       });
     },
   });
