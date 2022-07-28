@@ -49,32 +49,6 @@ const AnswerBox: FC<Props> = ({
     });
   };
 
-  // const [answerComments, setAnswerComments] = useState<CommentInfo[]>();
-  // useEffect(() => {
-  //   async function getAnswerComments() {
-  //     const data = await api.listComment("answer", answerData.pk);
-  //     if (data) {
-  //       setAnswerComments(data.data.results);
-  //     }
-  //   }
-  //   getAnswerComments();
-  // }, []);
-
-  const dummyComment = [
-    {
-      content: "댓글 예시입니다",
-      created_at: "2022-07-28T21:54:59.448215+09:00",
-      pk: 9,
-      replies_count: 0,
-      updated_at: "2022-07-28T21:54:59.448215+09:00",
-      writer: {
-        created_at: "2022-07-28T21:54:59.448215+09:00",
-        pk: 3,
-        username: "test",
-        email: "test@gmail.com",
-      },
-    },
-  ];
   const rawContent = answerData.content;
   let jsonContent: JSONContent | undefined;
   let success = false;
@@ -162,9 +136,8 @@ const AnswerBox: FC<Props> = ({
           <Input disableUnderline={true} placeholder="댓글을 남겨주세요." />
           <Button>등록</Button>
         </div>
-        {dummyComment.map((item) => (
-          <CommentBox key={item.pk} commentData={item} />
-        ))}
+        <CommentBox />
+        <CommentBox />
       </div>
     </div>
   );

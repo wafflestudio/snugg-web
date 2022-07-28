@@ -8,14 +8,11 @@ import { Button, Divider, Input } from "@mui/material";
 import NextLink from "next/link";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
-import { ListCommentInfo, QuestionPostInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useMemo, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
-import { useAppDispatch } from "../../../store";
-import { createComment } from "../../../store/comments";
 import { selectUserInfo, useAppSelector } from "../../../store";
 import { Post } from "../../../store/api/injected";
 import { forceType } from "../../../utility";
@@ -23,14 +20,9 @@ import { forceType } from "../../../utility";
 interface Props {
   questionData: Post;
   onDeleteQuestion: () => void;
-  commentData: ListCommentInfo;
 }
 
-const QuestionBox = ({
-  onDeleteQuestion,
-  questionData,
-  commentData,
-}: Props) => {
+const QuestionBox = ({ onDeleteQuestion, questionData }: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState(false);
   const userInfo = useAppSelector(selectUserInfo);
@@ -50,29 +42,6 @@ const QuestionBox = ({
     content,
   });
   const tags = forceType<string[]>(questionData.tags);
-
-  // const [comment, setComment] = useState("");
-  // const dispatch = useAppDispatch();
-  // const handleCreateComment = (token: string, content: string) => {
-  //   dispatch(
-  //     createComment({
-  //       body: { content: content },
-  //       params: { post: Props.questionId },
-  //       token: token,
-  //     })
-  //   )
-  //     .then((action) => {
-  //       if (createComment.fulfilled.match(action)) {
-  //         alert("댓글 등록 완료");
-  //       } else if (createComment.rejected.match(action)) {
-  //         alert("댓글 등록 실패");
-  //       }
-  //     })
-  //     .catch((reason) => {
-  //       alert(`댓글 등록 실패 ${reason}`);
-  //     });
-  // };
-  // console.log(Props.commentData.results.length);
 
   return (
     <div className={styles.questionBox}>
@@ -139,31 +108,11 @@ const QuestionBox = ({
         <div className={styles.commentTitle}>N개의 댓글</div>
         <div className={styles.writeComment}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
-          <Input
-            disableUnderline={true}
-            placeholder="댓글을 남겨주세요."
-            // onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
-            //   setComment(e.target.value)
-            // }
-          />
-          <Button
-          // onClick={(e) => {
-          //   e.preventDefault();
-          //   if (Props.token !== undefined) {
-          //     handleCreateComment(Props.token, comment);
-          //   } else {
-          //     alert("로그인하세요.");
-          //   }
-          // }}
-          >
-            등록
-          </Button>
+          <Input disableUnderline={true} placeholder="댓글을 남겨주세요." />
+          <Button>등록</Button>
         </div>
-        {commentData.results.length >= 1
-          ? commentData.results.map((item) => (
-              <CommentBox key={item.pk} commentData={item} />
-            ))
-          : null}
+        <CommentBox />
+        <CommentBox />
       </div>
     </div>
   );
