@@ -1,69 +1,60 @@
 import React, { FC } from "react";
-import { createAgoraPost} from "../../../../store/agoraPosts";
-import { selectAccessToken, useAppDispatch, useAppSelector } from "../../../../store";
+import { selectUserSignedIn, useAppSelector } from "../../../../store";
 import { JSONContent } from "@tiptap/react";
 import { useRouter } from "next/router";
 import AgoraWriteTemplate from "../../../reused/agora/AgoraWriteTemplate";
+import { useAgoraStorysCreateMutation } from "../../../../store/api/injected";
+import { errorToString, forceType, useUploadPost } from "../../../../utility";
+import { toast } from "react-toastify";
 
 interface Props {
   lectureId: number;
 }
 
-const AgoraWritePage: FC<Props> = ({ lectureId}) => {
-  const token = useAppSelector(selectAccessToken);
+const AgoraWritePage: FC<Props> = ({ lectureId }) => {
+  const isSignedIn = useAppSelector(selectUserSignedIn);
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const handleCreateAgoraPost = (
+  const [createStory] = useAgoraStorysCreateMutation();
+  const uploadPost = useUploadPost();
+  const handleCreateAgoraPost = async (
     title: string,
-    jsonContent: JSONContent,
-    token: string
+    jsonContent: JSONContent
   ) => {
-    (async () => {
-      const createAction = await dispatch(
-        createAgoraPost({
-          params: {
-            lecture: lectureId,
-            title,
-            content: JSON.stringify(jsonContent),
-          },
-          token,
-        })
+    const result = await uploadPost(jsonContent, (content) =>
+      createStory({
+        storyRequest: {
+          lecture: forceType<string>(lectureId),
+          title,
+          content,
+        },
+      })
+    );
+    if (result.presError) {
+      toast.error(
+        "이미지를 저장할 수 없습니다: " + errorToString(result.presError)
       );
-      if (!createAgoraPost.fulfilled.match(createAction)) {
-        alert("게시글 등록 실패");
-        return;
+    } else if (result.imageError) {
+      toast.error("이미지를 저장할 수 없습니다: " + result.imageError);
+    } else if (result.uploadResult) {
+      if ("error" in result.uploadResult) {
+        toast.error(
+          "게시글을 등록할 수 없습니다: " +
+            errorToString(result.uploadResult.error)
+        );
+      } else {
+        toast.success("게시글을 등록했습니다");
+        await router.push(`/agora/${lectureId}/${result.uploadResult.data.pk}`);
       }
-      // const payload = createAction.payload;
-      // const { newContent, blobs } = await replaceImgSrc(
-      //   IMAGE_ENDPOINT,
-      //   payload.presigned.fields.key,
-      //   jsonContent
-      // );
-      // const content = JSON.stringify(newContent);
-      // const imagePromises: Promise<any>[] = blobs.map(({ blob, key }) =>
-      //   api.uploadImages(payload.presigned.url, key, blob)
-      // );
-      // const updatePromise: Promise<any> = dispatch(
-      //   updateAgoraPost({
-      //     id: payload.pk,
-      //     params: { lecture: lectureId, title: title, content: content },
-      //     token,
-      //   })
-      // );
-      // await Promise.all(imagePromises.concat([updatePromise]));
-
-      router.push(`/agora/${lectureId}`);
-      alert("게시글 등록 완료");
-    })();
+    }
   };
 
   return (
     <AgoraWriteTemplate
       header={"새 게시글 작성"}
       submitLabel={"게시글 등록하기"}
-      onSubmit={(title, content) => {
-        if (token !== undefined) {
-          handleCreateAgoraPost(title, content, token);
+      onSubmit={async (title, content) => {
+        if (isSignedIn) {
+          await handleCreateAgoraPost(title, content);
         } else {
           alert("로그인하세요.");
         }

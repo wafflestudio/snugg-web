@@ -17,13 +17,14 @@ type ApiUserState =
       };
     };
 
-const initialState: ApiUserState = typeof window === "undefined"
-  ? {
-      side: "server",
-    }
-  : {
-      side: "client",
-    };
+const initialState: ApiUserState =
+  typeof window === "undefined"
+    ? {
+        side: "server",
+      }
+    : {
+        side: "client",
+      };
 
 const name = "apiUser";
 

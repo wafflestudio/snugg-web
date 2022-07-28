@@ -10,9 +10,9 @@ interface Props {
 }
 
 const QuestionSearchPageContainer: NextPage<Props> = ({ content }) => {
-  const { data } = useQnaPostsListQuery({search: content});
+  const { data } = useQnaPostsListQuery({ search: content });
   return data ? (
-    <QuestionSearchPage query={content} posts={data.results!!} />
+    <QuestionSearchPage query={content} posts={data.results!} />
   ) : (
     <div>loading</div>
   );
@@ -21,7 +21,9 @@ const QuestionSearchPageContainer: NextPage<Props> = ({ content }) => {
 export const getServerSideProps: GetServerSideProps<Props> =
   wrapper.getServerSideProps((store) => async (context) => {
     const content = queryToString(context.query.content) ?? "";
-    store.dispatch(enhancedApi.endpoints.qnaPostsList.initiate({search: content}));
+    store.dispatch(
+      enhancedApi.endpoints.qnaPostsList.initiate({ search: content })
+    );
     await pendingQueries();
     return {
       props: {

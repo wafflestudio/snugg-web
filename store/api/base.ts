@@ -13,7 +13,8 @@ const baseQuery = fetchBaseQuery({
   baseUrl,
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as any;
-    const token = state.apiUser.side === "client" && state.apiUser.user?.token.access;
+    const token =
+      state.apiUser.side === "client" && state.apiUser.user?.token.access;
     if (token) headers.set("Authorization", "Bearer " + token);
     return headers;
   },

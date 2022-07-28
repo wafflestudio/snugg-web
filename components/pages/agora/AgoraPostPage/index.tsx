@@ -80,7 +80,7 @@ const AgoraBox: FC<AgoraBoxProps> = ({ story }) => {
         return;
       }
       if (token) {
-        await destroyStory({ id: story.pk!! });
+        await destroyStory({ id: story.pk! });
       } else {
         toast.error("로그인하세요.");
         return;
@@ -99,14 +99,14 @@ const AgoraBox: FC<AgoraBoxProps> = ({ story }) => {
         <div className={styles.postTitle}>{story.title}</div>
         <div className={styles.mainTextHeader}>
           <AuthorSummary
-            userName={story.writer!!.username}
-            createdAt={story.created_at!!}
+            userName={story.writer!.username}
+            createdAt={story.created_at!}
           />
           <div className={styles.headerButtons}>
             {/* href 고치기 */}
             <NextLink href={`/agora/${lecture.pk}/${story.pk}/edit`} passHref>
               <Button
-                disabled={me?.pk !== story.writer!!.pk}
+                disabled={me?.pk !== story.writer!.pk}
                 className={styles.questionButton}
               >
                 <EditIcon className={styles.questionButtonIcon} />
@@ -114,7 +114,7 @@ const AgoraBox: FC<AgoraBoxProps> = ({ story }) => {
               </Button>
             </NextLink>
             <Button
-              disabled={me?.pk !== story.writer!!.pk}
+              disabled={me?.pk !== story.writer!.pk}
               className={styles.questionButton}
               onClick={onDeleteAgoraPost}
             >

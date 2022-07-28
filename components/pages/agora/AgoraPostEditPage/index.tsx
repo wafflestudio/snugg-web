@@ -1,66 +1,57 @@
 import React, { FC } from "react";
-import { updateAgoraPost } from "../../../../store/agoraPosts";
-import {
-  selectAccessToken,
-  useAppDispatch,
-  useAppSelector,
-} from "../../../../store";
+import { selectUserSignedIn, useAppSelector } from "../../../../store";
 import { JSONContent } from "@tiptap/react";
-import { AgoraPostInfo } from "../../../../api";
 import { useRouter } from "next/router";
 import AgoraWriteTemplate from "../../../reused/agora/AgoraWriteTemplate";
+import {
+  Lecture,
+  Story,
+  useAgoraStorysUpdateMutation,
+} from "../../../../store/api/injected";
+import { errorToString, forceType, useUploadPost } from "../../../../utility";
+import { toast } from "react-toastify";
 
 interface Props {
-  post: AgoraPostInfo;
+  post: Story;
 }
 
 const AgoraPostEditPage: FC<Props> = ({ post }) => {
-  const token = useAppSelector(selectAccessToken);
+  const isSignedIn = useAppSelector(selectUserSignedIn);
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const handleCreateAgoraPost = (
+  const lecture = forceType<Lecture>(post.lecture);
+  const [updateStory] = useAgoraStorysUpdateMutation();
+  const uploadPost = useUploadPost();
+  const handleUpdateAgoraPost = async (
     title: string,
-    jsonContent: JSONContent,
-    token: string
+    jsonContent: JSONContent
   ) => {
-    (async () => {
-      const createAction = await dispatch(
-        updateAgoraPost({
-          id: post.pk,
-          params: {
-            lecture: post.lecture.pk,
-            title,
-            content: JSON.stringify(jsonContent),
-          },
-          token,
-        })
+    const result = await uploadPost(jsonContent, (content) =>
+      updateStory({
+        id: post.pk!,
+        storyRequest: {
+          lecture: forceType<string>(lecture.pk),
+          title,
+          content,
+        },
+      })
+    );
+    if (result.presError) {
+      toast.error(
+        "이미지를 저장할 수 없습니다: " + errorToString(result.presError)
       );
-      if (!updateAgoraPost.fulfilled.match(createAction)) {
-        alert("게시글 등록 실패");
-        return;
+    } else if (result.imageError) {
+      toast.error("이미지를 저장할 수 없습니다: " + result.imageError);
+    } else if (result.uploadResult) {
+      if ("error" in result.uploadResult) {
+        toast.error(
+          "게시글을 수정할 수 없습니다: " +
+            errorToString(result.uploadResult.error)
+        );
+      } else {
+        toast.success("게시글을 수정했습니다");
+        await router.push(`/agora/${lecture.pk}/${post.pk}`);
       }
-      // const payload = createAction.payload;
-      // const { newContent, blobs } = await replaceImgSrc(
-      //   IMAGE_ENDPOINT,
-      //   payload.presigned.fields.key,
-      //   jsonContent
-      // );
-      // const content = JSON.stringify(newContent);
-      // const imagePromises: Promise<any>[] = blobs.map(({ blob, key }) =>
-      //   api.uploadImages(payload.presigned.url, key, blob)
-      // );
-      // const updatePromise: Promise<any> = dispatch(
-      //   updateAgoraPost({
-      //     id: payload.pk,
-      //     params: { lecture: lectureId, title: title, content: content },
-      //     token,
-      //   })
-      // );
-      // await Promise.all(imagePromises.concat([updatePromise]));
-
-      router.push(`/agora/${post.lecture.pk}`);
-      alert("게시글 수정 완료");
-    })();
+    }
   };
 
   return (
@@ -68,11 +59,11 @@ const AgoraPostEditPage: FC<Props> = ({ post }) => {
       header={"게시글 수정"}
       submitLabel={"게시글 수정하기"}
       initialValue={post}
-      onSubmit={(title, content) => {
-        if (token !== undefined) {
-          handleCreateAgoraPost(title, content, token);
+      onSubmit={async (title, content) => {
+        if (isSignedIn) {
+          await handleUpdateAgoraPost(title, content);
         } else {
-          alert("로그인하세요.");
+          toast.warning("로그인하세요.");
         }
       }}
     />

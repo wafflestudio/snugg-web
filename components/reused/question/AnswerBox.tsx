@@ -39,7 +39,7 @@ const AnswerBox: FC<Props> = ({
   const onAcceptAnswer = () => {
     acceptAnswer({
       id: answerData.post,
-      accepted_answer: answerData.pk!!,
+      accepted_answer: answerData.pk!,
     }).then((result) => {
       if ("error" in result) {
         toast.error("채택할 수 없습니다: " + errorToString(result.error));

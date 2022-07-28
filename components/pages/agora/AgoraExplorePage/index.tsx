@@ -17,7 +17,7 @@ const AgoraExplorePage: FunctionComponent<Props> = ({ query }) => {
       {error
         ? "error"
         : data
-        ? data.results!!.map((lectureInfo) => (
+        ? data.results!.map((lectureInfo) => (
             <LectureInfo
               courseCode={lectureInfo.lecture_id}
               courseName={lectureInfo.name}

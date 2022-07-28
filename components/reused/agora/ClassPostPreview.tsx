@@ -18,8 +18,8 @@ const ClassPostPreview = ({ post }: Props) => {
         <Link href={`/agora/${lecture.pk}/${post.pk}`}>
           <a className={styles.postTitle}>{post.title}</a>
         </Link>
-        <Link href={`/profile/${post.writer!!.pk}`}>
-          <a className={styles.postWriter}>{post.writer!!.username}</a>
+        <Link href={`/profile/${post.writer!.pk}`}>
+          <a className={styles.postWriter}>{post.writer!.username}</a>
         </Link>
         <div className={styles.postTime}>
           <Moment format={"YYYY.MM.DD"}>{post.created_at}</Moment>

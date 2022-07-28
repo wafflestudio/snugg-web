@@ -2,7 +2,7 @@ import React from "react";
 import { selectUserSignedIn, useAppSelector } from "../../../../store";
 import { JSONContent } from "@tiptap/react";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
-import { errorToString, useUploadPost } from "../../../../utility";
+import { errorToString, forceType, useUploadPost } from "../../../../utility";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useQnaPostsCreateMutation } from "../../../../store/api/injected";
@@ -18,9 +18,14 @@ const QuestionAskPage = () => {
     jsonContent: JSONContent,
     tags: string[]
   ) => {
-    const result = await uploadPost(field, title, jsonContent, tags, (arg) =>
+    const result = await uploadPost(jsonContent, (content) =>
       createPostMut({
-        postRequest: arg,
+        postRequest: {
+          field,
+          title,
+          content,
+          tags: forceType<string>(tags),
+        },
       })
     );
     if (result.presError) {

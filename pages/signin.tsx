@@ -24,7 +24,7 @@ const SignInPageContainer: NextPage<Props> = () => {
     } else if (error) {
       toast.error("로그인에 실패했습니다: " + errorToString(error));
     }
-  })
+  });
   return <SignInPage onFormSubmit={onFormSubmit} />;
 };
 
