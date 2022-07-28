@@ -11,17 +11,15 @@ import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
 
 import Image from "next/image";
-import { Button, Input, OutlinedInput, TextField } from "@mui/material";
+import { Button, OutlinedInput} from "@mui/material";
 import SimplifiedPreview from "../../../reused/question/SimplifiedPreview";
 import PasswordModal from "../PasswordModal";
 import EditMajorModal from "../../../reused/profile/EditMajorModal";
 import PointModal from "../../../reused/profile/PointModal";
 import { User } from "store/api/injected";
-import { enhancedApi } from "store/api/enhanced";
 import { toast } from "react-toastify";
-import { errorToString } from "utility";
 import { selectAccessToken, useAppSelector } from "store";
-import api, { AnswerPostInfo, QuestionPost, withToken } from "api";
+import api, { AnswerPostInfo, QuestionPost } from "api";
 
 interface props {
   id: number;

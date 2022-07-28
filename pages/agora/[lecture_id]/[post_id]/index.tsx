@@ -1,12 +1,8 @@
-import { GetServerSideProps, NextPage } from "next";
-import { nanToNull } from "../../../utility";
-import { AgoraPostPage } from "../../../components/pages/agora/AgoraPostPage";
-import { wrapper } from "../../../store";
-import { enhancedApi, pendingQueries } from "../../../store/api/enhanced";
+import { NextPage } from "next";
 import { nanToNull } from "../../../../utility";
 import { AgoraPostPage } from "../../../../components/pages/agora/AgoraPostPage";
-import api, { AgoraPostInfo } from "../../../../api";
-import { toast } from "react-toastify";
+import { wrapper } from "../../../../store";
+import { enhancedApi, pendingQueries } from "../../../../store/api/enhanced";
 
 interface Props {
   id: number;
@@ -18,8 +14,8 @@ const AgoraPostPageContainer: NextPage<Props> = ({ id }) => {
 
 export default AgoraPostPageContainer;
 
-export const getServerSideProps: GetServerSideProps<Props> =
-  wrapper.getServerSideProps<Props>((store) => async (context) => {
+export const getServerSideProps = wrapper.getServerSideProps<Props>(
+  (store) => async (context) => {
     const postId = nanToNull(Number(context.params?.post_id));
     if (postId === null) return { notFound: true };
     store.dispatch(
@@ -31,4 +27,5 @@ export const getServerSideProps: GetServerSideProps<Props> =
         id: postId,
       },
     };
-  });
+  }
+);

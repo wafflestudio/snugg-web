@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 import { errorToString } from "../../../../utility";
 import {
   useQnaAnswersCreateMutation,
-  useQnaAnswersDestroyMutation, useQnaAnswersListQuery,
+  useQnaAnswersDestroyMutation,
+  useQnaAnswersListQuery,
   useQnaPostsDestroyMutation,
   useQnaPostsRetrieveQuery,
 } from "../../../../store/api/injected";
@@ -28,12 +29,12 @@ const QuestionViewPage: FC<Props> = ({ questionId }) => {
     id: questionId,
   });
   const { data: answers, error: answersError } = useQnaAnswersListQuery({
-    post: questionId
+    post: questionId,
   });
   const [destroyQuestion] = useQnaPostsDestroyMutation();
   const [createAnswer] = useQnaAnswersCreateMutation();
   const [destroyAnswer] = useQnaAnswersDestroyMutation();
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState<JSONContent>({});
 
   const onDeleteQuestion = () => {
     destroyQuestion({ id: questionId }).then((result) => {
@@ -82,7 +83,9 @@ const QuestionViewPage: FC<Props> = ({ questionId }) => {
           onDeleteQuestion={onDeleteQuestion}
           questionData={question}
         />
-        <div className={styles.answerCount}>{answers.results!!.length}개의 답변</div>
+        <div className={styles.answerCount}>
+          {answers.results!!.length}개의 답변
+        </div>
         {answers.results!!.map((item) => (
           <AnswerBox
             answerData={item}
@@ -104,7 +107,7 @@ const QuestionViewPage: FC<Props> = ({ questionId }) => {
             onClick={(e) => {
               e.preventDefault();
               if (userInfo !== undefined) {
-                handleCreateAnswer(question.pk!!, content);
+                handleCreateAnswer(question.pk!!, JSON.stringify(content));
               } else {
                 toast.warning("답변을 달려면 로그인하세요");
               }

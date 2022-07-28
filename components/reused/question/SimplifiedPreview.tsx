@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { FC} from "react";
 import styles from "../../../styles/quesiton/SimplifiedPreview.module.scss";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { AnswerPostInfo, QuestionPost } from "api";
@@ -12,6 +12,7 @@ interface Props {
 
 const SimplifiedPreview: FC<Props> = ({ post, answer }) => {
   const summarize = (content: string) => content.substring(0, 15);
+
 
   const rawContent = answer?.content;
   let jsonContent: JSONContent | undefined;

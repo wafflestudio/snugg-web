@@ -1,13 +1,12 @@
 import React, { FC } from "react";
-import { createAgoraPost, updateAgoraPost } from "../../../../store/agoraPosts";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import { updateAgoraPost } from "../../../../store/agoraPosts";
+import {
+  selectAccessToken,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store";
 import { JSONContent } from "@tiptap/react";
-import api, {
-  AgoraLectureInfo,
-  AgoraPostInfo,
-  IMAGE_ENDPOINT,
-} from "../../../../api";
-import { replaceImgSrc } from "../../../../utility";
+import { AgoraPostInfo } from "../../../../api";
 import { useRouter } from "next/router";
 import AgoraWriteTemplate from "../../../reused/agora/AgoraWriteTemplate";
 
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const AgoraPostEditPage: FC<Props> = ({ post }) => {
-  const token = useAppSelector((state) => state.users.data?.token.access);
+  const token = useAppSelector(selectAccessToken);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const handleCreateAgoraPost = (
