@@ -3,14 +3,14 @@ import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { Button, Input } from "@mui/material";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import QuestionEditor, { editorExtensions } from "../QuestionEditor";
-import { AgoraPostInfo } from "../../../api";
 import { generateJSON, JSONContent } from "@tiptap/react";
+import { Story } from "../../../store/api/injected";
 
 interface Props {
   header: string;
   submitLabel: string;
   onSubmit: (title: string, content: JSONContent) => void;
-  initialValue?: AgoraPostInfo;
+  initialValue?: Story;
 }
 
 const AgoraWriteTemplate: FunctionComponent<Props> = ({

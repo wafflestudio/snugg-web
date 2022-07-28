@@ -11,15 +11,15 @@ import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
 
 import Image from "next/image";
-import { Button, OutlinedInput} from "@mui/material";
+import { Button, OutlinedInput } from "@mui/material";
 import SimplifiedPreview from "../../../reused/question/SimplifiedPreview";
 import PasswordModal from "../PasswordModal";
 import EditMajorModal from "../../../reused/profile/EditMajorModal";
 import PointModal from "../../../reused/profile/PointModal";
-import { User } from "store/api/injected";
+import { useAuthProfileUpdateMutation, User } from "store/api/injected";
 import { toast } from "react-toastify";
-import { selectAccessToken, useAppSelector } from "store";
-import api, { AnswerPostInfo, QuestionPost } from "api";
+import { AnswerPostInfo, QuestionPost } from "api";
+import { errorToString } from "../../../../utility";
 
 interface props {
   id: number;
@@ -47,46 +47,22 @@ const ProfilePage: FC<props> = ({ profile, myQnaPosts, myQnaAnswers }) => {
   const [username, setUsername] = useState(profile.username);
   const [introduction, setIntroduction] = useState(profile.self_introduction);
 
-  // const [editProfile] = enhancedApi.useAuthProfileUpdateMutation();
-  // const handleEditProfile = async () => {
-  //   const result = await editProfile({
-  //     userRequest: {
-  //       email: profile.email,
-  //       username: username ? username : profile.username,
-  //       birth_date: profile.birth_date,
-  //       self_introduction: introduction,
-  //     },
-  //   });
-  //   if ("data" in result) {
-  //     toast.success("프로필 수정 완료");
-  //     setEdit(false);
-  //   } else {
-  //     toast.error("프로필 수정 실패: " + errorToString(result.error));
-  //     setEdit(false);
-  //   }
-  // };
-
-  const token = useAppSelector(selectAccessToken);
-  console.log(token);
+  const [editProfile] = useAuthProfileUpdateMutation();
   const handleEditProfile = async () => {
-    if (token) {
-      const params = {
-        email: "snugg@gmail.com",
-        username: "snu",
-        // birth_date: "2022-02-02",
-        // self_introduction: "hello",
-      };
-      const result = await api.updateProfile(params, token);
-      console.log(result);
-      // if ("data" in result) {
-      //   toast.success("프로필 수정 완료");
-      //   setEdit(false);
-      // } else {
-      //   toast.error("프로필 수정 실패: ");
-      //   setEdit(false);
-      // }
+    const result = await editProfile({
+      userRequest: {
+        email: profile.email,
+        username,
+        birth_date: profile.birth_date,
+        self_introduction: introduction,
+      },
+    });
+    if ("data" in result) {
+      toast.success("프로필 수정 완료");
+      setEdit(false);
     } else {
-      toast.error("로그인하세요.");
+      toast.error("프로필 수정 실패: " + errorToString(result.error));
+      setEdit(false);
     }
   };
 
