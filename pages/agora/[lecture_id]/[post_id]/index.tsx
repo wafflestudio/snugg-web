@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
-import { nanToNull } from "../../../utility";
-import { AgoraPostPage } from "../../../components/pages/agora/AgoraPostPage";
-import api, { AgoraPostInfo } from "../../../api";
+import { nanToNull } from "../../../../utility";
+import { AgoraPostPage } from "../../../../components/pages/agora/AgoraPostPage";
+import api, { AgoraPostInfo } from "../../../../api";
 import { toast } from "react-toastify";
 
 interface Props {
