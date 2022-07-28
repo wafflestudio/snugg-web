@@ -21,6 +21,7 @@ import {
 import { createAnswer } from "../../../../store/answerPosts";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
+import { JSONContent } from "@tiptap/react";
 
 interface Props {
   questionId: number;
@@ -55,11 +56,16 @@ const QuestionViewPage: FC<Props> = ({
     }
   };
 
-  const [content, setContent] = useState<string>("");
+  const [content, setContent] = useState<JSONContent>({});
 
   const dispatch = useAppDispatch();
-  const handleCreateAnswer = (post: number, content: string, token: string) => {
-    const params = { post, content };
+  const handleCreateAnswer = (
+    post: number,
+    content: JSONContent,
+    token: string
+  ) => {
+    const newContent = JSON.stringify(content);
+    const params = { post, content: newContent };
     dispatch(createAnswer({ params, token })).then((action) => {
       if (createAnswer.fulfilled.match(action)) {
         toast.success("답변을 등록하였습니다");

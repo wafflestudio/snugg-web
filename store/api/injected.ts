@@ -26,12 +26,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/agora/lectures/${queryArg.id}/` }),
     }),
-    agoraPostsList: build.query<
-      AgoraPostsListApiResponse,
-      AgoraPostsListApiArg
+    agoraStorysList: build.query<
+      AgoraStorysListApiResponse,
+      AgoraStorysListApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/`,
+        url: `/agora/storys/`,
         params: {
           cursor: queryArg.cursor,
           lecture: queryArg.lecture,
@@ -42,49 +42,75 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
-    agoraPostsCreate: build.mutation<
-      AgoraPostsCreateApiResponse,
-      AgoraPostsCreateApiArg
+    agoraStorysCreate: build.mutation<
+      AgoraStorysCreateApiResponse,
+      AgoraStorysCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/`,
+        url: `/agora/storys/`,
         method: "POST",
-        body: queryArg.postRequest,
+        body: queryArg.storyRequest,
       }),
     }),
-    agoraPostsRetrieve: build.query<
-      AgoraPostsRetrieveApiResponse,
-      AgoraPostsRetrieveApiArg
+    agoraStorysRetrieve: build.query<
+      AgoraStorysRetrieveApiResponse,
+      AgoraStorysRetrieveApiArg
     >({
-      query: (queryArg) => ({ url: `/agora/posts/${queryArg.id}/` }),
+      query: (queryArg) => ({ url: `/agora/storys/${queryArg.id}/` }),
     }),
-    agoraPostsUpdate: build.mutation<
-      AgoraPostsUpdateApiResponse,
-      AgoraPostsUpdateApiArg
+    agoraStorysUpdate: build.mutation<
+      AgoraStorysUpdateApiResponse,
+      AgoraStorysUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/${queryArg.id}/`,
+        url: `/agora/storys/${queryArg.id}/`,
         method: "PUT",
-        body: queryArg.postRequest,
+        body: queryArg.storyRequest,
       }),
     }),
-    agoraPostsPartialUpdate: build.mutation<
-      AgoraPostsPartialUpdateApiResponse,
-      AgoraPostsPartialUpdateApiArg
+    agoraStorysPartialUpdate: build.mutation<
+      AgoraStorysPartialUpdateApiResponse,
+      AgoraStorysPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/${queryArg.id}/`,
+        url: `/agora/storys/${queryArg.id}/`,
         method: "PATCH",
-        body: queryArg.postRequest,
+        body: queryArg.storyRequest,
       }),
     }),
-    agoraPostsDestroy: build.mutation<
-      AgoraPostsDestroyApiResponse,
-      AgoraPostsDestroyApiArg
+    agoraStorysDestroy: build.mutation<
+      AgoraStorysDestroyApiResponse,
+      AgoraStorysDestroyApiArg
     >({
       query: (queryArg) => ({
-        url: `/agora/posts/${queryArg.id}/`,
+        url: `/agora/storys/${queryArg.id}/`,
         method: "DELETE",
+      }),
+    }),
+    authPasswordUpdate: build.mutation<
+      AuthPasswordUpdateApiResponse,
+      AuthPasswordUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/auth/password/`,
+        method: "PUT",
+        body: queryArg.passwordServiceRequest,
+      }),
+    }),
+    authProfileRetrieve: build.query<
+      AuthProfileRetrieveApiResponse,
+      AuthProfileRetrieveApiArg
+    >({
+      query: () => ({ url: `/auth/profile/` }),
+    }),
+    authProfileUpdate: build.mutation<
+      AuthProfileUpdateApiResponse,
+      AuthProfileUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/auth/profile/`,
+        method: "PUT",
+        body: queryArg.userRequest,
       }),
     }),
     authRefreshCreate: build.mutation<
@@ -125,6 +151,16 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/auth/signup/`,
         method: "POST",
         body: queryArg.signupServiceRequest,
+      }),
+    }),
+    mediaPresignedCreate: build.mutation<
+      MediaPresignedCreateApiResponse,
+      MediaPresignedCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/media/presigned/`,
+        method: "POST",
+        body: queryArg.directoryRequest,
       }),
     }),
     qnaAnswersList: build.query<
@@ -184,6 +220,72 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/qna/answers/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
+    qnaCommentsList: build.query<
+      QnaCommentsListApiResponse,
+      QnaCommentsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/`,
+        params: {
+          answer: queryArg.answer,
+          comment: queryArg.comment,
+          cursor: queryArg.cursor,
+          ordering: queryArg.ordering,
+          page_size: queryArg.pageSize,
+          post: queryArg.post,
+        },
+      }),
+    }),
+    qnaCommentsCreate: build.mutation<
+      QnaCommentsCreateApiResponse,
+      QnaCommentsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/`,
+        method: "POST",
+        body: queryArg.commentRequest,
+        params: {
+          answer: queryArg.answer,
+          comment: queryArg.comment,
+          post: queryArg.post,
+        },
+      }),
+    }),
+    qnaCommentsRetrieve: build.query<
+      QnaCommentsRetrieveApiResponse,
+      QnaCommentsRetrieveApiArg
+    >({
+      query: (queryArg) => ({ url: `/qna/comments/${queryArg.id}/` }),
+    }),
+    qnaCommentsUpdate: build.mutation<
+      QnaCommentsUpdateApiResponse,
+      QnaCommentsUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/${queryArg.id}/`,
+        method: "PUT",
+        body: queryArg.commentRequest,
+      }),
+    }),
+    qnaCommentsPartialUpdate: build.mutation<
+      QnaCommentsPartialUpdateApiResponse,
+      QnaCommentsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.commentRequest,
+      }),
+    }),
+    qnaCommentsDestroy: build.mutation<
+      QnaCommentsDestroyApiResponse,
+      QnaCommentsDestroyApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/qna/comments/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -273,8 +375,8 @@ export type AgoraLecturesRetrieveApiArg = {
   /** A unique integer value identifying this lecture. */
   id: number;
 };
-export type AgoraPostsListApiResponse = /** status 200  */ PaginatedPostList;
-export type AgoraPostsListApiArg = {
+export type AgoraStorysListApiResponse = /** status 200  */ PaginatedStoryList;
+export type AgoraStorysListApiArg = {
   /** The pagination cursor value. */
   cursor?: string;
   lecture?: number;
@@ -286,31 +388,41 @@ export type AgoraPostsListApiArg = {
   search?: string;
   writer?: number;
 };
-export type AgoraPostsCreateApiResponse = /** status 201  */ Post;
-export type AgoraPostsCreateApiArg = {
-  postRequest: PostRequest;
+export type AgoraStorysCreateApiResponse = /** status 201  */ Story;
+export type AgoraStorysCreateApiArg = {
+  storyRequest: StoryRequest;
 };
-export type AgoraPostsRetrieveApiResponse = /** status 200  */ Post;
-export type AgoraPostsRetrieveApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysRetrieveApiResponse = /** status 200  */ Story;
+export type AgoraStorysRetrieveApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
 };
-export type AgoraPostsUpdateApiResponse = /** status 200  */ Post;
-export type AgoraPostsUpdateApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysUpdateApiResponse = /** status 200  */ Story;
+export type AgoraStorysUpdateApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
-  postRequest: PostRequest;
+  storyRequest: StoryRequest;
 };
-export type AgoraPostsPartialUpdateApiResponse = /** status 200  */ Post;
-export type AgoraPostsPartialUpdateApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysPartialUpdateApiResponse = /** status 200  */ Story;
+export type AgoraStorysPartialUpdateApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
-  postRequest: PostRequest;
+  storyRequest: StoryRequest;
 };
-export type AgoraPostsDestroyApiResponse = unknown;
-export type AgoraPostsDestroyApiArg = {
-  /** A unique integer value identifying this post. */
+export type AgoraStorysDestroyApiResponse = unknown;
+export type AgoraStorysDestroyApiArg = {
+  /** A unique integer value identifying this story. */
   id: number;
+};
+export type AuthPasswordUpdateApiResponse = /** status 200  */ Success;
+export type AuthPasswordUpdateApiArg = {
+  passwordServiceRequest: PasswordServiceRequest;
+};
+export type AuthProfileRetrieveApiResponse = /** status 200  */ User;
+export type AuthProfileRetrieveApiArg = void;
+export type AuthProfileUpdateApiResponse = /** status 200  */ User;
+export type AuthProfileUpdateApiArg = {
+  userRequest: UserRequest;
 };
 export type AuthRefreshCreateApiResponse = /** status 200  */ RefreshToken;
 export type AuthRefreshCreateApiArg = {
@@ -327,6 +439,10 @@ export type AuthSignoutCreateApiArg = {
 export type AuthSignupCreateApiResponse = /** status 201  */ UserToken;
 export type AuthSignupCreateApiArg = {
   signupServiceRequest: SignupServiceRequest;
+};
+export type MediaPresignedCreateApiResponse = /** status 201  */ Directory;
+export type MediaPresignedCreateApiArg = {
+  directoryRequest: DirectoryRequest;
 };
 export type QnaAnswersListApiResponse = /** status 200  */ PaginatedAnswerList;
 export type QnaAnswersListApiArg = {
@@ -364,6 +480,54 @@ export type QnaAnswersPartialUpdateApiArg = {
 export type QnaAnswersDestroyApiResponse = unknown;
 export type QnaAnswersDestroyApiArg = {
   /** A unique integer value identifying this answer. */
+  id: number;
+};
+export type QnaCommentsListApiResponse =
+  /** status 200  */ PaginatedCommentList;
+export type QnaCommentsListApiArg = {
+  /** Answer id */
+  answer?: number;
+  /** Comment id */
+  comment?: number;
+  /** The pagination cursor value. */
+  cursor?: string;
+  /** Which field to use when ordering the results. */
+  ordering?: string;
+  /** Number of results to return per page. */
+  pageSize?: number;
+  /** Post id */
+  post?: number;
+};
+export type QnaCommentsCreateApiResponse = /** status 201  */ CommentAnswer;
+export type QnaCommentsCreateApiArg = {
+  /** Answer id */
+  answer?: number;
+  /** Comment id */
+  comment?: number;
+  /** Post id */
+  post?: number;
+  commentRequest: CommentRequest;
+};
+export type QnaCommentsRetrieveApiResponse = /** status 200  */ Comment;
+export type QnaCommentsRetrieveApiArg = {
+  /** A unique integer value identifying this comment. */
+  id: number;
+};
+export type QnaCommentsUpdateApiResponse = /** status 200  */ Comment;
+export type QnaCommentsUpdateApiArg = {
+  /** A unique integer value identifying this comment. */
+  id: number;
+  commentRequest: CommentRequest;
+};
+export type QnaCommentsPartialUpdateApiResponse = /** status 200  */ Comment;
+export type QnaCommentsPartialUpdateApiArg = {
+  /** A unique integer value identifying this comment. */
+  id: number;
+  commentRequest: CommentRequest;
+};
+export type QnaCommentsDestroyApiResponse = unknown;
+export type QnaCommentsDestroyApiArg = {
+  /** A unique integer value identifying this comment. */
   id: number;
 };
 export type QnaPostsListApiResponse = /** status 200  */ PaginatedPostList;
@@ -424,32 +588,52 @@ export type PaginatedLectureList = {
   previous?: string | null;
   results?: Lecture[];
 };
-export type User = {
+export type UserPublic = {
   pk?: number;
-  email: string;
   username: string;
-  birth_date?: string | null;
   created_at?: string;
   last_login?: string | null;
 };
-export type Post = {
+export type Story = {
   pk?: number;
   lecture: string;
-  writer?: User;
+  writer?: UserPublic;
   title: string;
   content: string;
   created_at?: string;
   updated_at?: string;
 };
-export type PaginatedPostList = {
+export type PaginatedStoryList = {
   next?: string | null;
   previous?: string | null;
-  results?: Post[];
+  results?: Story[];
 };
-export type PostRequest = {
+export type StoryRequest = {
   lecture: string;
   title: string;
   content: string;
+};
+export type Success = {
+  success: boolean;
+};
+export type PasswordServiceRequest = {
+  old_password: string;
+  new_password: string;
+};
+export type User = {
+  pk?: number;
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
+  created_at?: string;
+  last_login?: string | null;
+};
+export type UserRequest = {
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
 };
 export type RefreshToken = {
   refresh: string;
@@ -469,9 +653,6 @@ export type SigninServiceRequest = {
   email: string;
   password: string;
 };
-export type Success = {
-  success: boolean;
-};
 export type SignoutServiceRequest = {
   refresh: string;
 };
@@ -481,10 +662,20 @@ export type SignupServiceRequest = {
   password: string;
   birth_date?: string | null;
 };
+export type Directory = {
+  pk?: number;
+  uploader?: User;
+  path?: string;
+  filenames: string[];
+  created_at?: string;
+};
+export type DirectoryRequest = {
+  filenames: string[];
+};
 export type Answer = {
   pk?: number;
   post: number;
-  writer?: User;
+  writer?: UserPublic;
   content: string;
   created_at?: string;
   updated_at?: string;
@@ -497,4 +688,53 @@ export type PaginatedAnswerList = {
 export type AnswerRequest = {
   post: number;
   content: string;
+};
+export type Comment = {
+  pk?: number;
+  writer?: UserPublic;
+  content: string;
+  replies_count?: number;
+  created_at?: string;
+  updated_at?: string;
+};
+export type PaginatedCommentList = {
+  next?: string | null;
+  previous?: string | null;
+  results?: Comment[];
+};
+export type CommentAnswer = {
+  pk?: number;
+  writer?: UserPublic;
+  content: string;
+  replies_count?: number;
+  created_at?: string;
+  updated_at?: string;
+};
+export type CommentRequest = {
+  content_type?: number;
+  object_id?: number;
+  content: string;
+};
+export type Post = {
+  pk?: number;
+  field: string;
+  writer?: UserPublic;
+  title: string;
+  content: string;
+  created_at?: string;
+  updated_at?: string;
+  accepted_answer?: number | null;
+  tags?: string;
+};
+export type PaginatedPostList = {
+  next?: string | null;
+  previous?: string | null;
+  results?: Post[];
+};
+export type PostRequest = {
+  field: string;
+  title: string;
+  content: string;
+  accepted_answer?: number | null;
+  tags?: string;
 };

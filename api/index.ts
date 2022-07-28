@@ -35,8 +35,16 @@ export interface User {
   email: string;
   username: string;
   birth_date?: string;
+  self_introduction?: string;
   created_at: string;
   last_login?: string;
+}
+
+export interface ProfileParams {
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
 }
 
 export interface QuestionPost {
@@ -141,10 +149,10 @@ export type AnswerPostInfo = AnswerPost & {
 };
 
 export type ListAnswerParams = PaginationParams & {
-  writer?: User;
+  writer?: number;
 };
 
-const withToken = (token: string) => ({
+export const withToken = (token: string) => ({
   headers: { Authorization: `Bearer ${token}` },
 });
 
@@ -280,6 +288,8 @@ const api = {
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
+  updateProfile: async (params: ProfileParams, token: string) =>
+    await axios.put<User>(`/auth/profile`, params, withToken(token)),
 };
 
 export default api;
