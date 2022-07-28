@@ -15,7 +15,7 @@ const AgoraListPageContainer: NextPage<Props> = ({ posts, lecture }) => {
     router
       .push(
         `/agora/${lecture.pk}?` +
-        new URLSearchParams({ type: condition, query }).toString()
+          new URLSearchParams({ type: condition, query }).toString()
       )
       .then();
   };
@@ -35,7 +35,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const lecture = (await api.getAgoraLecture(lectureId)).data;
   return {
     props: {
-      lectureId, posts, lecture
-    }
+      lectureId,
+      posts,
+      lecture,
+    },
   };
 };

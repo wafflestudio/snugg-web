@@ -12,22 +12,22 @@ import { QuestionPostInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
-import { useAppSelector } from "../../../store";
+import { selectUserInfo, useAppSelector } from "../../../store";
 
 interface Props {
   questionData: QuestionPostInfo | null;
-  onDeleteQuestion: () => {};
+  onDeleteQuestion: () => void;
 }
 
 const QuestionBox = (Props: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
-  const me = useAppSelector((state) => state.users.data);
+  const userInfo = useAppSelector(selectUserInfo);
 
   const rawContent = Props.questionData?.content;
-  let jsonContent: any;
+  let jsonContent: JSONContent | undefined;
   let success = false;
   try {
     if (rawContent !== undefined) {
@@ -37,8 +37,6 @@ const QuestionBox = (Props: Props) => {
   } catch (err) {
     success = false;
   }
-  // console.log("raw content", rawContent);
-  // console.log("json content", jsonContent);
 
   const questionView = useEditor({
     editable: false,
@@ -84,7 +82,7 @@ const QuestionBox = (Props: Props) => {
         <div className={styles.questionButtons}>
           <NextLink href={`/question/${Props.questionData?.pk}/edit`} passHref>
             <Button
-              disabled={me?.user.pk !== Props.questionData?.writer.pk}
+              disabled={userInfo?.pk !== Props.questionData?.writer.pk}
               className={styles.questionButton}
             >
               <EditIcon className={styles.questionButtonIcon} />
@@ -92,7 +90,7 @@ const QuestionBox = (Props: Props) => {
             </Button>
           </NextLink>
           <Button
-            disabled={me?.user.pk !== Props.questionData?.writer.pk}
+            disabled={userInfo?.pk !== Props.questionData?.writer.pk}
             onClick={Props.onDeleteQuestion}
             className={styles.questionButton}
           >

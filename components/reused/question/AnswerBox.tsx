@@ -3,6 +3,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 
@@ -11,8 +12,15 @@ import CommentBox from "./CommentBox";
 import { FC, useState } from "react";
 import api, { AnswerPostInfo } from "../../../api";
 import Moment from "react-moment";
-import { useAppSelector } from "../../../store";
+import {
+  selectAccessToken,
+  selectUserInfo,
+  useAppSelector,
+} from "../../../store";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
+import { editorExtensions } from "../QuestionEditor";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
@@ -21,23 +29,29 @@ interface Props {
   acceptable: boolean;
 }
 
-const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable }: Props) => {
+const AnswerBox: FC<Props> = ({
+  answerData,
+  onDeleteAnswer,
+  accepted,
+  acceptable,
+}: Props) => {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
-  const me = useAppSelector((state) => state.users.data);
+  const token = useAppSelector(selectAccessToken);
+  const userInfo = useAppSelector(selectUserInfo);
 
   const onAcceptAnswer = () => {
-    const token = me?.token?.access;
     if (token === undefined) {
-      alert("먼저 로그인을 하십시오");
+      toast.error("채택하려면 로그인 하십시오");
       return;
     }
     (async () => {
       try {
         await api.acceptAnswer(answerData.post, answerData.pk, token);
-        alert("채택되었습니다");
+        toast.success("채택되었습니다");
+        // TODO refresh answers
       } catch (e) {
         if (axios.isAxiosError(e)) {
-          alert("채택할 수 없습니다: " + e.response);
+          toast.success("채택할 수 없습니다: " + e.response?.statusText);
         } else {
           throw e;
         }
@@ -45,18 +59,45 @@ const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable
     })();
   };
 
+  const rawContent = answerData.content;
+  let jsonContent: JSONContent | undefined;
+  let success = false;
+  try {
+    if (rawContent !== undefined) {
+      jsonContent = JSON.parse(rawContent);
+      success = true;
+    }
+  } catch (err) {
+    success = false;
+  }
+
+  const answerView = useEditor({
+    editable: false,
+    extensions: editorExtensions,
+    content: success ? jsonContent : rawContent,
+  });
+
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
-        {accepted ? <>
+        {accepted ? (
+          <>
             <CheckIcon className={styles.questionMarkIcon} />
             <div>채택 완료</div>
-          </> :
-          acceptable &&
-          <Button className={styles.button} onClick={() => onAcceptAnswer()}>채택하기</Button>
-        }
+          </>
+        ) : (
+          acceptable && (
+            <Button
+              className={styles.checkButton}
+              onClick={() => onAcceptAnswer()}
+            >
+              <CheckBoxOutlineBlankIcon />
+              <div>채택하기</div>
+            </Button>
+          )
+        )}
       </div>
-      <div className={styles.questionText}>{answerData.content}</div>
+      <EditorContent editor={answerView} className={styles.questionText} />
       <div className={styles.questionBottom}>
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
@@ -71,13 +112,13 @@ const AnswerBox: FC<Props> = ({ answerData, onDeleteAnswer, accepted, acceptable
         <div className={styles.questionButtons}>
           <Button
             className={styles.questionButton}
-            disabled={me?.user.pk !== answerData.writer.pk}
+            disabled={userInfo?.pk !== answerData.writer.pk}
           >
             <EditIcon className={styles.questionButtonIcon} />
             <div>수정하기</div>
           </Button>
           <Button
-            disabled={me?.user.pk !== answerData.writer.pk}
+            disabled={userInfo?.pk !== answerData.writer.pk}
             onClick={() => {
               onDeleteAnswer(answerData.pk);
             }}

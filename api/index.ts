@@ -1,23 +1,50 @@
 import axios from "axios";
-
-export const API_ENDPOINT =
-  "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
+import { baseUrl, isServer } from "../store/api/base";
 
 export const IMAGE_ENDPOINT = "https://snugg-s3.s3.amazonaws.com/";
 
-// const isProduction = process.env.NODE_ENV === "production";
-const isServer = typeof window === "undefined";
-
 // 서버에서 api를 요청하는 경우 백엔드로 바로 요청
-axios.defaults.baseURL = isServer ? API_ENDPOINT : "/api/";
+axios.defaults.baseURL = baseUrl;
+if (isServer) {
+  axios.interceptors.request.use((config) => {
+    console.log(config.method, config.baseURL, config.url, config.data);
+    return config;
+  });
+  axios.interceptors.response.use(
+    (response) => {
+      console.log(response?.status, response?.data);
+      return response;
+    },
+    (error) => {
+      if (axios.isAxiosError(error)) {
+        console.log("error");
+        console.log(
+          error.message,
+          error.code,
+          error.response?.status,
+          error.response?.data
+        );
+      }
+      return Promise.reject(error);
+    }
+  );
+}
 
 export interface User {
   pk: number;
   email: string;
   username: string;
   birth_date?: string;
+  self_introduction?: string;
   created_at: string;
   last_login?: string;
+}
+
+export interface ProfileParams {
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
 }
 
 export interface QuestionPost {
@@ -89,6 +116,8 @@ export type ListQnaParams = PaginationParams & {
   field?: string;
   tag?: string;
   writer?: number;
+  search?: string;
+  search_type?: string;
 };
 
 export interface QuestionGetParams {
@@ -120,7 +149,7 @@ export type AnswerPostInfo = AnswerPost & {
 };
 
 export type ListAnswerParams = PaginationParams & {
-  writer?: User;
+  writer?: number;
 };
 
 const withToken = (token: string) => ({
@@ -192,13 +221,9 @@ export type ListAgoraLectureInfo = {
   results: AgoraLectureInfo[];
 };
 
+type EmptyResponse = Record<string, never>;
+
 const api = {
-  signIn: async (params: SignInParams) =>
-    await axios.post<UserTokenResponse>("/auth/signin/", params),
-  signOut: async (params: SignOutParams) =>
-    await axios.post<SuccessResponse>("/auth/signout/", params),
-  signUp: async (params: SignUpParams) =>
-    await axios.post<UserTokenResponse>("/auth/signup/", params),
   getQuestion: async (params: QuestionGetParams) =>
     await axios.get<QuestionPost>(`/qna/posts/${params.id}`),
   deleteQuestion: async (params: QuestionDeleteParams, token: string) =>
@@ -250,12 +275,12 @@ const api = {
   partialUpdateAnswer: async (id: number, post: AnswerPost) =>
     await axios.patch(`/qna/answers/${id}`, post),
   deleteAnswer: async (id: number, token: string) =>
-    await axios.delete(`/qna/answers/${id}`, withToken(token)),
+    await axios.delete<EmptyResponse>(`/qna/answers/${id}`, withToken(token)),
   uploadImages: async (url: string, key: string, blob: Blob) => {
     const formData = new FormData();
     formData.set("key", key);
     formData.set("file", blob);
-    return await axios.post(url, formData, { baseURL: "" });
+    return await axios.post<EmptyResponse>(url, formData, { baseURL: "" });
   },
   listAgoraPost: async (params: ListAgoraPostParams) =>
     await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/storys/`, {
@@ -287,6 +312,8 @@ const api = {
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
+  updateProfile: async (params: ProfileParams, token: string) =>
+    await axios.put<User>(`/auth/profile`, params, withToken(token)),
 };
 
 export default api;

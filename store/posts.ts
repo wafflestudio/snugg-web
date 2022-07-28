@@ -22,10 +22,10 @@ export const createPost = createAsyncThunk(
 export const updatePost = createAsyncThunk(
   "updatePost",
   async ({
-           id,
-           params,
-           token
-         }: {
+    id,
+    params,
+    token,
+  }: {
     id: number;
     params: PostParams;
     token: string;
@@ -37,7 +37,15 @@ export const updatePost = createAsyncThunk(
 
 export const partialUpdatePost = createAsyncThunk(
   "partialUpdatePost",
-  async ({ id, params, token }: { id: number; params: PostParams, token: string }) => {
+  async ({
+    id,
+    params,
+    token,
+  }: {
+    id: number;
+    params: PostParams;
+    token: string;
+  }) => {
     const res = await api.partialUpdateQuestion(id, params, token);
     return res.data;
   }
@@ -46,7 +54,7 @@ export const partialUpdatePost = createAsyncThunk(
 const postSlice = createSlice({
   name: "posts",
   initialState: {
-    data: null
+    data: null,
   } as PostState,
   reducers: {},
   extraReducers: (builder) =>
@@ -59,7 +67,7 @@ const postSlice = createSlice({
       })
       .addCase(partialUpdatePost.fulfilled, (state, action) => {
         state.data = action.payload;
-      })
+      }),
 });
 
 export default postSlice.reducer;

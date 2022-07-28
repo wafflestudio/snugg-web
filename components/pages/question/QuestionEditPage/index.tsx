@@ -1,11 +1,16 @@
 import React from "react";
 import { updatePost } from "../../../../store/posts";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import {
+  selectAccessToken,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store";
 import api, { IMAGE_ENDPOINT, QuestionPost } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { JSONContent } from "@tiptap/react";
 import { replaceImgSrc } from "../../../../utility";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface Props {
   postId: number | null;
@@ -13,7 +18,7 @@ interface Props {
 }
 
 const QuestionEditPage = (props: Props) => {
-  const token = useAppSelector((state) => state.users.data?.token.access);
+  const token = useAppSelector(selectAccessToken);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const handleUpdatePost = (
@@ -32,13 +37,13 @@ const QuestionEditPage = (props: Props) => {
             field,
             title,
             content: "placeholder",
-            tags
+            tags,
           },
-          token
+          token,
         })
       );
       if (!updatePost.fulfilled.match(updateAction)) {
-        alert("질문 수정 실패");
+        toast.error("질문을 수정할 수 없습니다: " + updateAction.error.message);
         return;
       }
       const payload = updateAction.payload;
@@ -48,19 +53,19 @@ const QuestionEditPage = (props: Props) => {
         jsonContent
       );
       const content = JSON.stringify(newContent);
-      const imagePromises: Promise<any>[] = blobs.map(({ blob, key }) =>
+      const imagePromises = blobs.map(({ blob, key }) =>
         api.uploadImages(payload.presigned.url, key, blob)
       );
-      const updatePromise: Promise<any> = dispatch(
+      const updatePromise = dispatch(
         updatePost({
           id: payload.pk,
           params: { field, title, content, tags },
-          token
+          token,
         })
       );
-      await Promise.all(imagePromises.concat([updatePromise]));
-      router.push(`/question/${props.postId}`);
-      alert("질문 등록 완료");
+      await Promise.all([...imagePromises, updatePromise]);
+      toast.success("수정된 질문이 저장되었습니다");
+      await router.push(`/question/${props.postId}`);
     })();
   };
 
@@ -72,7 +77,7 @@ const QuestionEditPage = (props: Props) => {
         if (props.postId !== null && token !== undefined) {
           handleUpdatePost(props.postId, field, title, content, tags, token);
         } else {
-          alert("로그인하세요.");
+          toast.warning("질문을 수정하려면 로그인하세요");
         }
       }}
       initialValue={props.questionData}

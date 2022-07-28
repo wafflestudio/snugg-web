@@ -1,6 +1,5 @@
 @import "../../../../styles/Font";
 @import "../../../../styles/Color";
-@import "../QuestionPreview/QuestionPreview.module";
 
 .questionBox {
   width: 1075px;
@@ -8,7 +7,7 @@
   border: 1px solid $main-color;
   border-radius: 5px;
   padding: 20px;
-  margin: 0px auto 20px auto;
+  margin: 0 auto 20px auto;
 
   .questionTitle {
     display: flex;
@@ -101,4 +100,10 @@
       }
     }
   }
+}
+
+.checkButton {
+  display: flex;
+  background-color: none;
+  width: 50px;
 }

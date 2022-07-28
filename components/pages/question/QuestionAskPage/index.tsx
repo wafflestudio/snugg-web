@@ -1,14 +1,19 @@
 import React from "react";
 import { createPost, updatePost } from "../../../../store/posts";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import {
+  selectAccessToken,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store";
 import { JSONContent } from "@tiptap/react";
 import api, { IMAGE_ENDPOINT } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { replaceImgSrc } from "../../../../utility";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const QuestionAskPage = () => {
-  const token = useAppSelector((state) => state.users.data?.token.access);
+  const token = useAppSelector(selectAccessToken);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const handleCreatePost = (
@@ -31,7 +36,7 @@ const QuestionAskPage = () => {
         })
       );
       if (!createPost.fulfilled.match(createAction)) {
-        alert("질문 등록 실패");
+        toast.error("질문을 등록할 수 없습니다: " + createAction.error.message);
         return;
       }
       const payload = createAction.payload;
@@ -41,20 +46,20 @@ const QuestionAskPage = () => {
         jsonContent
       );
       const content = JSON.stringify(newContent);
-      const imagePromises: Promise<any>[] = blobs.map(({ blob, key }) =>
+      const imagePromises = blobs.map(({ blob, key }) =>
         api.uploadImages(payload.presigned.url, key, blob)
       );
-      const updatePromise: Promise<any> = dispatch(
+      const updatePromise = dispatch(
         updatePost({
           id: payload.pk,
           params: { field, title, content, tags },
           token,
         })
       );
-      await Promise.all(imagePromises.concat([updatePromise]));
+      await Promise.all([...imagePromises, updatePromise]);
 
-      router.push("/question");
-      alert("질문 등록 완료");
+      toast.success("질문을 등록하였습니다");
+      await router.push("/question");
     })();
   };
 
@@ -66,7 +71,7 @@ const QuestionAskPage = () => {
         if (token !== undefined) {
           handleCreatePost(field, title, content, tags, token);
         } else {
-          alert("로그인하세요.");
+          toast.warning("질문을 등록하려면 로그인하세요");
         }
       }}
     />

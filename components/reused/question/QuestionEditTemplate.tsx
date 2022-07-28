@@ -36,7 +36,6 @@ const QuestionEditTemplate: FunctionComponent<Props> = ({
   const [content, setContent] = useState<JSONContent>({});
 
   useEffect(() => {
-    console.log("initial value changed");
     if (initialValue !== undefined) {
       setField(initialValue.field);
       setTags(initialValue.tags);
@@ -82,7 +81,7 @@ const QuestionEditTemplate: FunctionComponent<Props> = ({
           className={styles.button}
           onClick={(e) => {
             e.preventDefault();
-            onSubmit(field, title, content!!, tags);
+            onSubmit(field, title, content, tags);
           }}
         >
           {submitLabel}

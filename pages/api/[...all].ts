@@ -1,7 +1,7 @@
 // pages/api/[...all].ts
 import { NextApiRequest, NextApiResponse } from "next";
 import httpProxyMiddleware from "next-http-proxy-middleware";
-import { API_ENDPOINT } from "../../api";
+import { API_ENDPOINT } from "../../store/api/base";
 
 export const config = {
   api: {

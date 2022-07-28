@@ -25,7 +25,9 @@ function PasswordModal(props: passwordModalProps) {
   const [currentPW, setCurrentPW] = useState<string>("");
   const [newPW, setNewPW] = useState<string>("");
   const [renewPW, setRenewPW] = useState("");
-  const handleChangePW = () => {};
+  const handleChangePW = () => {
+    /* not implemented */
+  };
   const handleClose = () => props.setOpen(false);
   return (
     <Modal open={props.open} onClose={handleClose}>
@@ -58,9 +60,7 @@ function PasswordModal(props: passwordModalProps) {
               id="outlined-password-input"
               type="password"
               value={newPW}
-              onChange={(
-                e
-              ) => {
+              onChange={(e) => {
                 setNewPW(e.target.value);
               }}
             />

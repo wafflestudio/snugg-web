@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import DefaultLayoutComponent from "../components/reused/Layout/DefaultLayoutComponent";
 import OnlyHeaderLayout from "../components/reused/Layout/OnlyHeaderLayout";
@@ -11,50 +12,42 @@ import { ThemeProvider } from "@mui/system";
 
 import Amplify from "aws-amplify";
 import awsmobile from "../aws-exports";
+import { FunctionComponent } from "react";
+import { ToastContainer } from "react-toastify";
+
 Amplify.configure({ ...awsmobile, ssr: true });
 
-function MyApp({ Component, pageProps }: AppProps) {
-  switch (Component.displayName) {
+const IdentityLayout: FunctionComponent = ({ children }) => <>{children}</>;
+
+const selectLayout = (displayName?: string): FunctionComponent => {
+  switch (displayName) {
     case "ProfileComponent":
     case "TagsPageComponent":
-      return (
-        <OnlyHeaderLayout>
-          <Component {...pageProps} />
-        </OnlyHeaderLayout>
-      );
+      return OnlyHeaderLayout;
     case "AgoraSearchPage":
-      return (
-        <LectureExploreLayout>
-          <Component {...pageProps} />
-        </LectureExploreLayout>
-      );
-
+      return LectureExploreLayout;
     case "QuestionPage":
     case "QuestionEditPage":
     case "UnAuthPage":
-      return (
-        <ThemeProvider theme={theme}>
-          <OnlyHeaderLayout>
-            <Component {...pageProps} />
-          </OnlyHeaderLayout>
-        </ThemeProvider>
-      );
+      return OnlyHeaderLayout;
     case "SignInPage":
     case "SignUpPage":
-      return (
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      );
+      return IdentityLayout;
     default:
-      return (
-        <ThemeProvider theme={theme}>
-          <DefaultLayoutComponent>
-            <Component {...pageProps} />
-          </DefaultLayoutComponent>
-        </ThemeProvider>
-      );
+      return DefaultLayoutComponent;
   }
+};
+
+function MyApp({ Component, pageProps }: AppProps) {
+  const Layout = selectLayout(Component.displayName);
+  return (
+    <ThemeProvider theme={theme}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+      <ToastContainer />
+    </ThemeProvider>
+  );
 }
 
 export default wrapper.withRedux(MyApp);

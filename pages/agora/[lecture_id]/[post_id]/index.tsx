@@ -2,6 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { nanToNull } from "../../../../utility";
 import { AgoraPostPage } from "../../../../components/pages/agora/AgoraPostPage";
 import api, { AgoraPostInfo } from "../../../../api";
+import { toast } from "react-toastify";
 
 interface Props {
   post: AgoraPostInfo;
@@ -11,8 +12,8 @@ const AgoraPostPageContainer: NextPage<Props> = ({ post }) => {
   return (
     <AgoraPostPage
       post={post}
-      onSubmitComment={(comment: string) => {
-        alert(`comment: ${comment}`);
+      onSubmitComment={(comment) => {
+        toast.warning(`구현되지 않음. comment: ${comment}`);
       }}
     />
   );

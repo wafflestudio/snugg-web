@@ -8,13 +8,18 @@ import { AuthorSummary } from "../../../reused/agora/AuthorSummary";
 import api, { AgoraPostInfo } from "../../../../api";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../../../reused/QuestionEditor";
-import { useAppSelector } from "../../../../store";
+import {
+  selectAccessToken,
+  selectUserInfo,
+  useAppSelector,
+} from "../../../../store";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 interface Props {
   post: AgoraPostInfo;
@@ -22,7 +27,8 @@ interface Props {
 }
 
 export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
-  const me = useAppSelector((state) => state.users.data);
+  const me = useAppSelector(selectUserInfo);
+  const token = useAppSelector(selectAccessToken);
   const [comment, setComment] = useState("");
 
   const rawContent = post.content;
@@ -46,17 +52,21 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
   const onDeleteAgoraPost = async () => {
     try {
       if (me === null) {
-        window.alert("로그인하세요");
+        toast.error("로그인하세요.");
         return;
       }
-      const response = await api.deleteAgoraPost(post.pk, me.token.access);
-      window.alert("게시글 삭제 완료");
-      // console.log(response);
+      if (token) {
+        const response = await api.deleteAgoraPost(post.pk, token);
+      } else {
+        toast.error("로그인하세요.");
+        return;
+      }
+      toast.success("게시글 삭제 완료");
       router.push(`/agora/${post.lecture.pk}/${post.pk}`);
     } catch (error) {
       const err = error as AxiosError;
       // console.log(err);
-      window.alert(err.response?.data.detail);
+      toast.error(err.response?.data.detail);
     }
   };
 
@@ -76,7 +86,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
               passHref
             >
               <Button
-                disabled={me?.user.pk !== post.writer.pk}
+                disabled={me?.pk !== post.writer.pk}
                 className={styles.questionButton}
               >
                 <EditIcon className={styles.questionButtonIcon} />
@@ -84,7 +94,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
               </Button>
             </NextLink>
             <Button
-              disabled={me?.user.pk !== post.writer.pk}
+              disabled={me?.pk !== post.writer.pk}
               className={styles.questionButton}
               onClick={onDeleteAgoraPost}
             >

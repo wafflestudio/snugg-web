@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
 import { QuestionPostInfo } from "../../../api";
 import NextLink from "next/link";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
 interface Props {
@@ -15,7 +15,7 @@ const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const summary = useMemo(() => summarize(post.content), [post.content]);
 
-  let jsonContent: any;
+  let jsonContent: JSONContent | undefined;
   let success: boolean;
   try {
     jsonContent = JSON.parse(post.content);

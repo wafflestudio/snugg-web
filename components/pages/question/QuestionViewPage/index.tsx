@@ -7,14 +7,21 @@ import {
   QuestionPostInfo,
 } from "../../../../api";
 import api from "../../../../api";
-import { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/router";
 
 import { FC, useState } from "react";
 import AnswerEditor from "../../../reused/AnswerEditor";
-import { useAppDispatch, useAppSelector } from "../../../../store";
+import {
+  selectAccessToken,
+  selectUserInfo,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../store";
 import { createAnswer } from "../../../../store/answerPosts";
 import { Button } from "@mui/material";
+import { toast } from "react-toastify";
+import { JSONContent } from "@tiptap/react";
 
 interface Props {
   questionId: number;
@@ -23,60 +30,69 @@ interface Props {
   answerNum: number;
 }
 
-const QuestionViewPage: FC<Props> = ({ answerListData: { results }, answerNum, questionData, questionId }) => {
+const QuestionViewPage: FC<Props> = ({
+  answerListData: { results },
+  answerNum,
+  questionData,
+  questionId,
+}) => {
   const router = useRouter();
-  const me = useAppSelector((state) => state.users.data);
+  const userInfo = useAppSelector(selectUserInfo);
+  const token = useAppSelector(selectAccessToken);
   const onDeleteQuestion = async () => {
     try {
-      if (me === null) {
-        console.log("로그인하세요");
+      if (!token) {
+        toast.warning("질문을 삭제하려면 로그인하세요");
         return;
       }
-      const response = await api.deleteQuestion(
-        { id: questionId },
-        me.token.access
-      );
-      console.log(response);
-      router.push("/question");
+      await api.deleteQuestion({ id: questionId }, token);
+      await router.push("/question");
     } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
-      window.alert(err.response?.data.detail);
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          "질문을 삭제할 수 없습니다: " + error.response?.data.detail
+        );
+      }
     }
   };
 
-  const [content, setContent] = useState<string>("");
-  const token = useAppSelector((state) => state.users.data?.token.access);
+  const [content, setContent] = useState<JSONContent>({});
 
   const dispatch = useAppDispatch();
-  const handleCreateAnswer = (post: number, content: string, token: string) => {
-    const params = { post, content };
-    dispatch(createAnswer({ params, token }))
-      .then((action) => {
-        if (createAnswer.fulfilled.match(action)) {
-          alert("답변 등록 완료");
-          router.push(`/question/${questionId}`);
-        } else if (createAnswer.rejected.match(action)) {
-          alert("답변 등록 실패");
-        }
-      })
-      .catch((reason) => {
-        alert(`답변 등록 실패 ${reason}`);
-      });
+  const handleCreateAnswer = (
+    post: number,
+    content: JSONContent,
+    token: string
+  ) => {
+    const newContent = JSON.stringify(content);
+    const params = { post, content: newContent };
+    dispatch(createAnswer({ params, token })).then((action) => {
+      if (createAnswer.fulfilled.match(action)) {
+        toast.success("답변을 등록하였습니다");
+        router.push(`/question/${questionId}`);
+      } else if (createAnswer.rejected.match(action)) {
+        toast.error("답변을 등록할 수 없습니다: " + action.error.message);
+      }
+    });
   };
 
   const onDeleteAnswer = async (id: number) => {
     try {
-      const response = await api.deleteAnswer(
-        id,
-        me?.token.access ?? "" + " " + me?.token.refresh ?? ""
-      );
-      console.log(response);
-      router.push("/question/" + questionId); // router.push는 새로고침이 강제됨.
+      if (!token) {
+        toast.error("답변을 삭제하려면 로그인하세요");
+        return;
+      }
+      await api.deleteAnswer(id, token);
+      // TODO reload answers
+      await router.push("/question/" + questionId); // router.push는 새로고침이 강제됨.
     } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
-      window.alert(err.response?.data.detail);
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          "답변을 삭제할 수 없습니다: " + error.response?.data.detail
+        );
+      } else {
+        throw error;
+      }
     }
   };
 
@@ -92,7 +108,10 @@ const QuestionViewPage: FC<Props> = ({ answerListData: { results }, answerNum, q
           answerData={item}
           onDeleteAnswer={onDeleteAnswer}
           accepted={item.pk === questionData.accepted_answer}
-          acceptable={questionData.writer.pk === me?.user.pk && questionData.accepted_answer === null}
+          acceptable={
+            questionData.writer.pk === userInfo?.pk &&
+            questionData.accepted_answer === null
+          }
           key={item.pk}
         />
       ))}
@@ -107,7 +126,7 @@ const QuestionViewPage: FC<Props> = ({ answerListData: { results }, answerNum, q
             if (token !== undefined) {
               handleCreateAnswer(questionData?.pk, content, token);
             } else {
-              alert("로그인하세요.");
+              toast.warning("답변을 달려면 로그인하세요");
             }
           }}
         >
