@@ -8,7 +8,7 @@ import {
   Story,
   useAgoraStorysUpdateMutation,
 } from "../../../../store/api/injected";
-import { forceType } from "../../../../utility";
+import { errorToString, forceType, useUploadPost } from "../../../../utility";
 import { toast } from "react-toastify";
 
 interface Props {
@@ -20,24 +20,38 @@ const AgoraPostEditPage: FC<Props> = ({ post }) => {
   const router = useRouter();
   const lecture = forceType<Lecture>(post.lecture);
   const [updateStory] = useAgoraStorysUpdateMutation();
+  const uploadPost = useUploadPost();
   const handleUpdateAgoraPost = async (
     title: string,
     jsonContent: JSONContent
   ) => {
-    const result = await updateStory({
-      id: post.pk!!,
-      storyRequest: {
-        lecture: forceType<string>(lecture.pk),
-        title,
-        content: JSON.stringify(jsonContent),
-      },
-    });
-    if ("error" in result) {
-      toast.error("게시글 수정 실패");
-      return;
+    const result = await uploadPost(jsonContent, (content) =>
+      updateStory({
+        id: post.pk!!,
+        storyRequest: {
+          lecture: forceType<string>(lecture.pk),
+          title,
+          content,
+        },
+      })
+    );
+    if (result.presError) {
+      toast.error(
+        "이미지를 저장할 수 없습니다: " + errorToString(result.presError)
+      );
+    } else if (result.imageError) {
+      toast.error("이미지를 저장할 수 없습니다: " + result.imageError);
+    } else if (result.uploadResult) {
+      if ("error" in result.uploadResult) {
+        toast.error(
+          "게시글을 수정할 수 없습니다: " +
+            errorToString(result.uploadResult.error)
+        );
+      } else {
+        toast.success("게시글을 수정했습니다");
+        await router.push(`/agora/${lecture.pk}/${post.pk}`);
+      }
     }
-    toast.success("게시글 수정 완료");
-    await router.push(`/agora/${lecture.pk}/${post.pk}`);
   };
 
   return (

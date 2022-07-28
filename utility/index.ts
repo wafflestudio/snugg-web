@@ -3,7 +3,6 @@ import { createTheme } from "@mui/material/styles";
 import { JSONContent } from "@tiptap/react";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { PostRequest } from "../store/api/injected";
 import {
   PresignedPost,
   useMediaPresignedCreateMutation,
@@ -143,11 +142,8 @@ const uploadImage = async (pres: PresignedPost, blob: Blob) => {
 export const useUploadPost = () => {
   const [createPresigned] = useMediaPresignedCreateMutation();
   return async <T extends any>(
-    field: string,
-    title: string,
     jsonContent: JSONContent,
-    tags: string[],
-    upload: (arg: PostRequest) => Promise<T>
+    upload: (content: string) => Promise<T>
   ) => {
     const numFiles = countImages(jsonContent);
     if (numFiles !== 0) {
@@ -177,21 +173,11 @@ export const useUploadPost = () => {
         };
       }
       return {
-        uploadResult: await upload({
-          field,
-          tags: forceType<string>(tags),
-          title,
-          content: JSON.stringify(newContent),
-        }),
+        uploadResult: await upload(JSON.stringify(newContent)),
       };
     } else {
       return {
-        uploadResult: await upload({
-          field,
-          tags: forceType<string>(tags),
-          title,
-          content: JSON.stringify(jsonContent),
-        }),
+        uploadResult: await upload(JSON.stringify(jsonContent)),
       };
     }
   };

@@ -3,7 +3,7 @@ import { selectAccessToken, useAppSelector } from "../../../../store";
 import { QuestionPost } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { JSONContent } from "@tiptap/react";
-import { errorToString, useUploadPost } from "../../../../utility";
+import { errorToString, forceType, useUploadPost } from "../../../../utility";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { useQnaPostsUpdateMutation } from "../../../../store/api/injected";
@@ -25,8 +25,16 @@ const QuestionEditPage = (props: Props) => {
     jsonContent: JSONContent,
     tags: string[]
   ) => {
-    const result = await uploadPost(field, title, jsonContent, tags, (arg) =>
-      updatePost({ id, postRequest: arg })
+    const result = await uploadPost(jsonContent, (content) =>
+      updatePost({
+        id,
+        postRequest: {
+          field,
+          title,
+          content,
+          tags: forceType<string>(tags),
+        },
+      })
     );
     if (result.presError) {
       toast.error(
