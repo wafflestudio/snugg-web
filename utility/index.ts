@@ -4,7 +4,6 @@ import { JSONContent } from "@tiptap/react";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { PostRequest } from "../store/api/injected";
-import { IMAGE_ENDPOINT } from "../api";
 import {
   PresignedPost,
   useMediaPresignedCreateMutation,
@@ -48,47 +47,47 @@ export const dummyLectures = () => {
 
 export const nanToNull = (x: number) => (isNaN(x) ? null : x);
 
+const countImages = (jsonContent: JSONContent): number => {
+  const url: string = jsonContent.attrs?.src;
+  if (jsonContent.type === "image" && url.startsWith("data:")) {
+    return 1;
+  } else {
+    return (
+      jsonContent.content?.reduce(
+        (sum, child) => sum + countImages(child),
+        0
+      ) ?? 0
+    );
+  }
+};
+
 interface ImageReplaceResult {
-  blobs: { blob: Blob; key: string }[];
+  blobs: { blob: Blob; key: PresignedPost }[];
   newContent: JSONContent;
 }
 
-export const getFileNames = (jsonContent: JSONContent): string[] => {
-  if (jsonContent.type === "image") {
-    const filename = jsonContent.attrs!!.alt;
-    return [filename];
-  } else {
-    return jsonContent.content?.flatMap((value) => getFileNames(value)) ?? [];
-  }
-};
 /*
  replace all the `src` attribute of image tags that are data-urls
  and return list of new blobs generated from data-urls with new jsonContent
 */
 export const replaceImgSrc = async (
-  url: string,
-  key: string,
+  keys: PresignedPost[], // mutable
   jsonContent: JSONContent
 ): Promise<ImageReplaceResult> => {
   if (jsonContent.type === "image") {
-    const dataUrl: string = jsonContent.attrs?.src;
-    if (!dataUrl.startsWith("data:"))
-      return { blobs: [], newContent: jsonContent };
-    const res = await fetch(dataUrl);
+    const url: string = jsonContent.attrs?.src;
+    if (!url.startsWith("data:")) return { blobs: [], newContent: jsonContent };
+    const res = await fetch(url);
     const blob = await res.blob();
-    const filename: string = jsonContent.attrs?.alt;
+    console.log(keys);
+    const key = keys.pop()!!;
     return {
-      blobs: [
-        {
-          blob,
-          key: key + filename,
-        },
-      ],
+      blobs: [{ blob, key }],
       newContent: {
         ...jsonContent,
         attrs: {
           ...jsonContent.attrs,
-          src: url + key + filename,
+          src: key.url + key.fields.key,
         },
       },
     };
@@ -96,7 +95,7 @@ export const replaceImgSrc = async (
     if (jsonContent.content === undefined)
       return { blobs: [], newContent: jsonContent };
     const replaceResults = await Promise.all(
-      jsonContent.content.map((e) => replaceImgSrc(url, key, e))
+      jsonContent.content.map((e) => replaceImgSrc(keys, e))
     );
     return {
       blobs: replaceResults.flatMap(({ blobs }) => blobs),
@@ -115,8 +114,12 @@ export const errorToString = (e: SerializedError | FetchBaseQueryError) => {
     return JSON.stringify(e.data);
   }
 };
+const generateFilenames = (n: number) => {
+  const now = Date.now();
+  return Array.from({ length: n }, (_, i) => `${now}-${i}`);
+};
 export const forceType = <T>(x: any) => x as T;
-export const uploadImage = async (pres: PresignedPost, blob: Blob) => {
+const uploadImage = async (pres: PresignedPost, blob: Blob) => {
   const body = new FormData();
   body.append("key", pres.fields.key);
   body.append("file", blob);
@@ -146,11 +149,11 @@ export const useUploadPost = () => {
     tags: string[],
     upload: (arg: PostRequest) => Promise<T>
   ) => {
-    const filenames = getFileNames(jsonContent);
-    if (filenames.length !== 0) {
+    const numFiles = countImages(jsonContent);
+    if (numFiles !== 0) {
       const presResult = await createPresigned({
         directoryRequest: {
-          filenames,
+          filenames: generateFilenames(numFiles),
         },
       });
       if ("error" in presResult) {
@@ -159,10 +162,9 @@ export const useUploadPost = () => {
         };
       }
       const { newContent, blobs } = await replaceImgSrc(
-        IMAGE_ENDPOINT,
-        presResult.data.path,
+        [...presResult.data.presigned_posts], // pass copy
         jsonContent
-      ); // TODO: replace file name
+      );
       const imageResults = await Promise.all(
         blobs.map(({ blob }, i) =>
           uploadImage(presResult.data.presigned_posts[i], blob)
