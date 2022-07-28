@@ -50,27 +50,27 @@ const QuestionBox = (Props: Props) => {
     content: success ? jsonContent : rawContent,
   });
 
-  const [comment, setComment] = useState("");
-  const dispatch = useAppDispatch();
-  const handleCreateComment = (token: string, content: string) => {
-    dispatch(
-      createComment({
-        body: { content: content },
-        params: { post: Props.questionId },
-        token: token,
-      })
-    )
-      .then((action) => {
-        if (createComment.fulfilled.match(action)) {
-          alert("댓글 등록 완료");
-        } else if (createComment.rejected.match(action)) {
-          alert("댓글 등록 실패");
-        }
-      })
-      .catch((reason) => {
-        alert(`댓글 등록 실패 ${reason}`);
-      });
-  };
+  // const [comment, setComment] = useState("");
+  // const dispatch = useAppDispatch();
+  // const handleCreateComment = (token: string, content: string) => {
+  //   dispatch(
+  //     createComment({
+  //       body: { content: content },
+  //       params: { post: Props.questionId },
+  //       token: token,
+  //     })
+  //   )
+  //     .then((action) => {
+  //       if (createComment.fulfilled.match(action)) {
+  //         alert("댓글 등록 완료");
+  //       } else if (createComment.rejected.match(action)) {
+  //         alert("댓글 등록 실패");
+  //       }
+  //     })
+  //     .catch((reason) => {
+  //       alert(`댓글 등록 실패 ${reason}`);
+  //     });
+  // };
   // console.log(Props.commentData.results.length);
 
   return (
@@ -145,19 +145,19 @@ const QuestionBox = (Props: Props) => {
           <Input
             disableUnderline={true}
             placeholder="댓글을 남겨주세요."
-            onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setComment(e.target.value)
-            }
+            // onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
+            //   setComment(e.target.value)
+            // }
           />
           <Button
-            onClick={(e) => {
-              e.preventDefault();
-              if (Props.token !== undefined) {
-                handleCreateComment(Props.token, comment);
-              } else {
-                alert("로그인하세요.");
-              }
-            }}
+          // onClick={(e) => {
+          //   e.preventDefault();
+          //   if (Props.token !== undefined) {
+          //     handleCreateComment(Props.token, comment);
+          //   } else {
+          //     alert("로그인하세요.");
+          //   }
+          // }}
           >
             등록
           </Button>
