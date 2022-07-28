@@ -15,6 +15,7 @@ import {
   useQnaPostsDestroyMutation,
   useQnaPostsRetrieveQuery,
 } from "../../../../store/api/injected";
+import { JSONContent } from "@tiptap/react";
 
 interface Props {
   questionId: number;

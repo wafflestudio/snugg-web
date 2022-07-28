@@ -1,4 +1,4 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { FC } from "react";
@@ -17,7 +17,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import Highlight from "@tiptap/extension-highlight";
 
 interface Props {
-  setContent: React.Dispatch<React.SetStateAction<string>>;
+  setContent: (newValue: JSONContent) => void;
 }
 
 const AnswerEditor: FC<Props> = ({ setContent }) => {
@@ -31,7 +31,7 @@ const AnswerEditor: FC<Props> = ({ setContent }) => {
     ],
     content: "답변을 입력하세요.",
     onUpdate({ editor }) {
-      setContent(editor.getHTML());
+      setContent(editor.getJSON());
     },
   });
 

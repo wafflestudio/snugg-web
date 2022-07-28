@@ -3,6 +3,10 @@ import { nanToNull } from "../../../utility";
 import { AgoraPostPage } from "../../../components/pages/agora/AgoraPostPage";
 import { wrapper } from "../../../store";
 import { enhancedApi, pendingQueries } from "../../../store/api/enhanced";
+import { nanToNull } from "../../../../utility";
+import { AgoraPostPage } from "../../../../components/pages/agora/AgoraPostPage";
+import api, { AgoraPostInfo } from "../../../../api";
+import { toast } from "react-toastify";
 
 interface Props {
   id: number;

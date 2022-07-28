@@ -35,8 +35,16 @@ export interface User {
   email: string;
   username: string;
   birth_date?: string;
+  self_introduction?: string;
   created_at: string;
   last_login?: string;
+}
+
+export interface ProfileParams {
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
 }
 
 export interface QuestionPost {
@@ -141,7 +149,7 @@ export type AnswerPostInfo = AnswerPost & {
 };
 
 export type ListAnswerParams = PaginationParams & {
-  writer?: User;
+  writer?: number;
 };
 
 const withToken = (token: string) => ({
@@ -159,16 +167,28 @@ export interface ListAgoraPostParams extends PaginationParams {
 }
 
 export interface AgoraPost {
-  lecture: AgoraLectureInfo;
+  lecture: number;
   title: string;
   content: string;
 }
 
-export interface AgoraPostInfo extends AgoraPost {
+export interface AgoraPostInfo {
+  lecture: AgoraLectureInfo;
+  title: string;
+  content: string;
   pk: number;
   writer: User;
   created_at: string;
   updated_at?: string;
+  presigned: {
+    url: string;
+    fields: {
+      key: string;
+      AWSAccessKeyId: string;
+      policy: string;
+      signature: string;
+    };
+  };
 }
 
 export type ListAgoraLectureParams = {
@@ -263,23 +283,37 @@ const api = {
     return await axios.post<EmptyResponse>(url, formData, { baseURL: "" });
   },
   listAgoraPost: async (params: ListAgoraPostParams) =>
-    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, {
+    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/storys/`, {
       params,
     }),
-  createAgoraPost: async (params: AgoraPost) =>
-    await axios.post<AgoraPostInfo>(`/agora/posts/`, params),
+  createAgoraPost: async (params: AgoraPost, token: string) =>
+    await axios.post<AgoraPostInfo>(`/agora/storys/`, params, withToken(token)),
   getAgoraPost: async (id: number) =>
-    await axios.get<AgoraPostInfo>(`/agora/posts/${id}`),
-  updateAgoraPost: async (id: number, params: AgoraPost) =>
-    await axios.put<AgoraPostInfo>(`/agora/posts/${id}`, params),
-  partialUpdateAgoraPost: async (id: number, params: Partial<AgoraPost>) =>
-    await axios.patch<AgoraPostInfo>(`/agora/posts/${id}`, params),
-  deleteAgoraPost: async (id: number) =>
-    await axios.delete<EmptyResponse>(`/agora/posts/${id}`),
+    await axios.get<AgoraPostInfo>(`/agora/storys/${id}`),
+  updateAgoraPost: async (id: number, params: AgoraPost, token: string) =>
+    await axios.put<AgoraPostInfo>(
+      `/agora/storys/${id}`,
+      params,
+      withToken(token)
+    ),
+  partialUpdateAgoraPost: async (
+    id: number,
+    params: Partial<AgoraPost>,
+    token: string
+  ) =>
+    await axios.patch<AgoraPostInfo>(
+      `/agora/storys/${id}`,
+      params,
+      withToken(token)
+    ),
+  deleteAgoraPost: async (id: number, token: string) =>
+    await axios.delete<{}>(`/agora/storys/${id}`, withToken(token)),
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
+  updateProfile: async (params: ProfileParams, token: string) =>
+    await axios.put<User>(`/auth/profile`, params, withToken(token)),
 };
 
 export default api;

@@ -3,6 +3,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 
@@ -15,6 +16,8 @@ import { toast } from "react-toastify";
 import { Answer } from "../../../store/api/injected";
 import { errorToString } from "../../../utility";
 import { useQnaPostsAcceptAnswerMutation } from "../../../store/api/enhanced";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
+import { editorExtensions } from "../QuestionEditor";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
@@ -46,6 +49,24 @@ const AnswerBox: FC<Props> = ({
     });
   };
 
+  const rawContent = answerData.content;
+  let jsonContent: JSONContent | undefined;
+  let success = false;
+  try {
+    if (rawContent !== undefined) {
+      jsonContent = JSON.parse(rawContent);
+      success = true;
+    }
+  } catch (err) {
+    success = false;
+  }
+
+  const answerView = useEditor({
+    editable: false,
+    extensions: editorExtensions,
+    content: success ? jsonContent : rawContent,
+  });
+
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
@@ -56,13 +77,17 @@ const AnswerBox: FC<Props> = ({
           </>
         ) : (
           acceptable && (
-            <Button className={styles.button} onClick={() => onAcceptAnswer()}>
-              채택하기
+            <Button
+              className={styles.checkButton}
+              onClick={() => onAcceptAnswer()}
+            >
+              <CheckBoxOutlineBlankIcon />
+              <div>채택하기</div>
             </Button>
           )
         )}
       </div>
-      <div className={styles.questionText}>{answerData.content}</div>
+      <EditorContent editor={answerView} className={styles.questionText} />
       <div className={styles.questionBottom}>
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
