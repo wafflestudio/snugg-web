@@ -3,6 +3,12 @@ import { createTheme } from "@mui/material/styles";
 import { JSONContent } from "@tiptap/react";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { PostRequest } from "../store/api/injected";
+import { IMAGE_ENDPOINT } from "../api";
+import {
+  PresignedPost,
+  useMediaPresignedCreateMutation,
+} from "../store/api/enhanced";
 
 export const queryToString = (query: undefined | string | string[]) =>
   Array.isArray(query) ? query[0] : query ?? null;
@@ -47,6 +53,14 @@ interface ImageReplaceResult {
   newContent: JSONContent;
 }
 
+export const getFileNames = (jsonContent: JSONContent): string[] => {
+  if (jsonContent.type === "image") {
+    const filename = jsonContent.attrs!!.alt;
+    return [filename];
+  } else {
+    return jsonContent.content?.flatMap((value) => getFileNames(value)) ?? [];
+  }
+};
 /*
  replace all the `src` attribute of image tags that are data-urls
  and return list of new blobs generated from data-urls with new jsonContent
@@ -102,3 +116,81 @@ export const errorToString = (e: SerializedError | FetchBaseQueryError) => {
   }
 };
 export const forceType = <T>(x: any) => x as T;
+export const uploadImage = async (pres: PresignedPost, blob: Blob) => {
+  const body = new FormData();
+  body.append("key", pres.fields.key);
+  body.append("file", blob);
+  for (const k in pres.fields) {
+    if (k !== "key") body.append(k, pres.fields[k]);
+  }
+  const result = await fetch(pres.url, { body, method: "POST" });
+  const ok = result.ok;
+  const message = ok
+    ? null
+    : await result
+        .text()
+        .then((text) => new DOMParser().parseFromString(text, "text/xml"))
+        .then((xml) => xml.getElementsByTagName("Message")[0].textContent)
+        .catch(() => null);
+  return {
+    ok,
+    message,
+  };
+};
+export const useUploadPost = () => {
+  const [createPresigned] = useMediaPresignedCreateMutation();
+  return async <T extends any>(
+    field: string,
+    title: string,
+    jsonContent: JSONContent,
+    tags: string[],
+    upload: (arg: PostRequest) => Promise<T>
+  ) => {
+    const filenames = getFileNames(jsonContent);
+    if (filenames.length !== 0) {
+      const presResult = await createPresigned({
+        directoryRequest: {
+          filenames,
+        },
+      });
+      if ("error" in presResult) {
+        return {
+          presError: presResult.error,
+        };
+      }
+      const { newContent, blobs } = await replaceImgSrc(
+        IMAGE_ENDPOINT,
+        presResult.data.path,
+        jsonContent
+      ); // TODO: replace file name
+      const imageResults = await Promise.all(
+        blobs.map(({ blob }, i) =>
+          uploadImage(presResult.data.presigned_posts[i], blob)
+        )
+      );
+      const notOk = imageResults.find((e) => !e.ok);
+      if (notOk) {
+        return {
+          imageError: notOk.message,
+        };
+      }
+      return {
+        uploadResult: await upload({
+          field,
+          tags: forceType<string>(tags),
+          title,
+          content: JSON.stringify(newContent),
+        }),
+      };
+    } else {
+      return {
+        uploadResult: await upload({
+          field,
+          tags: forceType<string>(tags),
+          title,
+          content: JSON.stringify(jsonContent),
+        }),
+      };
+    }
+  };
+};

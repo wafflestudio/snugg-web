@@ -15,15 +15,15 @@ const QuestionViewPageContainer: NextPage<Props> = ({ questionId }) => {
 export default QuestionViewPageContainer;
 
 export const getServerSideProps = wrapper.getServerSideProps<Props>(
-  () => async (context) => {
+  (store) => async (context) => {
     const id = nanToNull(Number(queryToString(context.params?.question_id)));
     if (id === null) {
       return {
         notFound: true,
       };
     }
-    enhancedApi.endpoints.qnaPostsRetrieve.initiate({ id });
-    enhancedApi.endpoints.qnaAnswersList.initiate({ post: id });
+    store.dispatch(enhancedApi.endpoints.qnaPostsRetrieve.initiate({ id }));
+    store.dispatch(enhancedApi.endpoints.qnaAnswersList.initiate({ post: id }));
     await pendingQueries();
     return {
       props: {

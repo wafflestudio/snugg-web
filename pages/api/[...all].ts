@@ -11,34 +11,32 @@ export const config = {
 };
 
 const handleApi = (req: NextApiRequest, res: NextApiResponse) =>
-  process.env.NODE_ENV !== "production"
-    ? httpProxyMiddleware(req, res, {
-        target: API_ENDPOINT,
-        changeOrigin: true,
-        pathRewrite: [
-          {
-            patternStr: "^/api/(.*)$",
-            replaceStr: "/$1/",
-          },
-        ],
-        onProxyInit: (server) => {
-          server.on("proxyReq", (proxyReq) => {
-            console.log(
-              "proxyReq:",
-              proxyReq.method,
-              proxyReq.host,
-              proxyReq.path
-            );
-          });
-          server.on("proxyRes", (proxyRes) => {
-            console.log(
-              "proxyRes:",
-              proxyRes.statusCode,
-              proxyRes.statusMessage
-            );
-          });
-        },
-      })
-    : res.status(404).send(null);
+  httpProxyMiddleware(req, res, {
+    target: API_ENDPOINT,
+    changeOrigin: true,
+    pathRewrite: [
+      {
+        patternStr: "^/api/(.*)$",
+        replaceStr: "/$1/",
+      },
+    ],
+    onProxyInit: (server) => {
+      server.on("proxyReq", (proxyReq) => {
+        console.log(
+          "proxyReq:",
+          proxyReq.method,
+          proxyReq.host,
+          proxyReq.path,
+        );
+      });
+      server.on("proxyRes", (proxyRes) => {
+        console.log(
+          "proxyRes:",
+          proxyRes.statusCode,
+          proxyRes.statusMessage,
+        );
+      });
+    },
+  });
 
 export default handleApi;

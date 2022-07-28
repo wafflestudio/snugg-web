@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
-import { QuestionPostInfo } from "../../../api";
 import NextLink from "next/link";
 import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { Post } from "../../../store/api/injected";
+import { forceType } from "../../../utility";
 
 interface Props {
-  post: QuestionPostInfo;
+  post: Post;
 }
 
 const summarize = (content: string) => content.substring(0, 300);
@@ -30,11 +31,13 @@ const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
     content: success ? jsonContent : summary, // TODO jsonContent is not summarized
   });
 
+  const tags = forceType<string[]>(post.tags);
+
   return (
     <div className={styles.preview}>
       <div className={styles.previewHeader1}>
         <span className={styles.previewHeader1Text}>{post.field}</span>
-        {post.tags.map((tag, i) => (
+        {tags.map((tag, i) => (
           <NextLink href={"/question/tags"} passHref key={tag}>
             <div
               key={tag}

@@ -1,21 +1,19 @@
 // https://redux-toolkit.js.org/rtk-query/usage/code-generation
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AppState } from "../index";
 import { apiUser } from "./apiUser";
-import { Post, User } from "./injected";
+import { HYDRATE } from "next-redux-wrapper";
 
 export const API_ENDPOINT =
   "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
-// const isProduction = process.env.NODE_ENV === "production";
 export const isServer = typeof window === "undefined";
 export const baseUrl = isServer ? API_ENDPOINT : "/api/";
 
 const baseQuery = fetchBaseQuery({
   baseUrl,
   prepareHeaders: (headers, { getState }) => {
-    const state = getState() as AppState;
-    const token = state.apiUser.user?.token.access;
+    const state = getState() as any;
+    const token = state.apiUser.side === "client" && state.apiUser.user?.token.access;
     if (token) headers.set("Authorization", "Bearer " + token);
     return headers;
   },
@@ -52,61 +50,9 @@ const baseQueryWithReauth: typeof baseQuery = async (
 
 export const baseApi = createApi({
   baseQuery: baseQueryWithReauth,
-  endpoints: (build) => ({
-    qnaPostsAcceptAnswer: build.mutation<
-      QnaPostsAcceptAnswerResponse,
-      QnaPostsAcceptAnswerArgs
-    >({
-      query: (arg) => ({
-        url: `/qna/posts/${arg.id}`,
-        method: "PATCH",
-        body: { accepted_answer: arg.accepted_answer },
-      }),
-    }),
-    mediaPresignedCreate: build.mutation<
-      MediaPresignedCreateApiResponse,
-      MediaPresignedCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/media/presigned/`,
-        method: "POST",
-        body: queryArg.directoryRequest,
-      }),
-    }),
-  }),
+  endpoints: (_build) => ({}),
+  extractRehydrationInfo: (action, { reducerPath }) => {
+    // must hydrate with data fetched on server side
+    if (action.type === HYDRATE) return action.payload[reducerPath];
+  },
 });
-
-export type QnaPostsAcceptAnswerArgs = {
-  id: number;
-  accepted_answer: number;
-};
-
-export type QnaPostsAcceptAnswerResponse = Post;
-
-export type PresignedPostFields = {
-  key: string;
-} & Record<string, any>;
-export type PresignedPost = {
-  url: string;
-  fields: PresignedPostFields;
-}
-export type Directory = {
-  pk?: number;
-  uploader?: User;
-  path?: string;
-  filenames: string[];
-  created_at?: string;
-  presigned_posts: PresignedPost[];
-};
-export type MediaPresignedCreateApiResponse = /** status 201  */ Directory;
-export type DirectoryRequest = {
-  filenames: string[];
-};
-export type MediaPresignedCreateApiArg = {
-  directoryRequest: DirectoryRequest;
-};
-
-export const {
-  useQnaPostsAcceptAnswerMutation,
-  useMediaPresignedCreateMutation
-} = baseApi;

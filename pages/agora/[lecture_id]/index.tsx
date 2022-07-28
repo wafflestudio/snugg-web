@@ -24,17 +24,23 @@ const AgoraListPageContainer: NextPage<Props> = ({ lectureId }) => {
 
 export default AgoraListPageContainer;
 
-export const getServerSideProps = wrapper.getServerSideProps<Props>((_store) => async (context) => {
-  const lectureId = nanToNull(Number(context.params?.lecture_id));
-  if (lectureId == null) {
-    return { notFound: true };
+export const getServerSideProps = wrapper.getServerSideProps<Props>(
+  (store) => async (context) => {
+    const lectureId = nanToNull(Number(context.params?.lecture_id));
+    if (lectureId == null) {
+      return { notFound: true };
+    }
+    store.dispatch(
+      enhancedApi.endpoints.agoraStorysList.initiate({ lecture: lectureId })
+    );
+    store.dispatch(
+      enhancedApi.endpoints.agoraLecturesRetrieve.initiate({ id: lectureId })
+    );
+    await pendingQueries();
+    return {
+      props: {
+        lectureId,
+      },
+    };
   }
-  enhancedApi.endpoints.agoraStorysList.initiate({ lecture: lectureId });
-  enhancedApi.endpoints.agoraLecturesRetrieve.initiate({ id: lectureId });
-  await pendingQueries();
-  return {
-    props: {
-      lectureId,
-    },
-  };
-});
+);

@@ -14,7 +14,7 @@ import { selectUserInfo, useAppSelector } from "../../../store";
 import { toast } from "react-toastify";
 import { Answer } from "../../../store/api/injected";
 import { errorToString } from "../../../utility";
-import { useQnaPostsAcceptAnswerMutation } from "../../../store/api/base";
+import { useQnaPostsAcceptAnswerMutation } from "../../../store/api/enhanced";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;

@@ -1,11 +1,11 @@
 import styles from "./styles.module.scss";
 import QuestionPreview from "../../../reused/question/QuestionPreview";
 import { FC } from "react";
-import { QuestionPostInfo } from "../../../../api";
+import { Post } from "../../../../store/api/injected";
 
 interface Props {
   query: string;
-  posts: QuestionPostInfo[];
+  posts: Post[];
 }
 
 const QuestionSearchPage: FC<Props> = ({ posts, query }) => {
