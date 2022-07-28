@@ -68,7 +68,7 @@ const QuestionBox = ({ onDeleteQuestion, questionData }: Props) => {
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
           <div className={styles.questionUser}>
-            {questionData.writer!!.username} 님의 질문
+            {questionData.writer!.username} 님의 질문
           </div>
           <div className={styles.questionTime}>
             <Moment format={"YYYY.MM.DD"}>{questionData.created_at}</Moment>
@@ -77,7 +77,7 @@ const QuestionBox = ({ onDeleteQuestion, questionData }: Props) => {
         <div className={styles.questionButtons}>
           <NextLink href={`/question/${questionData?.pk}/edit`} passHref>
             <Button
-              disabled={userInfo?.pk !== questionData.writer!!.pk}
+              disabled={userInfo?.pk !== questionData.writer!.pk}
               className={styles.questionButton}
             >
               <EditIcon className={styles.questionButtonIcon} />
@@ -85,7 +85,7 @@ const QuestionBox = ({ onDeleteQuestion, questionData }: Props) => {
             </Button>
           </NextLink>
           <Button
-            disabled={userInfo?.pk !== questionData.writer!!.pk}
+            disabled={userInfo?.pk !== questionData.writer!.pk}
             onClick={onDeleteQuestion}
             className={styles.questionButton}
           >

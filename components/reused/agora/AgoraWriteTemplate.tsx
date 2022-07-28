@@ -60,7 +60,7 @@ const AgoraWriteTemplate: FunctionComponent<Props> = ({
           className={styles.button}
           onClick={(e) => {
             e.preventDefault();
-            onSubmit(title, content!!);
+            onSubmit(title, content!);
           }}
         >
           {submitLabel}

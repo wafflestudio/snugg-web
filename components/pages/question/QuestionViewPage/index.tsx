@@ -84,15 +84,15 @@ const QuestionViewPage: FC<Props> = ({ questionId }) => {
           questionData={question}
         />
         <div className={styles.answerCount}>
-          {answers.results!!.length}개의 답변
+          {answers.results!.length}개의 답변
         </div>
-        {answers.results!!.map((item) => (
+        {answers.results!.map((item) => (
           <AnswerBox
             answerData={item}
             onDeleteAnswer={onDeleteAnswer}
             accepted={item.pk === question.accepted_answer}
             acceptable={
-              question.writer!!.pk === userInfo?.pk &&
+              question.writer!.pk === userInfo?.pk &&
               question.accepted_answer === null
             }
             key={item.pk}
@@ -107,7 +107,7 @@ const QuestionViewPage: FC<Props> = ({ questionId }) => {
             onClick={(e) => {
               e.preventDefault();
               if (userInfo !== undefined) {
-                handleCreateAnswer(question.pk!!, JSON.stringify(content));
+                handleCreateAnswer(question.pk!, JSON.stringify(content));
               } else {
                 toast.warning("답변을 달려면 로그인하세요");
               }

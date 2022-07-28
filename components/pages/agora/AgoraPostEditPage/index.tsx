@@ -27,7 +27,7 @@ const AgoraPostEditPage: FC<Props> = ({ post }) => {
   ) => {
     const result = await uploadPost(jsonContent, (content) =>
       updateStory({
-        id: post.pk!!,
+        id: post.pk!,
         storyRequest: {
           lecture: forceType<string>(lecture.pk),
           title,

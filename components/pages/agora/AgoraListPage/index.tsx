@@ -3,7 +3,6 @@ import styles from "./styles.module.scss";
 import ClassPostPreview from "../../../reused/agora/ClassPostPreview";
 import { MenuItem, Pagination, Select } from "@mui/material";
 import { useAgoraLecturesRetrieveQuery, useAgoraStorysListQuery } from "../../../../store/api/injected";
-import { AgoraLectureInfo, AgoraPostInfo } from "../../../../api";
 import NextLink from "next/link";
 
 export interface Props {
@@ -24,7 +23,7 @@ export const AgoraListPage: FC<Props> = ({ onSearch, lectureId }) => {
   return (
     <div className={styles.container}>
       <div className={styles.className}>{lecture.name}</div>
-      {posts.results!!.map((item) => (
+      {posts.results!.map((item) => (
         <ClassPostPreview post={item} key={item.pk} />
       ))}
       <div className={styles.bottom1}>

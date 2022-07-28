@@ -11,7 +11,7 @@ const QuestionIndexPageContainer: NextPage = () => {
   } else if (!data) {
     return <div>loading...</div>;
   } else {
-    return <QuestionIndexPage posts={data.results!!} />;
+    return <QuestionIndexPage posts={data.results!} />;
   }
 };
 

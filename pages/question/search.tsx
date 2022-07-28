@@ -12,7 +12,7 @@ interface Props {
 const QuestionSearchPageContainer: NextPage<Props> = ({ content }) => {
   const { data } = useQnaPostsListQuery({search: content});
   return data ? (
-    <QuestionSearchPage query={content} posts={data.results!!} />
+    <QuestionSearchPage query={content} posts={data.results!} />
   ) : (
     <div>loading</div>
   );
