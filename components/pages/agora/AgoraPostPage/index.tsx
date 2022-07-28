@@ -1,11 +1,16 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import styles from "./styles.module.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import { Divider, OutlinedInput } from "@mui/material";
 import ClassPostComment from "../../../reused/agora/ClassPostComment";
 import { AuthorSummary } from "../../../reused/agora/AuthorSummary";
-import api, { AgoraPostInfo } from "../../../../api";
+import {
+  Lecture,
+  Story,
+  useAgoraStorysDestroyMutation,
+  useAgoraStorysRetrieveQuery,
+} from "../../../../store/api/injected";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../../../reused/QuestionEditor";
 import {
@@ -20,52 +25,70 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { forceType } from "../../../../utility";
 
 interface Props {
-  post: AgoraPostInfo;
-  onSubmitComment: (comment: string) => void;
+  id: number;
 }
 
-export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
+export const AgoraPostPage: FC<Props> = ({ id }) => {
+  const { data: story, error } = useAgoraStorysRetrieveQuery({ id });
+  return error ? (
+    <div>error</div>
+  ) : story ? (
+    <AgoraBox story={story} />
+  ) : (
+    <div>loading...</div>
+  );
+};
+
+interface AgoraBoxProps {
+  story: Story;
+}
+
+const AgoraBox: FC<AgoraBoxProps> = ({ story }) => {
   const me = useAppSelector(selectUserInfo);
   const token = useAppSelector(selectAccessToken);
   const [comment, setComment] = useState("");
-
-  const rawContent = post.content;
-  let jsonContent: any;
-  let success = false;
-  try {
-    if (rawContent !== undefined) {
-      jsonContent = JSON.parse(rawContent);
-      success = true;
+  const content = useMemo(() => {
+    if (story) {
+      const rawContent = story.content;
+      try {
+        if (rawContent !== undefined) {
+          return JSON.parse(rawContent);
+        }
+      } catch (err) {
+        return rawContent;
+      }
+    } else {
+      return null;
     }
-  } catch (err) {
-    success = false;
-  }
+  }, [story]);
   const postView = useEditor({
     editable: false,
     extensions: editorExtensions,
-    content: success ? jsonContent : rawContent,
+    content,
   });
-
   const router = useRouter();
+  const lecture = forceType<Lecture>(story.lecture);
+  const [destroyStory] = useAgoraStorysDestroyMutation();
   const onDeleteAgoraPost = async () => {
+    if (!story) return;
     try {
       if (me === null) {
         toast.error("로그인하세요.");
         return;
       }
       if (token) {
-        const response = await api.deleteAgoraPost(post.pk, token);
+        await destroyStory({ id: story.pk!! });
       } else {
         toast.error("로그인하세요.");
         return;
       }
       toast.success("게시글 삭제 완료");
-      router.push(`/agora/${post.lecture.pk}/${post.pk}`);
+      await router.push(`/agora/${lecture.pk}`);
     } catch (error) {
       const err = error as AxiosError;
-      // console.log(err);
       toast.error(err.response?.data.detail);
     }
   };
@@ -73,20 +96,17 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
   return (
     <div className={styles.container}>
       <div className={styles.mainText}>
-        <div className={styles.postTitle}>{post.title}</div>
+        <div className={styles.postTitle}>{story.title}</div>
         <div className={styles.mainTextHeader}>
           <AuthorSummary
-            userName={post.writer.username}
-            createdAt={post.created_at}
+            userName={story.writer!!.username}
+            createdAt={story.created_at!!}
           />
           <div className={styles.headerButtons}>
             {/* href 고치기 */}
-            <NextLink
-              href={`/agora/${post.lecture.pk}/${post.pk}/edit`}
-              passHref
-            >
+            <NextLink href={`/agora/${lecture.pk}/${story.pk}/edit`} passHref>
               <Button
-                disabled={me?.pk !== post.writer.pk}
+                disabled={me?.pk !== story.writer!!.pk}
                 className={styles.questionButton}
               >
                 <EditIcon className={styles.questionButtonIcon} />
@@ -94,7 +114,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
               </Button>
             </NextLink>
             <Button
-              disabled={me?.pk !== post.writer.pk}
+              disabled={me?.pk !== story.writer!!.pk}
               className={styles.questionButton}
               onClick={onDeleteAgoraPost}
             >
@@ -114,7 +134,7 @@ export const AgoraPostPage: FC<Props> = ({ onSubmitComment, post }) => {
         className={styles.writeComment}
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmitComment(comment);
+          toast.info("not implemented. comment: " + comment);
         }}
       >
         <AccountCircleIcon className={styles.accountCircleIcon} />

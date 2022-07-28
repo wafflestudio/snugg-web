@@ -1,37 +1,31 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { nanToNull } from "../../../../utility";
 import { AgoraPostPage } from "../../../../components/pages/agora/AgoraPostPage";
-import api, { AgoraPostInfo } from "../../../../api";
-import { toast } from "react-toastify";
+import { wrapper } from "../../../../store";
+import { enhancedApi, pendingQueries } from "../../../../store/api/enhanced";
 
 interface Props {
-  post: AgoraPostInfo;
+  id: number;
 }
 
-const AgoraPostPageContainer: NextPage<Props> = ({ post }) => {
-  return (
-    <AgoraPostPage
-      post={post}
-      onSubmitComment={(comment) => {
-        toast.warning(`구현되지 않음. comment: ${comment}`);
-      }}
-    />
-  );
+const AgoraPostPageContainer: NextPage<Props> = ({ id }) => {
+  return <AgoraPostPage id={id} />;
 };
 
 export default AgoraPostPageContainer;
 
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { lecture_id: string; post_id: string }
-> = async (context) => {
-  const lectureId = nanToNull(Number(context.params?.lecture_id));
-  const postId = nanToNull(Number(context.params?.post_id));
-  if (lectureId === null || postId === null) return { notFound: true };
-  const post = (await api.getAgoraPost(postId)).data;
-  return {
-    props: {
-      post,
-    },
-  };
-};
+export const getServerSideProps = wrapper.getServerSideProps<Props>(
+  (store) => async (context) => {
+    const postId = nanToNull(Number(context.params?.post_id));
+    if (postId === null) return { notFound: true };
+    store.dispatch(
+      enhancedApi.endpoints.agoraStorysRetrieve.initiate({ id: postId })
+    );
+    await pendingQueries();
+    return {
+      props: {
+        id: postId,
+      },
+    };
+  }
+);

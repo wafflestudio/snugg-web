@@ -3,7 +3,7 @@ import { queryToString } from "../../utility";
 import { GetServerSideProps, NextPage } from "next";
 import ProfilePage from "components/pages/profile/ProfilePage";
 import { selectUserInfo, useAppSelector } from "store";
-import api, { AnswerPostInfo, ListQnaResponse, QuestionPost } from "api";
+import api, { AnswerPostInfo, QuestionPost } from "api";
 
 interface Props {
   userId: number;

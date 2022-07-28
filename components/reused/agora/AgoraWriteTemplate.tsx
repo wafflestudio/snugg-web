@@ -1,14 +1,9 @@
 import styles from "/styles/agora/AgoraWriteTemplate.module.scss";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { Button, Input } from "@mui/material";
-import React, {
-  FunctionComponent,
-  KeyboardEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import QuestionEditor, { editorExtensions } from "../QuestionEditor";
-import { AgoraPostInfo, QuestionPost } from "../../../api";
+import { AgoraPostInfo } from "../../../api";
 import { generateJSON, JSONContent } from "@tiptap/react";
 
 interface Props {
@@ -25,6 +20,7 @@ const AgoraWriteTemplate: FunctionComponent<Props> = ({
   submitLabel,
 }) => {
   const [title, setTitle] = useState("");
+  const [initContent, setInitContent] = useState<JSONContent>({});
   const [content, setContent] = useState<JSONContent>({});
 
   useEffect(() => {
@@ -32,11 +28,11 @@ const AgoraWriteTemplate: FunctionComponent<Props> = ({
     if (initialValue !== undefined) {
       setTitle(initialValue.title);
       try {
-        setContent(JSON.parse(initialValue.content));
+        setInitContent(JSON.parse(initialValue.content));
       } catch (e) {
         if (e instanceof SyntaxError) {
           const json = generateJSON(initialValue.content, editorExtensions);
-          setContent(json);
+          setInitContent(json);
         } else {
           throw e;
         }
@@ -59,7 +55,7 @@ const AgoraWriteTemplate: FunctionComponent<Props> = ({
             value={title}
           />
         </div>
-        <QuestionEditor setContent={setContent} content={content} />
+        <QuestionEditor setContent={setContent} initialContent={initContent} />
         <Button
           className={styles.button}
           onClick={(e) => {

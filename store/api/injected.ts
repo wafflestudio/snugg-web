@@ -68,16 +68,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.storyRequest,
       }),
     }),
-    agoraStorysPartialUpdate: build.mutation<
-      AgoraStorysPartialUpdateApiResponse,
-      AgoraStorysPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/agora/storys/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.storyRequest,
-      }),
-    }),
     agoraStorysDestroy: build.mutation<
       AgoraStorysDestroyApiResponse,
       AgoraStorysDestroyApiArg
@@ -113,16 +103,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userRequest,
       }),
     }),
-    authRefreshCreate: build.mutation<
-      AuthRefreshCreateApiResponse,
-      AuthRefreshCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/auth/refresh/`,
-        method: "POST",
-        body: queryArg.refreshServiceRequest,
-      }),
-    }),
     authSigninCreate: build.mutation<
       AuthSigninCreateApiResponse,
       AuthSigninCreateApiArg
@@ -151,16 +131,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/auth/signup/`,
         method: "POST",
         body: queryArg.signupServiceRequest,
-      }),
-    }),
-    mediaPresignedCreate: build.mutation<
-      MediaPresignedCreateApiResponse,
-      MediaPresignedCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/media/presigned/`,
-        method: "POST",
-        body: queryArg.directoryRequest,
       }),
     }),
     qnaAnswersList: build.query<
@@ -201,16 +171,6 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/qna/answers/${queryArg.id}/`,
         method: "PUT",
-        body: queryArg.answerRequest,
-      }),
-    }),
-    qnaAnswersPartialUpdate: build.mutation<
-      QnaAnswersPartialUpdateApiResponse,
-      QnaAnswersPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/qna/answers/${queryArg.id}/`,
-        method: "PATCH",
         body: queryArg.answerRequest,
       }),
     }),
@@ -270,16 +230,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.commentRequest,
       }),
     }),
-    qnaCommentsPartialUpdate: build.mutation<
-      QnaCommentsPartialUpdateApiResponse,
-      QnaCommentsPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/qna/comments/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.commentRequest,
-      }),
-    }),
     qnaCommentsDestroy: build.mutation<
       QnaCommentsDestroyApiResponse,
       QnaCommentsDestroyApiArg
@@ -327,16 +277,6 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/qna/posts/${queryArg.id}/`,
         method: "PUT",
-        body: queryArg.postRequest,
-      }),
-    }),
-    qnaPostsPartialUpdate: build.mutation<
-      QnaPostsPartialUpdateApiResponse,
-      QnaPostsPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/qna/posts/${queryArg.id}/`,
-        method: "PATCH",
         body: queryArg.postRequest,
       }),
     }),
@@ -403,12 +343,6 @@ export type AgoraStorysUpdateApiArg = {
   id: number;
   storyRequest: StoryRequest;
 };
-export type AgoraStorysPartialUpdateApiResponse = /** status 200  */ Story;
-export type AgoraStorysPartialUpdateApiArg = {
-  /** A unique integer value identifying this story. */
-  id: number;
-  storyRequest: StoryRequest;
-};
 export type AgoraStorysDestroyApiResponse = unknown;
 export type AgoraStorysDestroyApiArg = {
   /** A unique integer value identifying this story. */
@@ -424,10 +358,6 @@ export type AuthProfileUpdateApiResponse = /** status 200  */ User;
 export type AuthProfileUpdateApiArg = {
   userRequest: UserRequest;
 };
-export type AuthRefreshCreateApiResponse = /** status 200  */ RefreshToken;
-export type AuthRefreshCreateApiArg = {
-  refreshServiceRequest: RefreshServiceRequest;
-};
 export type AuthSigninCreateApiResponse = /** status 200  */ UserToken;
 export type AuthSigninCreateApiArg = {
   signinServiceRequest: SigninServiceRequest;
@@ -439,10 +369,6 @@ export type AuthSignoutCreateApiArg = {
 export type AuthSignupCreateApiResponse = /** status 201  */ UserToken;
 export type AuthSignupCreateApiArg = {
   signupServiceRequest: SignupServiceRequest;
-};
-export type MediaPresignedCreateApiResponse = /** status 201  */ Directory;
-export type MediaPresignedCreateApiArg = {
-  directoryRequest: DirectoryRequest;
 };
 export type QnaAnswersListApiResponse = /** status 200  */ PaginatedAnswerList;
 export type QnaAnswersListApiArg = {
@@ -467,12 +393,6 @@ export type QnaAnswersRetrieveApiArg = {
 };
 export type QnaAnswersUpdateApiResponse = /** status 200  */ Answer;
 export type QnaAnswersUpdateApiArg = {
-  /** A unique integer value identifying this answer. */
-  id: number;
-  answerRequest: AnswerRequest;
-};
-export type QnaAnswersPartialUpdateApiResponse = /** status 200  */ Answer;
-export type QnaAnswersPartialUpdateApiArg = {
   /** A unique integer value identifying this answer. */
   id: number;
   answerRequest: AnswerRequest;
@@ -519,12 +439,6 @@ export type QnaCommentsUpdateApiArg = {
   id: number;
   commentRequest: CommentRequest;
 };
-export type QnaCommentsPartialUpdateApiResponse = /** status 200  */ Comment;
-export type QnaCommentsPartialUpdateApiArg = {
-  /** A unique integer value identifying this comment. */
-  id: number;
-  commentRequest: CommentRequest;
-};
 export type QnaCommentsDestroyApiResponse = unknown;
 export type QnaCommentsDestroyApiArg = {
   /** A unique integer value identifying this comment. */
@@ -557,12 +471,6 @@ export type QnaPostsRetrieveApiArg = {
 };
 export type QnaPostsUpdateApiResponse = /** status 200  */ Post;
 export type QnaPostsUpdateApiArg = {
-  /** A unique integer value identifying this post. */
-  id: number;
-  postRequest: PostRequest;
-};
-export type QnaPostsPartialUpdateApiResponse = /** status 200  */ Post;
-export type QnaPostsPartialUpdateApiArg = {
   /** A unique integer value identifying this post. */
   id: number;
   postRequest: PostRequest;
@@ -635,12 +543,6 @@ export type UserRequest = {
   birth_date?: string | null;
   self_introduction?: string;
 };
-export type RefreshToken = {
-  refresh: string;
-};
-export type RefreshServiceRequest = {
-  refresh: string;
-};
 export type Token = {
   access: string;
   refresh: string;
@@ -661,16 +563,6 @@ export type SignupServiceRequest = {
   username: string;
   password: string;
   birth_date?: string | null;
-};
-export type Directory = {
-  pk?: number;
-  uploader?: User;
-  path?: string;
-  filenames: string[];
-  created_at?: string;
-};
-export type DirectoryRequest = {
-  filenames: string[];
 };
 export type Answer = {
   pk?: number;
@@ -738,3 +630,33 @@ export type PostRequest = {
   accepted_answer?: number | null;
   tags?: string;
 };
+export const {
+  useAgoraLecturesListQuery,
+  useAgoraLecturesRetrieveQuery,
+  useAgoraStorysListQuery,
+  useAgoraStorysCreateMutation,
+  useAgoraStorysRetrieveQuery,
+  useAgoraStorysUpdateMutation,
+  useAgoraStorysDestroyMutation,
+  useAuthPasswordUpdateMutation,
+  useAuthProfileRetrieveQuery,
+  useAuthProfileUpdateMutation,
+  useAuthSigninCreateMutation,
+  useAuthSignoutCreateMutation,
+  useAuthSignupCreateMutation,
+  useQnaAnswersListQuery,
+  useQnaAnswersCreateMutation,
+  useQnaAnswersRetrieveQuery,
+  useQnaAnswersUpdateMutation,
+  useQnaAnswersDestroyMutation,
+  useQnaCommentsListQuery,
+  useQnaCommentsCreateMutation,
+  useQnaCommentsRetrieveQuery,
+  useQnaCommentsUpdateMutation,
+  useQnaCommentsDestroyMutation,
+  useQnaPostsListQuery,
+  useQnaPostsCreateMutation,
+  useQnaPostsRetrieveQuery,
+  useQnaPostsUpdateMutation,
+  useQnaPostsDestroyMutation,
+} = injectedRtkApi;

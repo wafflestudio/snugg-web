@@ -30,10 +30,10 @@
       width: 210px;
       display: flex;
       align-items: center;
-      justify-content: end;
+      justify-content: flex-end;
 
       .person {
-        margin: 0px 5px;
+        margin: 0 5px;
       }
     }
   }
