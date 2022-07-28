@@ -1,17 +1,18 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "../../../styles/header/UpperHeader.module.scss";
 import Magnifier from "../../../Image/magnifier.svg";
+import ProfileIcon from "@mui/icons-material/Person";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Input } from "@mui/material";
-import { useAppSelector } from "../../../store";
+import { selectUserInfo, useAppSelector } from "../../../store";
 import NextLink from "next/link";
 
 const UpperHeader = () => {
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState("");
 
   const router = useRouter(); //getServerSideProps는 Pages에서만 사용 가능함. 일반 컴포넌트에서 query string을 가져올 땐 useRouter를 사용한다.
-  const me = useAppSelector((state) => state.users.data);
+  const userInfo = useAppSelector(selectUserInfo);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.push(`/question/search?content=${value}`).then();
@@ -46,16 +47,16 @@ const UpperHeader = () => {
           <Image src={Magnifier} alt={"search"} />
         </button>
       </form>
-      {me === null ? (
-        <NextLink href={"/signin"}>
+      {userInfo ? (
+        <NextLink href={`/profile/${userInfo.pk}`} passHref>
           <div className={styles.profileEclipse}>
-            <Image src={Magnifier} />
+            <ProfileIcon />
           </div>
         </NextLink>
       ) : (
-        <NextLink href={`/profile/${me?.user.pk}`}>
+        <NextLink href={"/signin"} passHref>
           <div className={styles.profileEclipse}>
-            <Image src={Magnifier} />
+            <ProfileIcon />
           </div>
         </NextLink>
       )}

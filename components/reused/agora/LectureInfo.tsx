@@ -23,7 +23,7 @@ const LectureInfo = ({
   studentNumber,
 }: Props) => {
   return (
-    <Link href={`/agora/${courseName}`}>
+    <Link href={`/agora/${courseCode}`}>
       <a className={styles.lectureInfo}>
         <div className={styles.top}>
           <div className={styles.topLeft}>

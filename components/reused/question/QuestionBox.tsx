@@ -11,44 +11,45 @@ import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 import { ListCommentInfo, QuestionPostInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppDispatch } from "../../../store";
 import { createComment } from "../../../store/comments";
+import { selectUserInfo, useAppSelector } from "../../../store";
+import { Post } from "../../../store/api/injected";
+import { forceType } from "../../../utility";
 
 interface Props {
-  questionData: QuestionPostInfo | null;
-  onDeleteQuestion: () => {};
-  token: string | undefined;
-  questionId: number;
+  questionData: Post;
+  onDeleteQuestion: () => void;
   commentData: ListCommentInfo;
 }
 
-const QuestionBox = (Props: Props) => {
+const QuestionBox = ({
+  onDeleteQuestion,
+  questionData,
+  commentData,
+}: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
-  const [commentOpen, setCommentOpen] = useState<boolean>(false);
-  const me = useAppSelector((state) => state.users.data);
-
-  const rawContent = Props.questionData?.content;
-  let jsonContent: any;
-  let success = false;
-  try {
-    if (rawContent !== undefined) {
-      jsonContent = JSON.parse(rawContent);
-      success = true;
+  const [commentOpen, setCommentOpen] = useState(false);
+  const userInfo = useAppSelector(selectUserInfo);
+  const content = useMemo(() => {
+    const rawContent = questionData.content;
+    try {
+      if (rawContent !== undefined) {
+        return JSON.parse(rawContent);
+      }
+    } catch (err) {
+      return rawContent;
     }
-  } catch (err) {
-    success = false;
-  }
-  // console.log("raw content", rawContent);
-  // console.log("json content", jsonContent);
-
+  }, [questionData.content]);
   const questionView = useEditor({
     editable: false,
     extensions: editorExtensions,
-    content: success ? jsonContent : rawContent,
+    content,
   });
+  const tags = forceType<string[]>(questionData.tags);
 
   // const [comment, setComment] = useState("");
   // const dispatch = useAppDispatch();
@@ -77,13 +78,11 @@ const QuestionBox = (Props: Props) => {
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
         <QuestionMarkIcon className={styles.questionMarkIcon} />
-        <div>{Props.questionData?.title}</div>
+        <div>{questionData.title}</div>
       </div>
       <div className={styles.previewHeader1}>
-        <span className={styles.previewHeader1Text}>
-          {Props.questionData?.field}
-        </span>
-        {Props.questionData?.tags.map((tag, i) => (
+        <span className={styles.previewHeader1Text}>{questionData.field}</span>
+        {tags.map((tag, i) => (
           <NextLink href={"/question/tags"} passHref key={tag}>
             <div
               key={tag}
@@ -100,18 +99,16 @@ const QuestionBox = (Props: Props) => {
         <div className={styles.questionInfo}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
           <div className={styles.questionUser}>
-            {Props.questionData?.writer.username} 님의 질문
+            {questionData.writer!!.username} 님의 질문
           </div>
           <div className={styles.questionTime}>
-            <Moment format={"YYYY.MM.DD"}>
-              {Props.questionData?.created_at}
-            </Moment>
+            <Moment format={"YYYY.MM.DD"}>{questionData.created_at}</Moment>
           </div>
         </div>
         <div className={styles.questionButtons}>
-          <NextLink href={`/question/${Props.questionData?.pk}/edit`} passHref>
+          <NextLink href={`/question/${questionData?.pk}/edit`} passHref>
             <Button
-              disabled={me?.user.pk !== Props.questionData?.writer.pk}
+              disabled={userInfo?.pk !== questionData.writer!!.pk}
               className={styles.questionButton}
             >
               <EditIcon className={styles.questionButtonIcon} />
@@ -119,8 +116,8 @@ const QuestionBox = (Props: Props) => {
             </Button>
           </NextLink>
           <Button
-            disabled={me?.user.pk !== Props.questionData?.writer.pk}
-            onClick={Props.onDeleteQuestion}
+            disabled={userInfo?.pk !== questionData.writer!!.pk}
+            onClick={onDeleteQuestion}
             className={styles.questionButton}
           >
             <DeleteIcon className={styles.questionButtonIcon} />
@@ -162,8 +159,8 @@ const QuestionBox = (Props: Props) => {
             등록
           </Button>
         </div>
-        {Props.commentData.results.length >= 1
-          ? Props.commentData.results.map((item) => (
+        {commentData.results.length >= 1
+          ? commentData.results.map((item) => (
               <CommentBox key={item.pk} commentData={item} />
             ))
           : null}

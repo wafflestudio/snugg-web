@@ -33,20 +33,20 @@ const QuestionEditTemplate: FunctionComponent<Props> = ({
   const [field, setField] = useState("");
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [initContent, setInitContent] = useState<JSONContent>({});
   const [content, setContent] = useState<JSONContent>({});
 
   useEffect(() => {
-    console.log("initial value changed");
     if (initialValue !== undefined) {
       setField(initialValue.field);
       setTags(initialValue.tags);
       setTitle(initialValue.title);
       try {
-        setContent(JSON.parse(initialValue.content));
+        setInitContent(JSON.parse(initialValue.content));
       } catch (e) {
         if (e instanceof SyntaxError) {
           const json = generateJSON(initialValue.content, editorExtensions);
-          setContent(json);
+          setInitContent(json);
         } else {
           throw e;
         }
@@ -77,12 +77,12 @@ const QuestionEditTemplate: FunctionComponent<Props> = ({
             value={title}
           />
         </div>
-        <QuestionEditor setContent={setContent} content={content} />
+        <QuestionEditor setContent={setContent} initialContent={initContent} />
         <Button
           className={styles.button}
           onClick={(e) => {
             e.preventDefault();
-            onSubmit(field, title, content!!, tags);
+            onSubmit(field, title, content, tags);
           }}
         >
           {submitLabel}

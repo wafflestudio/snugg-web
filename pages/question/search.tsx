@@ -1,17 +1,18 @@
 import { GetServerSideProps, NextPage } from "next";
 import { queryToString } from "../../utility";
 import QuestionSearchPage from "../../components/pages/question/QuestionSearchPage";
-import { useAppSelector, wrapper } from "../../store";
-import { listQna } from "../../store/qnaPosts";
+import { wrapper } from "../../store";
+import { enhancedApi, pendingQueries } from "../../store/api/enhanced";
+import { useQnaPostsListQuery } from "../../store/api/injected";
 
 interface Props {
-  query: string;
+  content: string;
 }
 
-const QuestionSearchPageContainer: NextPage<Props> = (props: Props) => {
-  const posts = useAppSelector((state) => state.qnaPosts.data?.results);
-  return posts ? (
-    <QuestionSearchPage query={props.query} posts={posts} />
+const QuestionSearchPageContainer: NextPage<Props> = ({ content }) => {
+  const { data } = useQnaPostsListQuery({search: content});
+  return data ? (
+    <QuestionSearchPage query={content} posts={data.results!!} />
   ) : (
     <div>loading</div>
   );
@@ -19,11 +20,12 @@ const QuestionSearchPageContainer: NextPage<Props> = (props: Props) => {
 
 export const getServerSideProps: GetServerSideProps<Props> =
   wrapper.getServerSideProps((store) => async (context) => {
-    await store.dispatch(listQna({})); // 일단 list로 둠
-    const query = queryToString(context.query.q) ?? "";
+    const content = queryToString(context.query.content) ?? "";
+    store.dispatch(enhancedApi.endpoints.qnaPostsList.initiate({search: content}));
+    await pendingQueries();
     return {
       props: {
-        query,
+        content,
       },
     };
   });

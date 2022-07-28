@@ -1,11 +1,12 @@
 import React from "react";
-import { updatePost } from "../../../../store/posts";
-import { useAppDispatch, useAppSelector } from "../../../../store";
-import api, { IMAGE_ENDPOINT, QuestionPost } from "../../../../api";
+import { selectAccessToken, useAppSelector } from "../../../../store";
+import { QuestionPost } from "../../../../api";
 import QuestionEditTemplate from "../../../reused/question/QuestionEditTemplate";
 import { JSONContent } from "@tiptap/react";
-import { replaceImgSrc } from "../../../../utility";
+import { errorToString, useUploadPost } from "../../../../utility";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { useQnaPostsUpdateMutation } from "../../../../store/api/injected";
 
 interface Props {
   postId: number | null;
@@ -13,66 +14,48 @@ interface Props {
 }
 
 const QuestionEditPage = (props: Props) => {
-  const token = useAppSelector((state) => state.users.data?.token.access);
+  const token = useAppSelector(selectAccessToken);
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const handleUpdatePost = (
+  const uploadPost = useUploadPost();
+  const [updatePost] = useQnaPostsUpdateMutation();
+  const handleUpdatePost = async (
     id: number,
     field: string,
     title: string,
     jsonContent: JSONContent,
-    tags: string[],
-    token: string
+    tags: string[]
   ) => {
-    (async () => {
-      const updateAction = await dispatch(
-        updatePost({
-          id,
-          params: {
-            field,
-            title,
-            content: "placeholder",
-            tags
-          },
-          token
-        })
+    const result = await uploadPost(field, title, jsonContent, tags, (arg) =>
+      updatePost({ id, postRequest: arg })
+    );
+    if (result.presError) {
+      toast.error(
+        "이미지를 저장할 수 없습니다: " + errorToString(result.presError)
       );
-      if (!updatePost.fulfilled.match(updateAction)) {
-        alert("질문 수정 실패");
-        return;
+    } else if (result.imageError) {
+      toast.error("이미지를 저장할 수 없습니다: " + result.imageError);
+    } else if (result.uploadResult) {
+      if ("error" in result.uploadResult) {
+        toast.error(
+          "질문을 수정할 수 없습니다: " +
+            errorToString(result.uploadResult.error)
+        );
+      } else {
+        toast.success("질문을 수정했습니다");
+        await router.push("/question/" + result.uploadResult.data.pk);
       }
-      const payload = updateAction.payload;
-      const { newContent, blobs } = await replaceImgSrc(
-        IMAGE_ENDPOINT,
-        payload.presigned.fields.key,
-        jsonContent
-      );
-      const content = JSON.stringify(newContent);
-      const imagePromises: Promise<any>[] = blobs.map(({ blob, key }) =>
-        api.uploadImages(payload.presigned.url, key, blob)
-      );
-      const updatePromise: Promise<any> = dispatch(
-        updatePost({
-          id: payload.pk,
-          params: { field, title, content, tags },
-          token
-        })
-      );
-      await Promise.all(imagePromises.concat([updatePromise]));
-      router.push(`/question/${props.postId}`);
-      alert("질문 등록 완료");
-    })();
+    }
   };
 
   return (
     <QuestionEditTemplate
       header={"질문 수정하기"}
       submitLabel={"질문 수정하기"}
-      onSubmit={(field, title, content, tags) => {
+      onSubmit={async (field, title, content, tags) => {
         if (props.postId !== null && token !== undefined) {
-          handleUpdatePost(props.postId, field, title, content, tags, token);
+          await handleUpdatePost(props.postId, field, title, content, tags);
         } else {
-          alert("로그인하세요.");
+          toast.warning("질문을 수정하려면 로그인하세요");
         }
       }}
       initialValue={props.questionData}
