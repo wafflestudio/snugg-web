@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import QuestionBox from "../../../reused/question/QuestionBox";
 import AnswerBox from "../../../reused/question/AnswerBox";
+import { ListCommentInfo } from "../../../../api";
 import { useRouter } from "next/router";
 
 import { FC, useState } from "react";
@@ -20,9 +21,10 @@ import { JSONContent } from "@tiptap/react";
 
 interface Props {
   questionId: number;
+  commentData: ListCommentInfo;
 }
 
-const QuestionViewPage: FC<Props> = ({ questionId }) => {
+const QuestionViewPage: FC<Props> = ({ questionId, commentData }) => {
   const router = useRouter();
   const userInfo = useAppSelector(selectUserInfo);
   const { data: question, error: questionError } = useQnaPostsRetrieveQuery({
@@ -82,6 +84,7 @@ const QuestionViewPage: FC<Props> = ({ questionId }) => {
         <QuestionBox
           onDeleteQuestion={onDeleteQuestion}
           questionData={question}
+          commentData={commentData}
         />
         <div className={styles.answerCount}>
           {answers.results!!.length}개의 답변
