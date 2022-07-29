@@ -24,6 +24,7 @@ const CommentBox: FC<Props> = ({ commentData }) => {
         <Moment format={"YYYY.MM.DD HH:mm"} className={styles.moment}>
           {commentData.created_at}
         </Moment>
+        <div>{commentData.writer?.username}</div>
       </div>
     </div>
   );
