@@ -43,6 +43,10 @@
   .questionText {
     font-size: 15px;
     @include NanumGothicRegular;
+    img {
+      max-height: 500px;
+      max-width: 100%;
+    }
   }
 
   .questionBottom {
