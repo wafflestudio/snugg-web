@@ -64,6 +64,7 @@ export const enhancedApi = injectedApi
     }),
   })
   .enhanceEndpoints<Tag>({
+    addTagTypes: Object.values(Tag) as Tag[],
     endpoints: {
       agoraStorysCreate: {
         invalidatesTags: (result) =>
