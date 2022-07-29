@@ -2,12 +2,14 @@
 .editor {
   width: 1075px;
   height: fit-content;
-  // min-height: 600px;
+  min-height: 300px;
   margin: 0 auto 0 auto;
   border: 1px solid $main-color;
   border-radius: 5px;
+  cursor: text;
 
   .menubar {
+    cursor: initial;
     height: 45px;
     border-bottom: 1px solid $main-color;
     background-color: #f2f2f2;

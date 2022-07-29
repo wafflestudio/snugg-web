@@ -29,7 +29,7 @@ const AnswerEditor: FC<Props> = ({ setContent }) => {
       }),
       Highlight,
     ],
-    content: "답변을 입력하세요.",
+    // content: "답변을 입력하세요.",
     onUpdate({ editor }) {
       setContent(editor.getJSON());
     },
@@ -39,8 +39,12 @@ const AnswerEditor: FC<Props> = ({ setContent }) => {
     return null;
   }
   return (
-    <div className={styles.editor}>
-      <div className={styles.menubar}>
+    <div
+      className={styles.editor}
+      onClick={() => editor?.chain().focus().run()}
+    >
+      <div className={styles.menubar}
+      onClick={(e) => e.stopPropagation()}>
         <button onClick={() => editor.chain().focus().toggleBold().run()}>
           <FormatBoldIcon />
         </button>
