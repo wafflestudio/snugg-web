@@ -14,11 +14,12 @@ import CommentBox from "./CommentBox";
 import { useMemo, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
-import { useAppDispatch } from "../../../store";
+import { selectAccessToken, useAppDispatch } from "../../../store";
 import { createComment } from "../../../store/comments";
 import { selectUserInfo, useAppSelector } from "../../../store";
 import { Post } from "../../../store/api/injected";
 import { forceType } from "../../../utility";
+import { toast } from "react-toastify";
 
 interface Props {
   questionData: Post;
@@ -50,29 +51,29 @@ const QuestionBox = ({
     content,
   });
   const tags = forceType<string[]>(questionData.tags);
+  const token = useAppSelector(selectAccessToken);
 
-  // const [comment, setComment] = useState("");
-  // const dispatch = useAppDispatch();
-  // const handleCreateComment = (token: string, content: string) => {
-  //   dispatch(
-  //     createComment({
-  //       body: { content: content },
-  //       params: { post: Props.questionId },
-  //       token: token,
-  //     })
-  //   )
-  //     .then((action) => {
-  //       if (createComment.fulfilled.match(action)) {
-  //         alert("댓글 등록 완료");
-  //       } else if (createComment.rejected.match(action)) {
-  //         alert("댓글 등록 실패");
-  //       }
-  //     })
-  //     .catch((reason) => {
-  //       alert(`댓글 등록 실패 ${reason}`);
-  //     });
-  // };
-  // console.log(Props.commentData.results.length);
+  const [comment, setComment] = useState("");
+  const dispatch = useAppDispatch();
+  const handleCreateComment = (token: string, content: string) => {
+    dispatch(
+      createComment({
+        body: { content: content },
+        params: { post: questionData.pk },
+        token: token,
+      })
+    )
+      .then((action) => {
+        if (createComment.fulfilled.match(action)) {
+          toast.success("댓글 등록 완료");
+        } else if (createComment.rejected.match(action)) {
+          toast.error("댓글 등록 실패");
+        }
+      })
+      .catch((reason) => {
+        toast.error(`댓글 등록 실패 ${reason}`);
+      });
+  };
 
   return (
     <div className={styles.questionBox}>
@@ -142,19 +143,19 @@ const QuestionBox = ({
           <Input
             disableUnderline={true}
             placeholder="댓글을 남겨주세요."
-            // onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
-            //   setComment(e.target.value)
-            // }
+            onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setComment(e.target.value)
+            }
           />
           <Button
-          // onClick={(e) => {
-          //   e.preventDefault();
-          //   if (Props.token !== undefined) {
-          //     handleCreateComment(Props.token, comment);
-          //   } else {
-          //     alert("로그인하세요.");
-          //   }
-          // }}
+            onClick={(e) => {
+              e.preventDefault();
+              if (token !== undefined) {
+                handleCreateComment(token, comment);
+              } else {
+                toast.error("로그인하세요.");
+              }
+            }}
           >
             등록
           </Button>
