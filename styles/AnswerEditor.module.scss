@@ -3,16 +3,18 @@
   width: 1075px;
   height: fit-content;
   min-height: 300px;
-  margin: 0px auto 15px auto;
+  margin: 0 auto 15px auto;
   border: 1px solid $main-color;
   border-radius: 5px;
+  cursor: text;
 
   .menubar {
+    cursor: initial;
     height: 45px;
     border-bottom: 1px solid $main-color;
     background-color: #f2f2f2;
     border-radius: 5px;
-    padding: 0px 10px;
+    padding: 0 10px;
 
     display: flex;
     align-items: center;
@@ -33,6 +35,6 @@
 
   .writer {
     font-size: 15px;
-    padding: 0px 15px;
+    padding: 0 15px;
   }
 }

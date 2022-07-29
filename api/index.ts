@@ -1,23 +1,50 @@
 import axios from "axios";
-
-export const API_ENDPOINT =
-  "https://fp026w45m5.execute-api.ap-northeast-2.amazonaws.com/";
+import { baseUrl, isServer } from "../store/api/base";
 
 export const IMAGE_ENDPOINT = "https://snugg-s3.s3.amazonaws.com/";
 
-// const isProduction = process.env.NODE_ENV === "production";
-const isServer = typeof window === "undefined";
-
 // 서버에서 api를 요청하는 경우 백엔드로 바로 요청
-axios.defaults.baseURL = isServer ? API_ENDPOINT : "/api/";
+axios.defaults.baseURL = baseUrl;
+if (isServer) {
+  axios.interceptors.request.use((config) => {
+    console.log(config.method, config.baseURL, config.url, config.data);
+    return config;
+  });
+  axios.interceptors.response.use(
+    (response) => {
+      console.log(response?.status, response?.data);
+      return response;
+    },
+    (error) => {
+      if (axios.isAxiosError(error)) {
+        console.log("error");
+        console.log(
+          error.message,
+          error.code,
+          error.response?.status,
+          error.response?.data
+        );
+      }
+      return Promise.reject(error);
+    }
+  );
+}
 
 export interface User {
   pk: number;
   email: string;
   username: string;
   birth_date?: string;
+  self_introduction?: string;
   created_at: string;
   last_login?: string;
+}
+
+export interface ProfileParams {
+  email: string;
+  username: string;
+  birth_date?: string | null;
+  self_introduction?: string;
 }
 
 export interface QuestionPost {
@@ -89,6 +116,8 @@ export type ListQnaParams = PaginationParams & {
   field?: string;
   tag?: string;
   writer?: number;
+  search?: string;
+  search_type?: string;
 };
 
 export interface QuestionGetParams {
@@ -120,16 +149,16 @@ export type AnswerPostInfo = AnswerPost & {
 };
 
 export type ListAnswerParams = PaginationParams & {
-  writer?: User;
+  writer?: number;
 };
 
 const withToken = (token: string) => ({
-  headers: { Authorization: `Bearer ${token}` }
+  headers: { Authorization: `Bearer ${token}` },
 });
 
 export type GetAnswersForQuestionParams = {
   questionId: string;
-}
+};
 
 export interface ListAgoraPostParams extends PaginationParams {
   lecture: number;
@@ -138,16 +167,28 @@ export interface ListAgoraPostParams extends PaginationParams {
 }
 
 export interface AgoraPost {
-  lecture: AgoraLectureInfo;
+  lecture: number;
   title: string;
   content: string;
 }
 
-export interface AgoraPostInfo extends AgoraPost {
+export interface AgoraPostInfo {
+  lecture: AgoraLectureInfo;
+  title: string;
+  content: string;
   pk: number;
   writer: User;
   created_at: string;
   updated_at?: string;
+  presigned: {
+    url: string;
+    fields: {
+      key: string;
+      AWSAccessKeyId: string;
+      policy: string;
+      signature: string;
+    };
+  };
 }
 
 export type ListAgoraLectureParams = {
@@ -180,13 +221,35 @@ export type ListAgoraLectureInfo = {
   results: AgoraLectureInfo[];
 };
 
+export type CommentParams = {
+  content_type?: number;
+  object_id?: number;
+  content: string;
+};
+
+export type CommentInfo = {
+  pk: number;
+  writer: User;
+  content: string;
+  replies_count: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ListCommentInfo = {
+  next: string;
+  previous: string;
+  results: CommentInfo[];
+};
+
+export type CommentQuery = {
+  answer?: number;
+  comment?: number;
+  post?: number;
+};
+type EmptyResponse = Record<string, never>;
+
 const api = {
-  signIn: async (params: SignInParams) =>
-    await axios.post<UserTokenResponse>("/auth/signin/", params),
-  signOut: async (params: SignOutParams) =>
-    await axios.post<SuccessResponse>("/auth/signout/", params),
-  signUp: async (params: SignUpParams) =>
-    await axios.post<UserTokenResponse>("/auth/signup/", params),
   getQuestion: async (params: QuestionGetParams) =>
     await axios.get<QuestionPost>(`/qna/posts/${params.id}`),
   deleteQuestion: async (params: QuestionDeleteParams, token: string) =>
@@ -194,20 +257,32 @@ const api = {
   createQuestion: async (params: PostParams, token: string) =>
     await axios.post<QuestionPost>("/qna/posts", params, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }),
   updateQuestion: async (id: number, params: PostParams, token: string) =>
     await axios.put<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
-  partialUpdateQuestion: async (id: number, params: Partial<PostParams>, token: string) =>
-    await axios.patch<QuestionPost>(`/qna/posts/${id}`, params, withToken(token)),
+  partialUpdateQuestion: async (
+    id: number,
+    params: Partial<PostParams>,
+    token: string
+  ) =>
+    await axios.patch<QuestionPost>(
+      `/qna/posts/${id}`,
+      params,
+      withToken(token)
+    ),
   acceptAnswer: async (questionId: number, answerId: number, token: string) =>
-    await api.partialUpdateQuestion(questionId, { accepted_answer: answerId }, token),
+    await api.partialUpdateQuestion(
+      questionId,
+      { accepted_answer: answerId },
+      token
+    ),
   listQuestions: async (params: ListQnaParams) =>
     await axios.get<ListQnaResponse>("/qna/posts", { params }),
   listAnswers: async (params: ListAnswerParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>("/qna/answers", {
-      params
+      params,
     }),
   getAnswersForQuestion: async (params: GetAnswersForQuestionParams) =>
     await axios.get<PaginatedResponse<AnswerPostInfo>>(
@@ -216,8 +291,8 @@ const api = {
   createAnswer: async (params: AnswerPost, token: string) =>
     await axios.post<AnswerPostInfo>("/qna/answers", params, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     }),
   getAnswer: async (id: number) =>
     await axios.get<AnswerPostInfo>(`/qna/answers/${id}`),
@@ -226,29 +301,74 @@ const api = {
   partialUpdateAnswer: async (id: number, post: AnswerPost) =>
     await axios.patch(`/qna/answers/${id}`, post),
   deleteAnswer: async (id: number, token: string) =>
-    await axios.delete(`/qna/answers/${id}`, withToken(token)),
+    await axios.delete<EmptyResponse>(`/qna/answers/${id}`, withToken(token)),
   uploadImages: async (url: string, key: string, blob: Blob) => {
     const formData = new FormData();
     formData.set("key", key);
     formData.set("file", blob);
-    return await axios.post(url, formData, { baseURL: "" });
+    return await axios.post<EmptyResponse>(url, formData, { baseURL: "" });
   },
   listAgoraPost: async (params: ListAgoraPostParams) =>
-    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/posts/`, { params }),
-  createAgoraPost: async (params: AgoraPost) =>
-    await axios.post<AgoraPostInfo>(`/agora/posts/`, params),
+    await axios.get<PaginatedResponse<AgoraPostInfo>>(`/agora/storys/`, {
+      params,
+    }),
+  createAgoraPost: async (params: AgoraPost, token: string) =>
+    await axios.post<AgoraPostInfo>(`/agora/storys/`, params, withToken(token)),
   getAgoraPost: async (id: number) =>
-    await axios.get<AgoraPostInfo>(`/agora/posts/${id}`),
-  updateAgoraPost: async (id: number, params: AgoraPost) =>
-    await axios.put<AgoraPostInfo>(`/agora/posts/${id}`, params),
-  partialUpdateAgoraPost: async (id: number, params: Partial<AgoraPost>) =>
-    await axios.patch<AgoraPostInfo>(`/agora/posts/${id}`, params),
-  deleteAgoraPost: async (id: number) =>
-    await axios.delete<{}>(`/agora/posts/${id}`),
+    await axios.get<AgoraPostInfo>(`/agora/storys/${id}`),
+  updateAgoraPost: async (id: number, params: AgoraPost, token: string) =>
+    await axios.put<AgoraPostInfo>(
+      `/agora/storys/${id}`,
+      params,
+      withToken(token)
+    ),
+  partialUpdateAgoraPost: async (
+    id: number,
+    params: Partial<AgoraPost>,
+    token: string
+  ) =>
+    await axios.patch<AgoraPostInfo>(
+      `/agora/storys/${id}`,
+      params,
+      withToken(token)
+    ),
+  deleteAgoraPost: async (id: number, token: string) =>
+    await axios.delete<{}>(`/agora/storys/${id}`, withToken(token)),
   listAgoraLecture: async (params: ListAgoraLectureParams) =>
     await axios.get<ListAgoraLectureInfo>(`/agora/lectures`, { params }),
   getAgoraLecture: async (id: number) =>
     await axios.get<AgoraLectureInfo>(`agora/lectures/${id}`),
+  createComment: async (
+    body: CommentParams,
+    params: CommentQuery,
+    token: string
+  ) =>
+    await axios.post<CommentInfo>(`/qna/comments`, body, {
+      params: params,
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  listComment: async (type: string, id: number) =>
+    await axios.get<ListCommentInfo>(`/qna/comments/?${type}=${id}`),
+  updateComment: async (id: number, params: CommentParams, token: string) =>
+    await axios.put<CommentInfo>(
+      `/qna/comments/${id}`,
+      params,
+      withToken(token)
+    ),
+  partialUpdateComment: async (
+    id: number,
+    params: Partial<CommentParams>,
+    token: string
+  ) =>
+    await axios.put<CommentInfo>(
+      `/qna/comments/${id}`,
+      params,
+      withToken(token)
+    ),
+  deleteComment: async (id: number, token: string) =>
+    await axios.delete<{}>(`/qna/comments/${id}`, withToken(token)),
+  updateProfile: async (params: ProfileParams, token: string) =>
+    await axios.put<User>(`/auth/profile`, params, withToken(token)),
 };
 
 export default api;

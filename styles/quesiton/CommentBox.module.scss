@@ -26,12 +26,15 @@
       font-size: 15px;
       @include NanumGothicBold;
       color: $main-color;
+      height: 40px;
     }
 
-    div {
+    .moment {
       margin-left: 10px;
+      margin-right: 10px;
       font-size: 15px;
       @include NanumGothicRegular;
+      line-height: 40px;
     }
   }
 
@@ -41,4 +44,8 @@
     height: 25px;
     margin-right: 10px;
   }
+}
+
+.editModeComment {
+  height: 40px;
 }

@@ -1,14 +1,10 @@
 import styles from "../../../styles/layout/OnlyHeaderLayout.module.scss";
 
-import React from "react";
+import React, { FunctionComponent } from "react";
 import UpperHeader from "../header/UpperHeader";
 import LowerHeader from "../header/LowerHeader";
 
-type props = {
-  children: React.ReactNode;
-};
-
-const OnlyHeaderLayout = ({ children }: props) => {
+const OnlyHeaderLayout: FunctionComponent = ({ children }) => {
   return (
     <div className={styles.pageWrapper}>
       <header className={styles.pageHeader}>

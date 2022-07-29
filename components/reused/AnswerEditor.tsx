@@ -1,4 +1,4 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { FC } from "react";
@@ -17,7 +17,7 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import Highlight from "@tiptap/extension-highlight";
 
 interface Props {
-  setContent: React.Dispatch<React.SetStateAction<string>>;
+  setContent: (newValue: JSONContent) => void;
 }
 
 const AnswerEditor: FC<Props> = ({ setContent }) => {
@@ -29,9 +29,9 @@ const AnswerEditor: FC<Props> = ({ setContent }) => {
       }),
       Highlight,
     ],
-    content: "답변을 입력하세요.",
+    // content: "답변을 입력하세요.",
     onUpdate({ editor }) {
-      setContent(editor.getHTML());
+      setContent(editor.getJSON());
     },
   });
 
@@ -39,8 +39,12 @@ const AnswerEditor: FC<Props> = ({ setContent }) => {
     return null;
   }
   return (
-    <div className={styles.editor}>
-      <div className={styles.menubar}>
+    <div
+      className={styles.editor}
+      onClick={() => editor?.chain().focus().run()}
+    >
+      <div className={styles.menubar}
+      onClick={(e) => e.stopPropagation()}>
         <button onClick={() => editor.chain().focus().toggleBold().run()}>
           <FormatBoldIcon />
         </button>

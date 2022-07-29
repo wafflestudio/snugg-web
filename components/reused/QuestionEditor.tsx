@@ -30,11 +30,9 @@ import ImageIcon from "@mui/icons-material/Image";
 import Highlight from "@tiptap/extension-highlight";
 import Image from "@tiptap/extension-image";
 
-import { v4 as uuid } from "uuid";
-
 interface Props {
   setContent: (newValue: JSONContent) => void;
-  content: JSONContent;
+  initialContent: JSONContent;
 }
 
 export const editorExtensions: Extensions = [
@@ -46,16 +44,18 @@ export const editorExtensions: Extensions = [
   Image,
 ];
 
-const QuestionEditor: FC<Props> = ({ setContent, content }) => {
+const QuestionEditor: FC<Props> = ({ setContent, initialContent }) => {
   const editor = useEditor({
+    content: initialContent,
     extensions: editorExtensions,
     onUpdate({ editor }) {
       setContent(editor.getJSON());
     },
   });
+
   useEffect(() => {
-    editor?.chain().setContent(content).run();
-  }, [content, editor]);
+    editor?.chain().setContent(initialContent).run();
+  }, [editor, initialContent]);
 
   const imageInput = useRef<HTMLInputElement>(null);
   const editorContent = useRef<PureEditorContent>(null);
@@ -70,15 +70,9 @@ const QuestionEditor: FC<Props> = ({ setContent, content }) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file === null) return;
     imageReader.readAsDataURL(file);
-    const ext = file.name.split(".").pop();
-    const replacedName = uuid() + "." + ext;
     imageReader.onload = () => {
       if (typeof imageReader.result == "string") {
-        editor
-          ?.chain()
-          .focus()
-          .setImage({ src: imageReader.result, alt: replacedName })
-          .run();
+        editor?.chain().focus().setImage({ src: imageReader.result }).run();
       }
     };
   };
@@ -87,8 +81,13 @@ const QuestionEditor: FC<Props> = ({ setContent, content }) => {
     return null;
   }
   return (
-    <div className={styles.editor}>
-      <div className={styles.menubar}>
+    <div
+      className={styles.editor}
+      onClick={() => {
+        editor?.chain().focus().run();
+      }}
+    >
+      <div className={styles.menubar} onClick={(e) => e.stopPropagation()}>
         <button onClick={() => editor.chain().focus().toggleBold().run()}>
           <FormatBoldIcon />
         </button>

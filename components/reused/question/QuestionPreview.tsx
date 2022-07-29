@@ -1,40 +1,42 @@
 import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
-import { QuestionPostInfo } from "../../../api";
 import NextLink from "next/link";
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { generateHTML } from "@tiptap/react";
+import { Post } from "../../../store/api/injected";
+import { forceType } from "../../../utility";
+import { editorExtensions } from "../QuestionEditor";
+import { htmlToText } from "html-to-text";
 
 interface Props {
-  post: QuestionPostInfo;
+  post: Post;
 }
 
 const summarize = (content: string) => content.substring(0, 300);
 
 const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
-  const summary = useMemo(() => summarize(post.content), [post.content]);
+  const content = useMemo(() => {
+    try {
+      return generateHTML(JSON.parse(post.content), editorExtensions);
+    } catch (e) {
+      return post.content;
+    }
+  }, [post.content]);
+  const summary = useMemo(() => {
+    return summarize(
+      htmlToText(content, {
+        selectors: [{ selector: "img", format: "skip" }],
+      })
+    );
+  }, [content]);
 
-  let jsonContent: any;
-  let success: boolean;
-  try {
-    jsonContent = JSON.parse(post.content);
-    success = true;
-  } catch (err) {
-    success = false;
-  }
-
-  const questionSummary = useEditor({
-    editable: false,
-    extensions: [StarterKit],
-    content: success ? jsonContent : summary, // TODO jsonContent is not summarized
-  });
+  const tags = forceType<string[]>(post.tags);
 
   return (
     <div className={styles.preview}>
       <div className={styles.previewHeader1}>
         <span className={styles.previewHeader1Text}>{post.field}</span>
-        {post.tags.map((tag, i) => (
+        {tags.map((tag, i) => (
           <NextLink href={"/question/tags"} passHref key={tag}>
             <div
               key={tag}
@@ -48,7 +50,7 @@ const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
       <NextLink href={`/question/${post.pk}`} passHref>
         <a className={styles.previewHeader2}>{post.title}</a>
       </NextLink>
-      <EditorContent editor={questionSummary} className={styles.previewBody} />
+      <div className={styles.previewBody}>{summary}</div>
     </div>
   );
 };

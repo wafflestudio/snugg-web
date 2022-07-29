@@ -1,24 +1,27 @@
 import type { NextPage } from "next";
-import { useAppSelector, wrapper } from "../../store";
-import { listQna } from "../../store/qnaPosts";
+import { wrapper } from "../../store";
 import QuestionIndexPage from "../../components/pages/question/QuestionIndexPage";
+import { enhancedApi, pendingQueries } from "../../store/api/enhanced";
+import { useQnaPostsListQuery } from "../../store/api/injected";
 
 const QuestionIndexPageContainer: NextPage = () => {
-  const posts = useAppSelector((state) => state.qnaPosts.data?.results);
-  const loading = useAppSelector((state) => state.qnaPosts.loading);
-  return loading ? (
-    <div>loading...</div>
-  ) : posts ? (
-    <QuestionIndexPage posts={posts} />
-  ) : (
-    <div>error</div>
-  );
-  //로그인 로직 추후 추가
+  const { data, error } = useQnaPostsListQuery({});
+  if (error) {
+    return <div>error</div>;
+  } else if (!data) {
+    return <div>loading...</div>;
+  } else {
+    return <QuestionIndexPage posts={data.results!} />;
+  }
 };
 
-QuestionIndexPageContainer.getInitialProps = wrapper.getInitialPageProps(
+export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
-    await store.dispatch(listQna({}));
+    store.dispatch(enhancedApi.endpoints.qnaPostsList.initiate({}));
+    await pendingQueries();
+    return {
+      props: {},
+    };
   }
 );
 

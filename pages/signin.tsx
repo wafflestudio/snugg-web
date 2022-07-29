@@ -1,33 +1,30 @@
 import { NextPage } from "next";
-import { useEffect } from "react";
 import { SignInPage } from "../components/pages/root/SignInPage";
-import { signIn } from "../store/users";
-import { useAppDispatch, useAppSelector } from "../store";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { errorToString } from "../utility";
+import { useAuthSigninCreateMutation } from "../store/api/injected";
+import { selectUserInfo, useAppSelector } from "../store";
+import { useEffect } from "react";
 
 interface Props {}
 
 const SignInPageContainer: NextPage<Props> = () => {
-  const dispatch = useAppDispatch();
+  const [signIn, { isSuccess, reset, error }] = useAuthSigninCreateMutation();
+  const user = useAppSelector(selectUserInfo);
   const router = useRouter();
-  const onFormSubmit = (email: string, password: string) => {
-    dispatch(signIn({ email, password }))
-      .then((action) => {
-        if (signIn.fulfilled.match(action)) {
-          alert(`sign in success! ${action.payload.user.username}`);
-          router.push("/question");
-        } else if (signIn.rejected.match(action)) {
-          alert(`sign in failure! ${JSON.stringify(action.error)}`);
-        }
-      })
-      .catch((reason) => {
-        alert(`failure! ${reason}`);
-      });
+  const onFormSubmit = async (email: string, password: string) => {
+    await signIn({ signinServiceRequest: { email, password } });
   };
-
-  const me = useAppSelector((state) => state.users.data);
-  useEffect(() => console.log("me", me), [me]);
-
+  useEffect(() => {
+    if (isSuccess && user) {
+      toast.success(`${user.username}님, 환영합니다!`);
+      router.push("/question");
+      reset();
+    } else if (error) {
+      toast.error("로그인에 실패했습니다: " + errorToString(error));
+    }
+  });
   return <SignInPage onFormSubmit={onFormSubmit} />;
 };
 
