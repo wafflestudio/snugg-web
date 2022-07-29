@@ -11,7 +11,12 @@ import { Button, Divider, Input } from "@mui/material";
 import CommentBox from "./CommentBox";
 import { FC, useEffect, useState } from "react";
 import Moment from "react-moment";
-import { selectUserInfo, useAppSelector } from "../../../store";
+import {
+  selectAccessToken,
+  selectUserInfo,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../store";
 import { toast } from "react-toastify";
 import { Answer, useQnaCommentsListQuery } from "../../../store/api/injected";
 import { errorToString } from "../../../utility";
@@ -19,6 +24,7 @@ import { useQnaPostsAcceptAnswerMutation } from "../../../store/api/enhanced";
 import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
 import api, { CommentInfo } from "api";
+import { createComment } from "store/comments";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
@@ -86,6 +92,29 @@ const AnswerBox: FC<Props> = ({
   const { data: answerComments, error: answerCommentsError } =
     useQnaCommentsListQuery({ answer: answerData.pk });
 
+  const token = useAppSelector(selectAccessToken);
+  const [comment, setComment] = useState("");
+  const dispatch = useAppDispatch();
+  const handleCreateComment = (token: string, content: string) => {
+    dispatch(
+      createComment({
+        body: { content: content },
+        params: { answer: answerData.pk },
+        token: token,
+      })
+    )
+      .then((action) => {
+        if (createComment.fulfilled.match(action)) {
+          toast.success("댓글 등록 완료");
+        } else if (createComment.rejected.match(action)) {
+          toast.error("댓글 등록 실패");
+        }
+      })
+      .catch((reason) => {
+        toast.error(`댓글 등록 실패 ${reason}`);
+      });
+  };
+
   return (
     <div className={styles.questionBox}>
       <div className={styles.questionTitle}>
@@ -152,8 +181,25 @@ const AnswerBox: FC<Props> = ({
         <div className={styles.commentTitle}>N개의 댓글</div>
         <div className={styles.writeComment}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
-          <Input disableUnderline={true} placeholder="댓글을 남겨주세요." />
-          <Button>등록</Button>
+          <Input
+            disableUnderline={true}
+            placeholder="댓글을 남겨주세요."
+            onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setComment(e.target.value)
+            }
+          />
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              if (token !== undefined) {
+                handleCreateComment(token, comment);
+              } else {
+                toast.error("로그인하세요.");
+              }
+            }}
+          >
+            등록
+          </Button>
         </div>
         {!answerCommentsError &&
           answerComments &&
