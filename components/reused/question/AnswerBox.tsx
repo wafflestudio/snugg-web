@@ -9,22 +9,23 @@ import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
 
 import { Button, Divider, Input } from "@mui/material";
 import CommentBox from "./CommentBox";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import Moment from "react-moment";
 import {
   selectAccessToken,
   selectUserInfo,
-  useAppDispatch,
   useAppSelector,
 } from "../../../store";
 import { toast } from "react-toastify";
-import { Answer, useQnaCommentsListQuery } from "../../../store/api/injected";
+import {
+  Answer,
+  useQnaCommentsCreateMutation,
+  useQnaCommentsListQuery,
+} from "../../../store/api/injected";
 import { errorToString } from "../../../utility";
 import { useQnaPostsAcceptAnswerMutation } from "../../../store/api/enhanced";
 import { EditorContent, JSONContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
-import api, { CommentInfo } from "api";
-import { createComment } from "store/comments";
 
 interface Props {
   onDeleteAnswer: (id: number) => void;
@@ -55,22 +56,6 @@ const AnswerBox: FC<Props> = ({
       }
     });
   };
-
-  const dummyComment = [
-    {
-      content: "댓글 예시입니다",
-      created_at: "2022-07-28T21:54:59.448215+09:00",
-      pk: 9,
-      replies_count: 0,
-      updated_at: "2022-07-28T21:54:59.448215+09:00",
-      writer: {
-        created_at: "2022-07-28T21:54:59.448215+09:00",
-        pk: 3,
-        username: "test",
-        email: "test@gmail.com",
-      },
-    },
-  ];
   const rawContent = answerData.content;
   let jsonContent: JSONContent | undefined;
   let success = false;
@@ -94,25 +79,20 @@ const AnswerBox: FC<Props> = ({
 
   const token = useAppSelector(selectAccessToken);
   const [comment, setComment] = useState("");
-  const dispatch = useAppDispatch();
+  const [createComment] = useQnaCommentsCreateMutation();
   const handleCreateComment = (token: string, content: string) => {
-    dispatch(
-      createComment({
-        body: { content: content },
-        params: { answer: answerData.pk },
-        token: token,
-      })
-    )
-      .then((action) => {
-        if (createComment.fulfilled.match(action)) {
-          toast.success("댓글 등록 완료");
-        } else if (createComment.rejected.match(action)) {
-          toast.error("댓글 등록 실패");
-        }
-      })
-      .catch((reason) => {
-        toast.error(`댓글 등록 실패 ${reason}`);
-      });
+    createComment({
+      commentRequest: { content },
+      answer: answerData.pk,
+    }).then((result) => {
+      if ("error" in result) {
+        toast.error(
+          "댓글을 등록할 수 없습니다: " + errorToString(result.error)
+        );
+      } else {
+        toast.success("댓글을 등록했습니다");
+      }
+    });
   };
 
   return (

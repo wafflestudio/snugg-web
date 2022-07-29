@@ -8,33 +8,37 @@ import { Button, Divider, Input } from "@mui/material";
 import NextLink from "next/link";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
-import { ListCommentInfo, QuestionPostInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useMemo, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { editorExtensions } from "../QuestionEditor";
-import { selectAccessToken, useAppDispatch } from "../../../store";
-import { createComment } from "../../../store/comments";
-import { selectUserInfo, useAppSelector } from "../../../store";
-import { Post } from "../../../store/api/injected";
-import { forceType } from "../../../utility";
+import {
+  selectUserInfo,
+  selectUserSignedIn,
+  useAppSelector,
+} from "../../../store";
+import {
+  Post,
+  useQnaCommentsCreateMutation,
+  useQnaCommentsListQuery,
+} from "../../../store/api/injected";
+import { errorToString, forceType } from "../../../utility";
 import { toast } from "react-toastify";
 
 interface Props {
   questionData: Post;
   onDeleteQuestion: () => void;
-  commentData: ListCommentInfo;
 }
 
-const QuestionBox = ({
-  onDeleteQuestion,
-  questionData,
-  commentData,
-}: Props) => {
+const QuestionBox = ({ onDeleteQuestion, questionData }: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState(false);
   const userInfo = useAppSelector(selectUserInfo);
+  const isSignedIn = useAppSelector(selectUserSignedIn);
+  const { data: commentData } = useQnaCommentsListQuery({
+    post: questionData.pk,
+  });
   const content = useMemo(() => {
     const rawContent = questionData.content;
     try {
@@ -51,28 +55,22 @@ const QuestionBox = ({
     content,
   });
   const tags = forceType<string[]>(questionData.tags);
-  const token = useAppSelector(selectAccessToken);
 
   const [comment, setComment] = useState("");
-  const dispatch = useAppDispatch();
-  const handleCreateComment = (token: string, content: string) => {
-    dispatch(
-      createComment({
-        body: { content: content },
-        params: { post: questionData.pk },
-        token: token,
-      })
-    )
-      .then((action) => {
-        if (createComment.fulfilled.match(action)) {
-          toast.success("댓글 등록 완료");
-        } else if (createComment.rejected.match(action)) {
-          toast.error("댓글 등록 실패");
-        }
-      })
-      .catch((reason) => {
-        toast.error(`댓글 등록 실패 ${reason}`);
-      });
+  const [createComment] = useQnaCommentsCreateMutation();
+  const handleCreateComment = (content: string) => {
+    createComment({
+      commentRequest: { content },
+      post: questionData.pk,
+    }).then((result) => {
+      if ("error" in result) {
+        toast.error(
+          "댓글을 등록할 수 없습니다: " + errorToString(result.error)
+        );
+      } else {
+        toast.success("댓글을 등록했습니다");
+      }
+    });
   };
 
   return (
@@ -150,8 +148,8 @@ const QuestionBox = ({
           <Button
             onClick={(e) => {
               e.preventDefault();
-              if (token !== undefined) {
-                handleCreateComment(token, comment);
+              if (isSignedIn) {
+                handleCreateComment(comment);
               } else {
                 toast.error("로그인하세요.");
               }
@@ -160,8 +158,8 @@ const QuestionBox = ({
             등록
           </Button>
         </div>
-        {commentData.results.length >= 1
-          ? commentData.results.map((item) => (
+        {commentData && commentData.results!.length >= 1
+          ? commentData.results!.map((item) => (
               <CommentBox key={item.pk} commentData={item} />
             ))
           : null}
