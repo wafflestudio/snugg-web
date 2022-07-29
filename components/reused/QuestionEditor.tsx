@@ -81,8 +81,13 @@ const QuestionEditor: FC<Props> = ({ setContent, initialContent }) => {
     return null;
   }
   return (
-    <div className={styles.editor}>
-      <div className={styles.menubar}>
+    <div
+      className={styles.editor}
+      onClick={() => {
+        editor?.chain().focus().run();
+      }}
+    >
+      <div className={styles.menubar} onClick={(e) => e.stopPropagation()}>
         <button onClick={() => editor.chain().focus().toggleBold().run()}>
           <FormatBoldIcon />
         </button>
