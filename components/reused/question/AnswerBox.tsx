@@ -89,8 +89,10 @@ const AnswerBox: FC<Props> = ({
         toast.error(
           "댓글을 등록할 수 없습니다: " + errorToString(result.error)
         );
+        setComment("");
       } else {
         toast.success("댓글을 등록했습니다");
+        setComment("");
       }
     });
   };
@@ -162,6 +164,7 @@ const AnswerBox: FC<Props> = ({
         <div className={styles.writeComment}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
           <Input
+            value={comment}
             disableUnderline={true}
             placeholder="댓글을 남겨주세요."
             onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) =>

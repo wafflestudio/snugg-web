@@ -20,6 +20,7 @@ import { useAuthProfileUpdateMutation, User } from "store/api/injected";
 import { toast } from "react-toastify";
 import { AnswerPostInfo, QuestionPost } from "api";
 import { errorToString } from "../../../../utility";
+import { useRouter } from "next/router";
 
 interface props {
   id: number;
@@ -65,6 +66,8 @@ const ProfilePage: FC<props> = ({ profile, myQnaPosts, myQnaAnswers }) => {
       setEdit(false);
     }
   };
+
+  const router = useRouter();
 
   return (
     <div className={styles.profile}>
