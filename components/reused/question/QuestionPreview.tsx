@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
 import NextLink from "next/link";
-import { generateHTML } from "@tiptap/react";
+import { generateHTML } from "@tiptap/html";
 import { Post } from "../../../store/api/injected";
 import { forceType } from "../../../utility";
-import { editorExtensions } from "../QuestionEditor";
 import { htmlToText } from "html-to-text";
+import { editorExtensions } from "../QuestionEditor";
 
 interface Props {
   post: Post;
@@ -17,9 +17,15 @@ const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const content = useMemo(() => {
     try {
-      return generateHTML(JSON.parse(post.content), editorExtensions);
+      const json = JSON.parse(post.content);
+      // @ts-ignore weird type problem of tiptap
+      return generateHTML(json, editorExtensions);
     } catch (e) {
-      return post.content;
+      if (e instanceof SyntaxError) return post.content;
+      else {
+        console.log(e);
+        throw e;
+      }
     }
   }, [post.content]);
   const summary = useMemo(() => {

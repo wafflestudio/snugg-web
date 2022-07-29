@@ -20,6 +20,7 @@
     "@tiptap/extension-highlight": "^2.0.0-beta.33",
     "@tiptap/extension-image": "^2.0.0-beta.27",
     "@tiptap/extension-text-align": "^2.0.0-beta.29",
+    "@tiptap/html": "^2.0.0-beta.181",
     "@tiptap/react": "^2.0.0-beta.108",
     "@tiptap/starter-kit": "^2.0.0-beta.183",
     "@types/form-data": "^2.5.0",
