@@ -2,10 +2,14 @@ import { injectedApi, Post, User } from "./injected";
 import { apiUser } from "./apiUser";
 
 enum Tag {
-  QnaPosts = "QnaPosts",
   Answer = "Answer",
-  AnswerList = "AnswerList",
+  Story = "Story",
+  Profile = "Profile",
+  Comment = "Comment",
+  Post = "Post",
 }
+
+const LIST = (extra: number | string = "") => `LIST(${extra})`;
 
 export type QnaPostsAcceptAnswerArgs = {
   id: number;
@@ -61,13 +65,109 @@ export const enhancedApi = injectedApi
   })
   .enhanceEndpoints<Tag>({
     endpoints: {
+      agoraStorysCreate: {
+        invalidatesTags: (result) =>
+          result ? [{ id: LIST(), type: Tag.Story }] : [],
+      },
+      agoraStorysUpdate: {
+        invalidatesTags: (result) =>
+          result ? [{ id: result.pk, type: Tag.Story }] : [],
+      },
+      agoraStorysDestroy: {
+        invalidatesTags: (result, _e, args) =>
+          result ? [{ id: args.id, type: Tag.Story }] : [],
+      },
+      agoraStorysList: {
+        providesTags: (result) => [
+          { id: LIST(), type: Tag.Story },
+          ...(result?.results?.map((e) => ({
+            id: e.pk,
+            type: Tag.Story,
+          })) ?? []),
+        ],
+      },
+      agoraStorysRetrieve: {
+        providesTags: (_r, _e, args) => [{ id: args.id, type: Tag.Story }],
+      },
+      authProfileRetrieve: {
+        providesTags: [Tag.Profile],
+        onQueryStarted: async (_args, { queryFulfilled, dispatch }) => {
+          const { data } = await queryFulfilled;
+          dispatch(apiUser.actions.setProfile(data));
+        },
+      },
+      authProfileUpdate: {
+        invalidatesTags: [Tag.Profile],
+        onQueryStarted: async (_args, { queryFulfilled, dispatch }) => {
+          const { data } = await queryFulfilled;
+          dispatch(apiUser.actions.setProfile(data));
+        },
+      },
+      qnaCommentsCreate: {
+        invalidatesTags: (result) =>
+          result ? [{ id: LIST(), type: Tag.Comment }] : [],
+      },
+      qnaCommentsUpdate: {
+        invalidatesTags: (result) =>
+          result ? [{ id: result.pk, type: Tag.Comment }] : [],
+      },
+      qnaCommentsDestroy: {
+        invalidatesTags: (result, _e, args) =>
+          result
+            ? [
+                { id: LIST(), type: Tag.Comment },
+                { id: args.id, type: Tag.Comment },
+              ]
+            : [],
+      },
+      qnaCommentsList: {
+        providesTags: (result) => [
+          { id: LIST(), type: Tag.Comment },
+          ...(result?.results?.map((e) => ({
+            id: e.pk,
+            type: Tag.Comment,
+          })) ?? []),
+        ],
+      },
+      qnaCommentsRetrieve: {
+        providesTags: (_r, _e, args) => [{ id: args.id, type: Tag.Comment }],
+      },
+      qnaPostsCreate: {
+        invalidatesTags: (result) =>
+          result ? [{ id: LIST(), type: Tag.Post }] : [],
+      },
+      qnaPostsUpdate: {
+        invalidatesTags: (result) =>
+          result ? [{ id: result.pk, type: Tag.Post }] : [],
+      },
+      qnaPostsDestroy: {
+        invalidatesTags: (result, _e, args) =>
+          result
+            ? [
+                { id: LIST(), type: Tag.Post },
+                { id: args.id, type: Tag.Post },
+              ]
+            : [],
+      },
       qnaPostsAcceptAnswer: {
         invalidatesTags: (result) =>
-          result ? [{ id: result.pk, type: Tag.AnswerList }] : [],
+          result ? [{ id: LIST(result.pk), type: Tag.Answer }] : [],
+      },
+      qnaPostsList: {
+        providesTags: (result) => [
+          { id: LIST(), type: Tag.Post },
+          ...(result?.results?.map((e) => ({
+            id: e.pk,
+            type: Tag.Post,
+          })) ?? []),
+        ],
+      },
+      qnaPostsRetrieve: {
+        providesTags: (_r, _e, args) => [{ id: args.id, type: Tag.Post }],
       },
       qnaAnswersCreate: {
         invalidatesTags: (result) =>
-          result ? [{ id: result.post, type: Tag.AnswerList }] : [],
+          result ? [{ id: LIST(result.post), type: Tag.Answer }] : [],
       },
       qnaAnswersUpdate: {
         invalidatesTags: (result) =>
@@ -82,7 +182,7 @@ export const enhancedApi = injectedApi
       },
       qnaAnswersList: {
         providesTags: (result, _e, args) => [
-          { id: args.post, type: Tag.AnswerList },
+          { id: LIST(args.post), type: Tag.Answer },
           ...(result?.results?.map((e) => ({
             id: e.pk,
             type: Tag.Answer,

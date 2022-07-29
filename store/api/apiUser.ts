@@ -35,6 +35,9 @@ export const apiUser = createSlice({
     setUser: (state, action: PayloadAction<UserToken | undefined>) => {
       state.user = action.payload;
     },
+    setProfile: (state, action: PayloadAction<User>) => {
+      if (state.user) state.user.user = action.payload;
+    },
     refreshToken: (state, action: PayloadAction<string>) => {
       if (state.side === "client" && state.user) {
         state.user.token.access = action.payload;
