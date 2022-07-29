@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 import type { AppProps } from "next/app";
 import DefaultLayoutComponent from "../components/reused/Layout/DefaultLayoutComponent";
 import OnlyHeaderLayout from "../components/reused/Layout/OnlyHeaderLayout";
