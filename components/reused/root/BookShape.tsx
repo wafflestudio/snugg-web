@@ -41,7 +41,7 @@ export const BookShape: FC<Props> = ({ children }) => {
           <hr />
         </div>
         <div className={styles.pageItem}>
-          <div className={styles.description}>있어 보이는 멘트를 넣어요</div>
+          <div className={styles.description}>SNUGG에 질문하세요!</div>
           <div className={styles.iconsContainer}>
             <Image
               src={"/images/statistics.svg"}
