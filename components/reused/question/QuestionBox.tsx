@@ -8,7 +8,6 @@ import { Button, Divider, Input } from "@mui/material";
 import NextLink from "next/link";
 
 import styles from "../../../styles/quesiton/QuestionAnswerBox.module.scss";
-import { ListCommentInfo } from "../../../api";
 import Moment from "react-moment";
 import CommentBox from "./CommentBox";
 import { useMemo, useState } from "react";
@@ -22,6 +21,7 @@ import {
 import {
   Post,
   useQnaCommentsCreateMutation,
+  useQnaCommentsListQuery,
 } from "../../../store/api/injected";
 import { errorToString, forceType } from "../../../utility";
 import { toast } from "react-toastify";
@@ -29,18 +29,16 @@ import { toast } from "react-toastify";
 interface Props {
   questionData: Post;
   onDeleteQuestion: () => void;
-  commentData: ListCommentInfo;
 }
 
-const QuestionBox = ({
-  onDeleteQuestion,
-  questionData,
-  commentData,
-}: Props) => {
+const QuestionBox = ({ onDeleteQuestion, questionData }: Props) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
   const [commentOpen, setCommentOpen] = useState(false);
   const userInfo = useAppSelector(selectUserInfo);
   const isSignedIn = useAppSelector(selectUserSignedIn);
+  const { data: commentData } = useQnaCommentsListQuery({
+    post: questionData.pk,
+  });
   const content = useMemo(() => {
     const rawContent = questionData.content;
     try {
@@ -160,8 +158,8 @@ const QuestionBox = ({
             등록
           </Button>
         </div>
-        {commentData.results.length >= 1
-          ? commentData.results.map((item) => (
+        {commentData && commentData.results!.length >= 1
+          ? commentData.results!.map((item) => (
               <CommentBox key={item.pk} commentData={item} />
             ))
           : null}
