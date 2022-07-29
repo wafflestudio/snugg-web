@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo } from "react";
 import styles from "../../../styles/quesiton/QuestionPreview.module.scss";
 import NextLink from "next/link";
-import { generateHTML, JSONContent } from "@tiptap/react";
+import { generateHTML } from "@tiptap/react";
 import { Post } from "../../../store/api/injected";
 import { forceType } from "../../../utility";
 import { editorExtensions } from "../QuestionEditor";
@@ -14,16 +14,17 @@ const summarize = (content: string) => content.substring(0, 300);
 
 const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
   const styleBgs = [styles.bg1, styles.bg2, styles.bg3];
-  const summary = useMemo(() => {
+  const content = useMemo(() => {
     try {
-      const content = JSON.parse(post.content) as JSONContent;
-      const html = generateHTML(content, editorExtensions);
-      const dom = new DOMParser().parseFromString(html, "text/html");
-      return summarize(dom.documentElement.innerText);
+      return generateHTML(JSON.parse(post.content), editorExtensions);
     } catch (e) {
-      return summarize(post.content);
+      return post.content;
     }
   }, [post.content]);
+  const summary = useMemo(() => {
+    const dom = new DOMParser().parseFromString(content, "text/html");
+    return summarize(dom.documentElement.innerText);
+  }, [content]);
 
   const tags = forceType<string[]>(post.tags);
 
