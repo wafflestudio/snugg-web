@@ -137,7 +137,9 @@ const QuestionBox = ({ onDeleteQuestion, questionData }: Props) => {
         className={commentOpen ? styles.commentSection : styles.commentClosed}
       >
         <Divider className={styles.commentDivider} />
-        <div className={styles.commentTitle}>N개의 댓글</div>
+        <div className={styles.commentTitle}>
+          {commentData?.results?.length}개의 댓글
+        </div>
         <div className={styles.writeComment}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
           <Input

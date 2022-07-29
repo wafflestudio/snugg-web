@@ -124,7 +124,9 @@ const AnswerBox: FC<Props> = ({
           <div className={styles.questionUser}>
             {answerData.writer?.username} 님의 답변
           </div>
+          {/*
           <div className={styles.answerCount}>답변 20 채택 10</div>
+             */}
           <div className={styles.questionTime}>
             <Moment format={"YYYY.MM.DD"}>{answerData.created_at}</Moment>
           </div>
@@ -160,7 +162,9 @@ const AnswerBox: FC<Props> = ({
         className={commentOpen ? styles.commentSection : styles.commentClosed}
       >
         <Divider className={styles.commentDivider} />
-        <div className={styles.commentTitle}>N개의 댓글</div>
+        <div className={styles.commentTitle}>
+          {answerComments?.results?.length}개의 댓글
+        </div>
         <div className={styles.writeComment}>
           <AccountCircleIcon className={styles.accountCircleIcon} />
           <Input
