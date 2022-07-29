@@ -1,6 +1,5 @@
 import {
   EditorContent,
-  Extensions,
   JSONContent,
   PureEditorContent,
   useEditor,
@@ -35,7 +34,7 @@ interface Props {
   initialContent: JSONContent;
 }
 
-export const editorExtensions: Extensions = [
+export const editorExtensions = [
   StarterKit,
   TextAlign.configure({
     types: ["heading", "paragraph"],
