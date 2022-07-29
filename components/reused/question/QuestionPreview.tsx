@@ -5,6 +5,7 @@ import { generateHTML } from "@tiptap/react";
 import { Post } from "../../../store/api/injected";
 import { forceType } from "../../../utility";
 import { editorExtensions } from "../QuestionEditor";
+import { htmlToText } from "html-to-text";
 
 interface Props {
   post: Post;
@@ -22,8 +23,11 @@ const QuestionPreview: FunctionComponent<Props> = ({ post }) => {
     }
   }, [post.content]);
   const summary = useMemo(() => {
-    const dom = new DOMParser().parseFromString(content, "text/html");
-    return summarize(dom.documentElement.innerText);
+    return summarize(
+      htmlToText(content, {
+        selectors: [{ selector: "img", format: "skip" }],
+      })
+    );
   }, [content]);
 
   const tags = forceType<string[]>(post.tags);
