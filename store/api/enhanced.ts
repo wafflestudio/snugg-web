@@ -74,8 +74,8 @@ export const enhancedApi = injectedApi
           result ? [{ id: result.pk, type: Tag.Story }] : [],
       },
       agoraStorysDestroy: {
-        invalidatesTags: (result, _e, args) =>
-          result ? [{ id: args.id, type: Tag.Story }] : [],
+        invalidatesTags: (_r, error, args) =>
+          !error ? [{ id: args.id, type: Tag.Story }] : [],
       },
       agoraStorysList: {
         providesTags: (result) => [
@@ -112,8 +112,8 @@ export const enhancedApi = injectedApi
           result ? [{ id: result.pk, type: Tag.Comment }] : [],
       },
       qnaCommentsDestroy: {
-        invalidatesTags: (result, _e, args) =>
-          result
+        invalidatesTags: (_r, error, args) =>
+          !error
             ? [
                 { id: LIST(), type: Tag.Comment },
                 { id: args.id, type: Tag.Comment },
@@ -141,8 +141,8 @@ export const enhancedApi = injectedApi
           result ? [{ id: result.pk, type: Tag.Post }] : [],
       },
       qnaPostsDestroy: {
-        invalidatesTags: (result, _e, args) =>
-          result
+        invalidatesTags: (_r, error, args) =>
+          !error
             ? [
                 { id: LIST(), type: Tag.Post },
                 { id: args.id, type: Tag.Post },
@@ -174,8 +174,8 @@ export const enhancedApi = injectedApi
           result ? [{ id: result.pk, type: Tag.Answer }] : [],
       },
       qnaAnswersDestroy: {
-        invalidatesTags: (result, _e, args) =>
-          result ? [{ id: args.id, type: Tag.Answer }] : [],
+        invalidatesTags: (_r, error, args) =>
+          !error ? [{ id: args.id, type: Tag.Answer }] : [],
       },
       qnaAnswersRetrieve: {
         providesTags: (_r, _e, args) => [{ id: args.id, type: Tag.Answer }],
