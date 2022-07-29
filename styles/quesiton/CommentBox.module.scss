@@ -26,6 +26,7 @@
       font-size: 15px;
       @include NanumGothicBold;
       color: $main-color;
+      height: 40px;
     }
 
     .moment {
@@ -33,6 +34,7 @@
       margin-right: 10px;
       font-size: 15px;
       @include NanumGothicRegular;
+      line-height: 40px;
     }
   }
 
