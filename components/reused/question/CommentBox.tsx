@@ -5,9 +5,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Button } from "@mui/material";
 import { CommentInfo } from "../../../api";
 import Moment from "react-moment";
+import { Comment } from "store/api/injected";
 
 interface Props {
-  commentData: CommentInfo;
+  commentData: Comment;
 }
 
 const CommentBox: FC<Props> = ({ commentData }) => {
